@@ -18,7 +18,7 @@
  *     
  *     @author Charafeddine Mechalikh
  **/
-package examples;
+package tesis;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.simulationmanager.Simulation;
@@ -63,10 +63,10 @@ public class Tesis {
 	 */
 
 	// Below is the path for the settings folder of this example
-	private static String settingsPath = "PureEdgeSim/examples/Tesis_settings/";
+	private static String settingsPath = "PureEdgeSim/tesis/Tesis_settings/";
 
 	// The custom output folder is
-	private static String outputPath = "PureEdgeSim/examples/Tesis_output/";
+	private static String outputPath = "PureEdgeSim/tesis/Tesis_output/";
 
 	public Tesis() {
 		// Create a PureEdgeSim simulation
