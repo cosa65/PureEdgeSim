@@ -1,5 +1,5 @@
 /**
- *     PureEdgeSim:  A Simulation Framework for Performance Evaluation of Cloud, Edge and Mist Computing Environments 
+ *     PureEdgeSim:  A Simulation Framework for Performance Evaluation of Cloud, Edge and Mist Computing Environments
  *
  *     This file is part of PureEdgeSim Project.
  *
@@ -15,7 +15,7 @@
  *
  *     You should have received a copy of the GNU General Public License
  *     along with PureEdgeSim. If not, see <http://www.gnu.org/licenses/>.
- *     
+ *
  *     @author Charafeddine Mechalikh
  **/
 package examples;
@@ -27,16 +27,16 @@ import com.mechalikh.pureedgesim.simulationmanager.Simulation;
  * algorithm, we tried to implement this algorithm but with a little
  * modification in order to support mist computing (computing at the extreme
  * edge). The algorithm can be found in this paper here:
- * 
+ *
  * C. Sonmez, A. Ozgovde and C. Ersoy, "Fuzzy Workload Orchestration for Edge
  * Computing," in IEEE Transactions on Network and Service Management, vol. 16,
  * no. 2, pp. 769-782, June 2019.
- * 
+ *
  * We also started with stage 2 and then stage 1, as this decreases the
  * algorithm complexity. Hence, shorter simulation time.
- * 
+ *
  * To use it you must add JFuzzy_Logic jar file PureEdgeSim/Libs/ folder
- * 
+ *
  * @author Charafeddine Mechalikh
  * @since PureEdgeSim 3.0
  */

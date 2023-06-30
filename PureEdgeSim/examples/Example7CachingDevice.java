@@ -65,7 +65,7 @@ import com.mechalikh.pureedgesim.taskgenerator.Task;
  * @author Charafeddine Mechalikh
  * @since PureEdgeSim 2.3
  */
-public class Example7CachingDevice extends Example7ClusteringDevice {
+public class Example7CachingDevice extends examples.Example7ClusteringDevice {
 
 	public List<Task> cache = new ArrayList<Task>();
 	public List<int[]> Remotecache = new ArrayList<int[]>();

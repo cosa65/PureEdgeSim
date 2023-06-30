@@ -20,6 +20,7 @@
  **/
 package examples;
 
+import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.simulationmanager.Simulation;
 
 public class Example7 {
@@ -79,7 +80,7 @@ public class Example7 {
 		 * this case.To use it we need to execute the following line.
 		 **/
 
-		sim.setCustomComputingNode(Example7CachingDevice.class);
+		sim.setCustomComputingNode(examples.Example7CachingDevice.class);
 
 		/**
 		 * After adding the clustering algorithm we can now implement the cooperative
@@ -90,7 +91,7 @@ public class Example7 {
 		 * realistic enough, so need to change it with another one.
 		 **/
 
-		sim.setCustomNetworkModel(Example7CustomNetworkModel.class);
+		sim.setCustomNetworkModel(examples.Example7CustomNetworkModel.class);
 
 		/**
 		 * To use the PureEdgeSim default network model you can also uncomment this:

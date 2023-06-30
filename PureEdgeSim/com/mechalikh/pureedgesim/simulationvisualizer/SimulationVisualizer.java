@@ -54,6 +54,21 @@ public class SimulationVisualizer {
     // Flag that indicates if it is the first time charts are updated
     protected boolean firstTime = true;
 
+    // // Display simulation time
+	// 	double time = simulationManager.getSimulation().clock();
+	// 	simulationResultsFrame.setTitle("Simulation time = " + ((int) time / 60) + " min : " + ((int) time % 60)
+	// 			+ " seconds  -  number of edge devices = " + simulationManager.getScenario().getDevicesCount()
+	// 			+ " -  Architecture = " + simulationManager.getScenario().getStringOrchArchitecture()
+	// 			+ " -  Algorithm = " + simulationManager.getScenario().getStringOrchAlgorithm());
+
+	// 	// try {
+	// 	// 	if (simulationManager.getSimulation().clock() % 2000 == 0) {
+	// 	// 		this.saveCharts();
+	// 	// 	}
+	// 	// } catch (IOException e) {
+	// 	// 	e.printStackTrace();
+	// 	// }
+
     /**
      * Constructs a new simulation visualizer with the given simulation manager.
      * The visualizer contains a list of charts that display the simulation
@@ -146,6 +161,5 @@ public class SimulationVisualizer {
             BitmapEncoder.saveBitmapWithDPI(charts.get(3).getChart(), folderName + "/network_usage", BitmapFormat.PNG, 300);
         }
     }
-
 
 }
