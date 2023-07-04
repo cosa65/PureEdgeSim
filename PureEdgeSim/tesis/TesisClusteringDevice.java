@@ -28,6 +28,7 @@ import com.mechalikh.pureedgesim.datacentersmanager.DefaultComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationengine.Event;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
+import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 
 /** You must read this to understand 
  * This is a simple example showing how to launch simulation using a custom
@@ -70,20 +71,26 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	private TesisClusteringDevice parent;
 	protected TesisClusteringDevice Orchestrator;
 	private double originalWeight = 0;
-	private double weightDrop = 0.1;
 	public List<TesisClusteringDevice> cluster;
 	private static final int UPDATE_CLUSTERS = 11000;
 	private int time = -30;
 	private List<ComputingNode> edgeDevices;
 	private List<ComputingNode> orchestratorsList;
 
+	private static int nextFreeId = 0;
+
+	private int id;
+
 	public TesisClusteringDevice(SimulationManager simulationManager, double mipsCapacity, int numberOfPes,
-			double storage, double ram) {
+								 double storage, double ram) {
 		super(simulationManager, mipsCapacity, numberOfPes, storage, ram);
 		cluster = new ArrayList<TesisClusteringDevice>();
 		edgeDevices = simulationManager.getDataCentersManager().getComputingNodesGenerator().getMistOnlyList();
 		orchestratorsList = simulationManager.getDataCentersManager().getComputingNodesGenerator()
 				.getOrchestratorsList();
+
+		this.id = TesisClusteringDevice.nextFreeId;
+		TesisClusteringDevice.nextFreeId += 1;
 	}
 
 	/**
@@ -105,22 +112,22 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	@Override
 	public void processEvent(Event ev) {
 		switch (ev.getTag()) {
-		case UPDATE_CLUSTERS:
-			if ("CLUSTER".equals(SimulationParameters.deployOrchestrators) && (getSimulation().clock() - time > 30)) {
-				time = (int) getSimulation().clock();
+			case UPDATE_CLUSTERS:
+				if ("CLUSTER".equals(SimulationParameters.deployOrchestrators) && (getSimulation().clock() - time > 30)) {
+					time = (int) getSimulation().clock();
 
-				// Update clusters.
-				for (int i = 0; i < edgeDevices.size(); i++)
-					((TesisClusteringDevice) edgeDevices.get(i)).updateCluster();
+					// Update clusters.
+					for (int i = 0; i < edgeDevices.size(); i++)
+						((TesisClusteringDevice) edgeDevices.get(i)).updateCluster();
 
-				// Schedule the next update.
-				schedule(this, 1, UPDATE_CLUSTERS);
-			}
+					// Schedule the next update.
+					schedule(this, 1, UPDATE_CLUSTERS);
+				}
 
-			break;
-		default:
-			super.processEvent(ev);
-			break;
+				break;
+			default:
+				super.processEvent(ev);
+				break;
 		}
 	}
 
@@ -134,30 +141,101 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 		compareWeightWithNeighbors();
 
+		SimLog.println("getorchestratorDebug");
+		SimLog.println("%s child of: %s" , Integer.toString(this.getId()), Integer.toString(getOrchestrator().getId()));
 	}
 
 	public double getOriginalWeight() {
-		int neighbors = 1; // to avoid devision by zero
-		double distance = 0;
-		for (int i = 0; i < edgeDevices.size(); i++) {
-			if (distance <= SimulationParameters.edgeDevicesRange) {
-				// neighbor
-				neighbors++;
-			}
+		ArrayList<TesisClusteringDevice> currentNeighbors = getNeighbors();
+		int currentNeighborsCount = currentNeighbors.size();
 
-		}
-		double battery = 2;
-		double mobility = 1;
-		if (getMobilityModel().isMobile())
-			mobility = 0;
-		if (getEnergyModel().isBatteryPowered())
+		double nextTimeSlot = simulationManager.getSimulation().clock() + 1;
+		int nextNeighborsCount = getPredictedNeighbours(nextTimeSlot).size();
+
+		double battery;
+
+		if (getEnergyModel().isBatteryPowered()) {
 			battery = getEnergyModel().getBatteryLevelPercentage();
+		} else {
+			battery = 2;
+		}
 		double mips = this.getMipsPerCore();
+
+		double averageDistanceFromNeighbours = getAverageDistance(currentNeighbors);
+		double transmissionRange = SimulationParameters.edgeDevicesRange;
 
 		// mips is divided by 200000 to normalize it, it is out of the parenthesis so
 		// the weight becomes 0 when mips = 0
-		return weight = mips / 200000 * ((battery * 0.5 / neighbors) + (neighbors * 0.2) + (mobility * 0.3));
+		// capacity/#neighbours + #neighbours + #futureNeighbours + averageDistanceFromNeighbours / myTransmissionRange + remainingEnergy
+		double weightToReturn = (mips / 200000) / currentNeighborsCount
+				+ currentNeighborsCount
+				+ nextNeighborsCount
+				+ averageDistanceFromNeighbours / transmissionRange
+				+ battery;
 
+		return weightToReturn;
+	}
+
+	public int getId() {
+		return this.id;
+	}
+
+	private double getAverageDistance(ArrayList<TesisClusteringDevice> nodes) {
+		double sum = 0;
+		for (TesisClusteringDevice node : nodes) {
+			double distance = this.getMobilityModel().distanceBetween(
+					this.getMobilityModel().getCurrentLocation(),
+					node.getMobilityModel().getCurrentLocation()
+			);
+
+			sum += distance;
+		}
+
+		return sum / nodes.size();
+	}
+
+	private int getCurrentNeighboursCount() {
+		//	TODO, turbio esto, a chequear.
+		int neighbors = 1; // to avoid division by zero
+
+		ArrayList neighbours = new ArrayList();
+
+		for (int i = 0; i < edgeDevices.size(); i++) {
+			double distance = this.getMobilityModel().distanceBetween(
+					this.getMobilityModel().getCurrentLocation(),
+					edgeDevices.get(i).getMobilityModel().getCurrentLocation()
+			);
+
+			if (distance <= SimulationParameters.edgeDevicesRange) {
+				// neighbor
+				neighbours.add(edgeDevices.get(i));
+			}
+		}
+
+		return neighbors;
+	}
+
+	private ArrayList<TesisClusteringDevice> getNeighbors() {
+		return this.getPredictedNeighbours(simulationManager.getSimulation().clock());
+	}
+
+	private ArrayList<TesisClusteringDevice> getPredictedNeighbours(double timeSlot) {
+		ArrayList<TesisClusteringDevice> neighbours = new ArrayList();
+
+		for (int i = 0; i < edgeDevices.size(); i++) {
+//			TODO Not skipping myself (is this a problem? shouldn't I think?)
+
+			double distance = this.getMobilityModel().distanceBetween(
+					this.mobilityModel.getLocationForTime(timeSlot),
+					edgeDevices.get(i).getMobilityModel().getLocationForTime(timeSlot)
+			);
+
+			if (distance <= SimulationParameters.edgeDevicesRange) {
+				neighbours.add((TesisClusteringDevice) edgeDevices.get(i));
+			}
+		}
+
+		return neighbours;
 	}
 
 	private double getOrchestratorWeight() {
@@ -176,6 +254,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 		// If the new orchestrator is another device (not this one)
 		if (this != newOrchestrator) {
+			SimLog.println(String.format("%d is setting external orchestrator: %d", this.getId(), newOrchestrator.getId()));
 			// if this device is no more an orchestrator, its cluster will be joined with
 			// the cluster of the new orchestrator
 			if (isOrchestrator()) {
@@ -208,14 +287,17 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	private void compareWeightWithNeighbors() {
-		for (int i = 2; i < edgeDevices.size(); i++) {
-			if (this.getMobilityModel().distanceTo(edgeDevices.get(i)) <= SimulationParameters.edgeDevicesRange
+		for (ComputingNode neighbor : getNeighbors()) {
+			if (this.getMobilityModel().distanceTo(neighbor) <= SimulationParameters.edgeDevicesRange
 					// neighbors
-					&& (weight < ((TesisClusteringDevice) edgeDevices.get(i)).weight)) {
+					&& (weight < ((TesisClusteringDevice) neighbor).weight)) {
 
-				setOrchestrator((TesisClusteringDevice) edgeDevices.get(i));
+				SimLog.println("Setting an orchestrator");
+
+				setOrchestrator((TesisClusteringDevice) neighbor);
+
+				double weightDrop = 0.1;
 				weight = getOrchestratorWeight() * weightDrop;
-
 			}
 
 		}

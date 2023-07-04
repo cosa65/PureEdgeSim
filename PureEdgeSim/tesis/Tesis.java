@@ -96,7 +96,7 @@ public class Tesis {
 		/**
 		 * To use the PureEdgeSim default network model you can also uncomment this:
 		 **/
-		// setCustomNetworkModel(DefaultNetworkModel.class);
+		sim.setCustomEdgeOrchestrator(examples.TesisOrchestrator.class);
 
 		// changing the default output folder
 		sim.setCustomOutputFolder(outputPath);
