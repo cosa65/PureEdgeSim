@@ -26,6 +26,7 @@ import java.util.Map;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
+import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 
 /**
@@ -71,9 +72,16 @@ public abstract class MobilityModel {
 
 	protected abstract Location getNextLocation(Location location);
 
+	public Location getLocationForTime(double time) {
+		if (!this.isMobile()) return this.getCurrentLocation();
+
+		return path.get((int) time * 1000);
+	}
+
 	public Location updateLocation(double time) {
-		if (time <= SimulationParameters.simulationDuration)
-			currentLocation = path.get((int) time * 1000);
+		if (time <= SimulationParameters.simulationDuration) {
+			currentLocation = getLocationForTime(time);
+		}
 		return currentLocation;
 	}
 
@@ -140,6 +148,13 @@ public abstract class MobilityModel {
 				.pow((getCurrentLocation().getXPos() - device2.getMobilityModel().getCurrentLocation().getXPos()), 2)
 				+ Math.pow((getCurrentLocation().getYPos() - device2.getMobilityModel().getCurrentLocation().getYPos()),
 						2)));
+	}
+
+	public double distanceBetween(Location firstLocation, Location secondLocation) {
+		return Math.abs(Math.sqrt(Math
+				.pow((firstLocation.getXPos() - secondLocation.getXPos()), 2)
+				+ Math.pow((firstLocation.getYPos() - secondLocation.getYPos()),
+				2)));
 	}
 
 	public SimulationManager getSimulationManager() {

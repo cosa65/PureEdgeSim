@@ -51,14 +51,14 @@ public class DefaultMobilityModel extends MobilityModel {
 	}
 
 	@Override
-	protected Location getNextLocation(Location newLocation) {
-		double xPosition = newLocation.getXPos(); // Get the initial X coordinate assigned to this device
-		double yPosition = newLocation.getYPos(); // Get the initial y coordinate assigned to this device
+	protected Location getNextLocation(Location currentLocation) {
+		double xPosition = currentLocation.getXPos(); // Get the initial X coordinate assigned to this device
+		double yPosition = currentLocation.getYPos(); // Get the initial y coordinate assigned to this device
 
 		if (pause && pauseDuration > 0) {
 			// The device mobility is paused until that random delay finishes
 			pauseDuration -= SimulationParameters.updateInterval;
-			return newLocation;
+			return currentLocation;
 		}
 
 		// Make sure that the device stay in the simulation area
