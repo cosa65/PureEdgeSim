@@ -166,6 +166,12 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 		// mips is divided by 200000 to normalize it, it is out of the parenthesis so
 		// the weight becomes 0 when mips = 0
+//		double alpha0 = 0.2;
+//		double alpha_1 = 0.2;
+//		double alpha2 = 0.2;
+//		double alpha_3 = 0.2;
+//		double alpha_4 = 0.2;
+
 		// capacity/#neighbours + #neighbours + #futureNeighbours + averageDistanceFromNeighbours / myTransmissionRange + remainingEnergy
 		double weightToReturn = (mips / 200000) / currentNeighborsCount
 				+ currentNeighborsCount
@@ -284,6 +290,12 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		if (!orchestratorsList.contains(newOrchestrator))
 			orchestratorsList.add(newOrchestrator);
 
+	}
+
+	public boolean getIsOrchestrator() {
+		TesisClusteringDevice orchestrator = this.getOrchestrator();
+
+		return orchestrator == NULL || orchestrator == this;
 	}
 
 	private void compareWeightWithNeighbors() {
