@@ -2,11 +2,16 @@ package com.mechalikh.pureedgesim.simulationvisualizer;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
+import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.style.markers.Marker;
+import org.knowm.xchart.style.markers.None;
 import org.knowm.xchart.style.markers.SeriesMarkers;
+import utils.CustomCircle;
 
 import java.awt.*;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +56,11 @@ public class OrchestratorsMapChart extends MapChart {
         List<Double> xOrchestrators = new ArrayList<>();
         List<Double> yOrchestrators = new ArrayList<>();
 
+        List<Double> xRadiuses = new ArrayList<>();
+        List<Double> yRadiuses = new ArrayList<>();
+
+        ArrayList<Integer> radiuses = new ArrayList<>();
+
         for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
             ComputingNode device = node;
             double xPos = device.getMobilityModel().getCurrentLocation().getXPos();
@@ -59,6 +69,10 @@ public class OrchestratorsMapChart extends MapChart {
             if (device.isOrchestrator()) {
                 xOrchestrators.add(xPos);
                 yOrchestrators.add(yPos);
+
+                xRadiuses.add(xPos);
+                yRadiuses.add(yPos);
+                radiuses.add(SimulationParameters.edgeDevicesRange);
             } else {
                 xChildDevices.add(xPos);
                 yChildDevices.add(yPos);
@@ -69,6 +83,20 @@ public class OrchestratorsMapChart extends MapChart {
             SeriesMarkers.CIRCLE, Color.red);
         updateSeries(getChart(), "Child devices", toArray(xChildDevices), toArray(yChildDevices), SeriesMarkers.CIRCLE,
             Color.blue);
+
+
+        CustomCircle.customMarkerSizes = radiuses;
+        CustomCircle.sizesIt = 0;
+        updateSeries(getChart(), "Radius", toArray(xRadiuses), toArray(yRadiuses),
+            new CustomCircle(radiuses), new Color(50, 60, 70, 20));
+
+//        updateSeries(getChart(), "Idle Edge data centers", toArray(x_idleEdgeDataCentersList),
+//            toArray(y_idleEdgeDataCentersList), SeriesMarkers.CROSS, new Color(50, 50, 50, 0.1f));
+
+//            series.setMarkerColor(new Color(0, 0, 0, 0.1f))
+        // Customize series marker to transparent circles
+//            getChart().getStyler().setMarkerSize(8);
+
     }
 
     /**

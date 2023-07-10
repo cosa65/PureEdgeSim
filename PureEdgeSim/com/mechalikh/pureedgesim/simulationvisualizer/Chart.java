@@ -20,6 +20,7 @@
  **/
 package com.mechalikh.pureedgesim.simulationvisualizer;
 
+import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import org.knowm.xchart.XYChart;
 import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
@@ -126,6 +127,7 @@ public abstract class Chart {
 			series.setLineStyle(new BasicStroke());
 		}
 	}
+
 
 	/**
 	 * Gets the chart.
