@@ -62,11 +62,11 @@ public class OrchestratorsMapChart extends MapChart {
         ArrayList<Integer> radiuses = new ArrayList<>();
 
         for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
-            ComputingNode device = node;
+            examples.TesisClusteringDevice device = (examples.TesisClusteringDevice) node;
             double xPos = device.getMobilityModel().getCurrentLocation().getXPos();
             double yPos = device.getMobilityModel().getCurrentLocation().getYPos();
 
-            if (device.isOrchestrator()) {
+            if (device.getIsOrchestrator()) {
                 xOrchestrators.add(xPos);
                 yOrchestrators.add(yPos);
 
