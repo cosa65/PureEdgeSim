@@ -115,7 +115,7 @@ public class ComputingNodeNull implements ComputingNode {
 	 */
 	@Override
 	public ComputingNode getOrchestrator() {
-		return ComputingNode.NULL;
+		return ComputingNode.NOT_THE_REAL_NULL;
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class ComputingNodeNull implements ComputingNode {
 	 */
 	@Override
 	public ComputingNode getApplicationPlacementLocation() {
-		return ComputingNode.NULL;
+		return ComputingNode.NOT_THE_REAL_NULL;
 	}
 
 	/**

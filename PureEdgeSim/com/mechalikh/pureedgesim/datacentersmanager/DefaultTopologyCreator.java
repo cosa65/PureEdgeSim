@@ -97,7 +97,7 @@ public class DefaultTopologyCreator extends TopologyCreator {
 		// Connect each edge device with the closest edge data center using LAN link
 		double range = SimulationParameters.edgeDataCentersRange;
 		for (ComputingNode edgeDevice : computingNodesGenerator.getMistOnlyList()) {
-			ComputingNode closestDC = ComputingNode.NULL;
+			ComputingNode closestDC = ComputingNode.NOT_THE_REAL_NULL;
 			double shortestDistance = Double.MAX_VALUE;
 			for (ComputingNode edgeDC : computingNodesGenerator.getEdgeOnlyList()) {
 				if (edgeDC.isPeripheral()) {
@@ -211,7 +211,7 @@ public class DefaultTopologyCreator extends TopologyCreator {
 				return dc;
 			}
 		}
-		return ComputingNode.NULL;
+		return ComputingNode.NOT_THE_REAL_NULL;
 	}
 
 	/**

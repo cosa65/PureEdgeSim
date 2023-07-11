@@ -33,7 +33,7 @@ import com.mechalikh.pureedgesim.taskgenerator.Task;
  * An interface to be implemented by each class that provides "computing node"
  * features. The interface implements the Null Object Design Pattern in order to
  * start avoiding {@link NullPointerException} when using the
- * {@link ComputingNode#NULL} object instead of attributing {@code null} to
+ * {@link ComputingNode#NOT_THE_REAL_NULL} object instead of attributing {@code null} to
  * {@link ComputingNode} variables.
  * 
  * @author Charafeddine Mechalikh
@@ -57,7 +57,7 @@ public interface ComputingNode {
 	 * NullPointerException when using the NULL_COMPUTING_NODE object instead of
 	 * attributing null to ComputingNode variables.
 	 */
-	ComputingNode NULL = ComputingNodeNull.getInstance();
+	ComputingNode NOT_THE_REAL_NULL = ComputingNodeNull.getInstance();
 
 	/**
 	 * Called when a task has been offloaded to this computing node. The task will

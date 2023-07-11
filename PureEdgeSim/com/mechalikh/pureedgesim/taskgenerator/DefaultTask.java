@@ -41,7 +41,7 @@ public class DefaultTask extends TaskAbstract {
 	/**
 	 * The edge device where the task will be offloaded.
 	 */
-	protected ComputingNode device = ComputingNode.NULL;
+	protected ComputingNode device = ComputingNode.NOT_THE_REAL_NULL;
 
 	/**
 	 * The size of the container where the task is encapsulated in bits.
@@ -51,7 +51,7 @@ public class DefaultTask extends TaskAbstract {
 	/**
 	 * The registry node where the task will be registered.
 	 */
-	protected ComputingNode registry = ComputingNode.NULL;
+	protected ComputingNode registry = ComputingNode.NOT_THE_REAL_NULL;
 
 	/**
 	 * The ID of the application that this task belongs to.
@@ -76,7 +76,7 @@ public class DefaultTask extends TaskAbstract {
 	/**
 	 * The computing node where the task will be offloaded to.
 	 */
-	protected ComputingNode computingNode = ComputingNode.NULL;
+	protected ComputingNode computingNode = ComputingNode.NOT_THE_REAL_NULL;
 
 	/**
 	 * The size of the output file for the task in bits.
@@ -91,7 +91,7 @@ public class DefaultTask extends TaskAbstract {
 	/**
 	 * The orchestrator node that will manage the execution of this task.
 	 */
-	protected ComputingNode orchestrator = ComputingNode.NULL;
+	protected ComputingNode orchestrator = ComputingNode.NOT_THE_REAL_NULL;
 
 	/**
 	 * Constructs a DefaultTask object with a specified task ID.
@@ -182,7 +182,7 @@ public class DefaultTask extends TaskAbstract {
 	 */
 	@Override
 	public ComputingNode getOrchestrator() {
-		if (this.orchestrator == ComputingNode.NULL) {
+		if (this.orchestrator == ComputingNode.NOT_THE_REAL_NULL) {
 			this.getEdgeDevice().setAsOrchestrator(true);
 			return this.getEdgeDevice();
 		}

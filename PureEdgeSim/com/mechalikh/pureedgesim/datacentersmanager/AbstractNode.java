@@ -55,7 +55,7 @@ public abstract class AbstractNode extends SimEntity implements ComputingNode {
      *
      * @see com.mechalikh.pureedgesim.simulationmanager.DefaultSimulationManager#sendTaskToOrchestrator(Task task)
      */
-    protected ComputingNode orchestrator = ComputingNode.NULL;
+    protected ComputingNode orchestrator = ComputingNode.NOT_THE_REAL_NULL;
 
     /**
      * Whether this computing node (IoT device in this case) generates tasks or not.

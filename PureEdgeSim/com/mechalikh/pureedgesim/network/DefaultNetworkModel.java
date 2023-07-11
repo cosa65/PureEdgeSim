@@ -219,7 +219,7 @@ public class DefaultNetworkModel extends NetworkModel {
 
 	protected void updateEdgeDevicesRemainingEnergy(TransferProgress transfer, ComputingNode origin,
 			ComputingNode destination) {
-		if (origin != ComputingNode.NULL && origin.getType() == TYPES.EDGE_DEVICE) {
+		if (origin != ComputingNode.NOT_THE_REAL_NULL && origin.getType() == TYPES.EDGE_DEVICE) {
 			origin.getEnergyModel().updatewirelessEnergyConsumption(transfer.getFileSize(),
 					EnergyModelComputingNode.TRANSMISSION);
 		}

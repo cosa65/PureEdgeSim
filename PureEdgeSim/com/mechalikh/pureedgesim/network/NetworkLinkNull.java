@@ -10,11 +10,11 @@ public class NetworkLinkNull extends NetworkLink {
 	}
 
 	public ComputingNode getSrc() {
-		return ComputingNode.NULL;
+		return ComputingNode.NOT_THE_REAL_NULL;
 	}
 
 	public ComputingNode getDst() {
-		return ComputingNode.NULL;
+		return ComputingNode.NOT_THE_REAL_NULL;
 	}
 
 	protected double getBandwidth(double remainingTasksCount) {

@@ -38,8 +38,8 @@ public class NetworkLink extends SimEntity {
 	protected double latency = 0;
 	protected double bandwidth = 0;
 	protected List<TransferProgress> transferProgressList = new ArrayList<>();
-	protected ComputingNode src = ComputingNode.NULL;
-	protected ComputingNode dst = ComputingNode.NULL;
+	protected ComputingNode src = ComputingNode.NOT_THE_REAL_NULL;
+	protected ComputingNode dst = ComputingNode.NOT_THE_REAL_NULL;
 	protected SimulationManager simulationManager;
 	protected double usedBandwidth = 0;
 	protected double totalTrasferredData = 0;

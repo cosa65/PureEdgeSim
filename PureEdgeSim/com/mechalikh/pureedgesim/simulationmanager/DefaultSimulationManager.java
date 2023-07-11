@@ -299,7 +299,7 @@ public class DefaultSimulationManager extends SimulationManager {
 			edgeOrchestrator.orchestrate(task);
 
 			// Stop if no resource is available for this task, the offloading is failed.
-			if (task.getOffloadingDestination() == ComputingNode.NULL) {
+			if (task.getOffloadingDestination() == ComputingNode.NOT_THE_REAL_NULL) {
 
 				task.setFailureReason(Task.FailureReason.NO_OFFLOADING_DESTINATIONS);
 				simLog.incrementTasksFailedLackOfRessources(task);
@@ -363,7 +363,7 @@ public class DefaultSimulationManager extends SimulationManager {
 			return setFailed(task, phase);
 		}
 		// or if the orchestrator died
-		if (phase == 1 && task.getOrchestrator() != ComputingNode.NULL && task.getOrchestrator().isDead()) {
+		if (phase == 1 && task.getOrchestrator() != ComputingNode.NOT_THE_REAL_NULL && task.getOrchestrator().isDead()) {
 			task.setFailureReason(Task.FailureReason.FAILED_BECAUSE_DEVICE_DEAD);
 			simLog.incrementFailedBeacauseDeviceDead(task);
 			return setFailed(task, phase);
@@ -384,14 +384,14 @@ public class DefaultSimulationManager extends SimulationManager {
 		// A simple representation of task failure due to
 		// device mobility, if the offloading destination location doesn't match
 		// the edge device location (that generated this task)
-		if (phase == 1 && task.getOrchestrator() != ComputingNode.NULL
+		if (phase == 1 && task.getOrchestrator() != ComputingNode.NOT_THE_REAL_NULL
 				&& task.getOrchestrator().getType() != SimulationParameters.TYPES.CLOUD
 				&& !sameLocation(task.getEdgeDevice(), task.getOrchestrator())) {
 			task.setFailureReason(Task.FailureReason.FAILED_DUE_TO_DEVICE_MOBILITY);
 			simLog.incrementTasksFailedMobility(task);
 			return setFailed(task, phase);
 		}
-		if (phase == 2 && task.getOffloadingDestination() != ComputingNode.NULL
+		if (phase == 2 && task.getOffloadingDestination() != ComputingNode.NOT_THE_REAL_NULL
 				&& task.getOffloadingDestination().getType() != SimulationParameters.TYPES.CLOUD
 				&& (!sameLocation(task.getEdgeDevice(), task.getOrchestrator())
 						|| !sameLocation(task.getOrchestrator(), task.getOffloadingDestination()))) {

@@ -2,6 +2,7 @@ package com.mechalikh.pureedgesim.simulationvisualizer;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
+import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
@@ -62,7 +63,10 @@ public class OrchestratorsMapChart extends MapChart {
             double xPos = device.getMobilityModel().getCurrentLocation().getXPos();
             double yPos = device.getMobilityModel().getCurrentLocation().getYPos();
 
-            if (device.safeGetIsOrchestrator()) {
+            SimLog.println("DEBUG childs print");
+            SimLog.println("%s child of: %s" , Integer.toString(node.getId()), Integer.toString(node.getOrchestrator().getId()));
+
+            if (device.isOrchestrator()) {
                 xOrchestrators.add(xPos);
                 yOrchestrators.add(yPos);
 

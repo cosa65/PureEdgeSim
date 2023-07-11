@@ -74,6 +74,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	private double originalWeight = 0;
 	public List<TesisClusteringDevice> cluster;
 	private static final int UPDATE_CLUSTERS = 11000;
+	private static final double weightDrop = 0.1;
 	private int time = -30;
 	private List<ComputingNode> edgeDevices;
 	private List<ComputingNode> orchestratorsList;
@@ -89,6 +90,8 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		edgeDevices = simulationManager.getDataCentersManager().getComputingNodesGenerator().getMistOnlyList();
 		orchestratorsList = simulationManager.getDataCentersManager().getComputingNodesGenerator()
 				.getOrchestratorsList();
+
+		this.Orchestrator = this;
 
 		this.id = TesisClusteringDevice.nextFreeId;
 		TesisClusteringDevice.nextFreeId += 1;
@@ -141,9 +144,6 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		}
 
 		compareWeightWithNeighbors();
-
-		SimLog.println("getorchestratorDebug");
-		SimLog.println("%s child of: %s" , Integer.toString(this.getId()), Integer.toString(getOrchestrator().getId()));
 	}
 
 	public double getOriginalWeight() {
@@ -165,14 +165,14 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		double averageDistanceFromNeighbours = getAverageDistance(currentNeighbors);
 		double transmissionRange = SimulationParameters.edgeDevicesRange;
 
-		// mips is divided by 200000 to normalize it, it is out of the parenthesis so
-		// the weight becomes 0 when mips = 0
 //		double alpha0 = 0.2;
 //		double alpha_1 = 0.2;
 //		double alpha2 = 0.2;
 //		double alpha_3 = 0.2;
 //		double alpha_4 = 0.2;
 
+		// mips is divided by 200000 to normalize it, it is out of the parenthesis so
+		// the weight becomes 0 when mips = 0
 		double computingWeight = (mips / 200000) / currentNeighborsCount;
 
 		// capacity/#neighbours + #neighbours + #futureNeighbours + averageDistanceFromNeighbours / myTransmissionRange + remainingEnergy
@@ -180,7 +180,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 				+ currentNeighborsCount
 				+ nextNeighborsCount
 				+ averageDistanceFromNeighbours / transmissionRange
-				+ battery;
+				+ battery * 2;
 
 
 		SimLog.println("DebugcomputingWeight");
@@ -218,27 +218,6 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		return sum / nodes.size();
 	}
 
-	private int getCurrentNeighboursCount() {
-		//	TODO, turbio esto, a chequear.
-		int neighbors = 1; // to avoid division by zero
-
-		ArrayList neighbours = new ArrayList();
-
-		for (int i = 0; i < edgeDevices.size(); i++) {
-			double distance = this.getMobilityModel().distanceBetween(
-					this.getMobilityModel().getCurrentLocation(),
-					edgeDevices.get(i).getMobilityModel().getCurrentLocation()
-			);
-
-			if (distance <= SimulationParameters.edgeDevicesRange) {
-				// neighbor
-				neighbours.add(edgeDevices.get(i));
-			}
-		}
-
-		return neighbors;
-	}
-
 	private ArrayList<TesisClusteringDevice> getNeighbors() {
 		return Formulas.getPredictedNeighbours(
 			this.edgeDevices,
@@ -250,9 +229,10 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	private double getOrchestratorWeight() {
 		if (this.isOrchestrator())
 			return originalWeight;
+//		TODO what is this case???
 		if (this.Orchestrator == null || !this.Orchestrator.isOrchestrator())
 			return 0;
-		return getOrchestrator().getOrchestratorWeight();
+	   return getOrchestrator().getOrchestratorWeight();
 	}
 
 	public void setOrchestrator(TesisClusteringDevice newOrchestrator) {
@@ -293,28 +273,29 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		if (!orchestratorsList.contains(newOrchestrator))
 			orchestratorsList.add(newOrchestrator);
 
-	}
-
-	public boolean safeGetIsOrchestrator() {
-		TesisClusteringDevice orchestrator = this.getOrchestrator();
-
-		return orchestrator == NULL || orchestrator == this;
+		this.Orchestrator = newOrchestrator;
 	}
 
 	private void compareWeightWithNeighbors() {
-		for (ComputingNode neighbor : getNeighbors()) {
-			if (this.getMobilityModel().distanceTo(neighbor) <= SimulationParameters.edgeDevicesRange
-					// neighbors
-					&& (weight < ((TesisClusteringDevice) neighbor).weight)) {
+		TesisClusteringDevice bestOrchestrator = (this.getOrchestrator() != null) ? this.getOrchestrator() : this;
 
-				SimLog.println("Setting an orchestrator");
+		double bestWeight = weight;
 
-				setOrchestrator((TesisClusteringDevice) neighbor);
-
-				double weightDrop = 0.1;
-				weight = getOrchestratorWeight() * weightDrop;
+		for (TesisClusteringDevice neighbor : getNeighbors()) {
+			if (
+				this.getMobilityModel().distanceTo(neighbor) <= SimulationParameters.edgeDevicesRange
+				&& (bestWeight < neighbor.weight)
+			) {
+				bestOrchestrator = neighbor;
+				bestWeight = getOrchestratorWeight() * (1 - weightDrop);
 			}
+		}
 
+		if (bestOrchestrator.getId() != getOrchestrator().getId()) {
+			this.setOrchestrator(bestOrchestrator);
+			weight = bestWeight;
+			SimLog.println("Setting a new orchestrator");
+			SimLog.println("%s child of: %s" , Integer.toString(this.getId()), Integer.toString(this.getOrchestrator().getId()));
 		}
 	}
 

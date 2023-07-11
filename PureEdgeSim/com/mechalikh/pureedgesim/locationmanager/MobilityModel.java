@@ -26,7 +26,6 @@ import java.util.Map;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
-import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 
 /**
@@ -49,7 +48,7 @@ public abstract class MobilityModel {
 	protected double minMobilityDuration;
 	protected double speed;
 	protected SimulationManager simulationManager;
-	protected ComputingNode closestEdgeDataCenter = ComputingNode.NULL;
+	protected ComputingNode closestEdgeDataCenter = ComputingNode.NOT_THE_REAL_NULL;
 	Map<Integer, Location> path = new LinkedHashMap<>(
 			(int) (SimulationParameters.simulationDuration / SimulationParameters.updateInterval));
 	Map<Integer, ComputingNode> datacentersMap = new LinkedHashMap<>(
@@ -189,7 +188,7 @@ public abstract class MobilityModel {
 		List<ComputingNode> list = getSimulationManager().getDataCentersManager().getComputingNodesGenerator()
 				.getEdgeOnlyList();
 		double range = SimulationParameters.edgeDataCentersRange;
-		ComputingNode closestDC = ComputingNode.NULL;
+		ComputingNode closestDC = ComputingNode.NOT_THE_REAL_NULL;
 		for (int i = 0; i < list.size(); i++) {
 			if (list.get(i).isPeripheral() && distanceTo(list.get(i)) <= range) {
 				range = distanceTo(list.get(i));

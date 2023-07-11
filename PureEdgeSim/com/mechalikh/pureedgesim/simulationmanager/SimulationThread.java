@@ -156,6 +156,8 @@ public class SimulationThread {
 			e.printStackTrace();
 			SimLog.println(
 					getClass().getSimpleName() + " - The simulation has been terminated due to an unexpected error");
+			simLog.println(e.getLocalizedMessage());
+
 			Thread.currentThread().interrupt();
 		}
 	}

@@ -27,7 +27,7 @@ import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 public abstract class LocationAwareNode extends EnergyAwareNode {
 	protected MobilityModel mobilityModel = MobilityModel.NULL;
 	protected boolean peripheral = false;
-	protected ComputingNode applicationPlacementLocation = ComputingNode.NULL;
+	protected ComputingNode applicationPlacementLocation = ComputingNode.NOT_THE_REAL_NULL;
 	protected boolean isApplicationPlaced = false;
 
 	protected LocationAwareNode(SimulationManager simulationManager) {
@@ -54,7 +54,7 @@ public abstract class LocationAwareNode extends EnergyAwareNode {
 		getCurrentLink(LinkOrientation.UP_LINK).setDst(closestEdgeDataCenter);
 		getCurrentLink(LinkOrientation.DOWN_LINK).setSrc(closestEdgeDataCenter);
 
-		if (getCurrentLink(LinkOrientation.DEVICE_TO_DEVICE).getDst() != ComputingNode.NULL && getMobilityModel()
+		if (getCurrentLink(LinkOrientation.DEVICE_TO_DEVICE).getDst() != ComputingNode.NOT_THE_REAL_NULL && getMobilityModel()
 				.distanceTo(getCurrentLink(LinkOrientation.DEVICE_TO_DEVICE).getDst()) >= SimulationParameters.edgeDataCentersRange) {
 			setApplicationPlaced(false);
 		}
@@ -62,7 +62,7 @@ public abstract class LocationAwareNode extends EnergyAwareNode {
 
 	@Override
 	public ComputingNode getOrchestrator() {
-		if (orchestrator == ComputingNode.NULL && SimulationParameters.enableOrchestrators) {
+		if (orchestrator == ComputingNode.NOT_THE_REAL_NULL && SimulationParameters.enableOrchestrators) {
 			if ("".equals(SimulationParameters.deployOrchestrators)
 					|| ("CLOUD".equals(SimulationParameters.deployOrchestrators))) {
 				orchestrator = simulationManager.getDataCentersManager().getComputingNodesGenerator().getCloudOnlyList()
