@@ -2,16 +2,12 @@ package com.mechalikh.pureedgesim.simulationvisualizer;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
-import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import org.knowm.xchart.XYSeries;
-import org.knowm.xchart.style.markers.Marker;
-import org.knowm.xchart.style.markers.None;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 import utils.CustomCircle;
 
 import java.awt.*;
-import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +62,7 @@ public class OrchestratorsMapChart extends MapChart {
             double xPos = device.getMobilityModel().getCurrentLocation().getXPos();
             double yPos = device.getMobilityModel().getCurrentLocation().getYPos();
 
-            if (device.getIsOrchestrator()) {
+            if (device.safeGetIsOrchestrator()) {
                 xOrchestrators.add(xPos);
                 yOrchestrators.add(yPos);
 

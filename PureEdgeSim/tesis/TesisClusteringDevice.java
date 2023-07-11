@@ -295,7 +295,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 	}
 
-	public boolean getIsOrchestrator() {
+	public boolean safeGetIsOrchestrator() {
 		TesisClusteringDevice orchestrator = this.getOrchestrator();
 
 		return orchestrator == NULL || orchestrator == this;
