@@ -79,7 +79,7 @@ public class Example7ClusteringDevice extends DefaultComputingNode {
 
 	public Example7ClusteringDevice(SimulationManager simulationManager, double mipsCapacity, int numberOfPes,
 			double storage, double ram) {
-		super(simulationManager, mipsCapacity, numberOfPes, storage, ram);
+		super(simulationManager, mipsCapacity, numberOfPes, storage, ram, "Example7");
 		cluster = new ArrayList<Example7ClusteringDevice>();
 		edgeDevices = simulationManager.getDataCentersManager().getComputingNodesGenerator().getMistOnlyList();
 		orchestratorsList = simulationManager.getDataCentersManager().getComputingNodesGenerator()

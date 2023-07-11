@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <cloud_data_centers>
 	<datacenter>
+		<deviceTypeName>Cloud datacenter</deviceTypeName>
 		<idleConsumption>0</idleConsumption>
 		<maxConsumption>1440</maxConsumption>
 		<isOrchestrator>true</isOrchestrator> <!-- it has a task orchestrator or not  -->

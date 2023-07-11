@@ -43,11 +43,12 @@ public class DefaultTaskGenerator extends TaskGenerator {
 
 	public DefaultTaskGenerator(SimulationManager simulationManager) {
 		super(simulationManager);
-		try {
-			random = SecureRandom.getInstanceStrong();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			random = SecureRandom.getInstanceStrong();
+			random = simulationManager.getRandom();
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**

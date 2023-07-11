@@ -22,6 +22,7 @@ package com.mechalikh.pureedgesim.simulationmanager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.mechalikh.pureedgesim.datacentersmanager.DataCentersManager;
 import com.mechalikh.pureedgesim.network.NetworkModel;
@@ -59,6 +60,8 @@ public abstract class SimulationManager extends SimEntity {
 	public static final int SEND_TASK_FROM_ORCH_TO_DESTINATION = 8;
 	protected static final int NEXT_BATCH = 9; 
 
+	private Random random = new Random();
+
 	protected Orchestrator edgeOrchestrator;
 	protected DataCentersManager dataCentersManager;
 	protected SimulationVisualizer simulationVisualizer;
@@ -93,6 +96,7 @@ public abstract class SimulationManager extends SimEntity {
 		this.simulationId = simulationId;
 		this.iteration = iteration;
 
+		this.random.setSeed(43);
 	}
 
 	/**
@@ -236,5 +240,9 @@ public abstract class SimulationManager extends SimEntity {
 	 * @return The failure rate.
 	 */
 	public abstract double getFailureRate();
+
+	public Random getRandom() {
+		return this.random;
+	}
 
 }

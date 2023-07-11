@@ -40,7 +40,7 @@ public class Example4CustomComputingNode extends DefaultComputingNode {
 
 	public Example4CustomComputingNode(SimulationManager simulationManager, double mipsCapacity, int numberOfPes,
 			double storage, double ram) {
-		super(simulationManager, mipsCapacity, numberOfPes, storage, ram);
+		super(simulationManager, mipsCapacity, numberOfPes, storage, ram, "Example4");
 	}
 
 	/*

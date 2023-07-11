@@ -2,6 +2,7 @@
 <edge_devices>
 	<!-- Type 1 -->
 	<device arch="x86" os="linux" vmm="xen">
+		<deviceTypeName>Light Cellphone</deviceTypeName>
 		<percentage>80</percentage>
 		<connectivity>wifi</connectivity>
 		<mobility>true</mobility>
@@ -26,6 +27,7 @@
 	</device>
 	<!-- Type 1 -->
 	<device arch="x86" os="linux" vmm="xen">
+		<deviceTypeName>Light Computer</deviceTypeName>
 		<percentage>20</percentage>
 		<connectivity>wifi</connectivity>
 		<mobility>false</mobility>

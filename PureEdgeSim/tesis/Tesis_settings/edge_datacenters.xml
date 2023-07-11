@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <edge_datacenters>
 	<datacenter name="dc1">
+		<deviceTypeName>Edge datacenter</deviceTypeName>
 		<periphery>true</periphery>
 		<idleConsumption>100</idleConsumption>
 		<maxConsumption>150</maxConsumption>

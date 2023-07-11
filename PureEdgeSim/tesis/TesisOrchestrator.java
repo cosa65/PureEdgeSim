@@ -3,10 +3,16 @@ package examples;
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.energy.EnergyModelComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
+import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
 import com.mechalikh.pureedgesim.taskorchestrator.DefaultOrchestrator;
 import net.sourceforge.jFuzzyLogic.FIS;
+import utils.Formulas;
+
+import java.util.ArrayList;
+
+import static utils.Formulas.getPredictedNeighbours;
 
 public class TesisOrchestrator extends DefaultOrchestrator {
 
@@ -16,23 +22,37 @@ public class TesisOrchestrator extends DefaultOrchestrator {
 
     protected int findComputingNode(String[] architecture, Task task) {
         if ("RANKING".equals(algorithmName)) {
-            return ranking(architecture, task);
+            int selectedNode = ranking(architecture, task);
+            SimLog.println("selectedNodeDebug");
+            SimLog.println(Integer.toString(selectedNode));
+            return selectedNode;
         }
 
-        return super.findComputingNode(architecture, task);
+        int selectedNode = super.findComputingNode(architecture, task);
+        SimLog.println("selectedNodeDebug");
+        SimLog.println(Integer.toString(selectedNode));
+        return selectedNode;
     }
 
     private int ranking(String[] architecture, Task task) {
-        ComputingNode node;
+        int highestScoreIndex = 0;
+
+        double highestScore = 0;
+
+//        ArrayList<examples.TesisClusteringDevice> neighbors = Formulas.getPredictedNeighbours(nodeList, simulationManager.getSimulation().clock(), this.mobilityModel);
         for (int i = 0; i < nodeList.size(); i++) {
-            ComputingNode currentNode = nodeList.get(i);
+            ComputingNode nodeIt = nodeList.get(i);
 
-            if (!offloadingIsPossible(task, currentNode, architecture)) { continue; }
+//            Skip nodes that don't belong to the current cluster
+            if (!offloadingIsPossible(task, nodeIt, architecture)) { continue; }
 
-
+            if (getScore(nodeIt) > highestScore) {
+                highestScore = getScore(nodeIt);
+                highestScoreIndex = i;
+            }
         }
 
-        return 1;
+        return highestScoreIndex;
     }
 
     // Variables in ranking: mobility, battery, computing cap

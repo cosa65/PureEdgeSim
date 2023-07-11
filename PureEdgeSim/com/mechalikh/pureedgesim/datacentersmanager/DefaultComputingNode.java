@@ -49,13 +49,16 @@ public class DefaultComputingNode extends LocationAwareNode {
 	protected double mipsPerCore;
 	protected int numberOfCPUCores;
 	protected int availableCores;
+
+	protected String deviceTypeName;
+
 	protected List<Task> tasksQueue = new ArrayList<>();
 	protected double availableRam; // in Megabytes
 	protected double ram; // in Megabytes
 	protected static final int EXECUTION_FINISHED = 2;
 
 	public DefaultComputingNode(SimulationManager simulationManager, double mipsPerCore, int numberOfCPUCores,
-			double storage, double ram) {
+			double storage, double ram, String deviceTypeName) {
 		super(simulationManager);
 		setStorage(storage);
 		setAvailableStorage(storage);
@@ -64,6 +67,7 @@ public class DefaultComputingNode extends LocationAwareNode {
 		setRam(ram);
 		setAvailableRam(ram);
 		setNumberOfCPUCores(numberOfCPUCores);
+		this.deviceTypeName = deviceTypeName;
 		this.availableCores = numberOfCPUCores;
 		if (mipsPerCore <= 0 || numberOfCPUCores <= 0 || storage <= 0)
 			this.setAsSensor(true);
@@ -202,6 +206,10 @@ public class DefaultComputingNode extends LocationAwareNode {
 	 */
 	public void setRam(double ram) {
 		this.ram = ram;
+	}
+
+	public String getDeviceTypeName() {
+		return this.deviceTypeName;
 	}
 
 	/**

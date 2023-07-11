@@ -33,6 +33,7 @@ import java.util.Random;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -356,7 +357,9 @@ public class ComputingNodesGenerator {
 			throws NoSuchAlgorithmException, NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// SecureRandom is preferred to generate random values.
-		Random random = SecureRandom.getInstanceStrong();
+//		Random random = SecureRandom.getInstanceStrong();
+		Random random = simulationManager.getRandom();
+
 		Boolean mobile = false;
 		double speed = 0;
 		double minPauseDuration = 0;
@@ -375,10 +378,15 @@ public class ComputingNodesGenerator {
 		double storage = Double.parseDouble(datacenterElement.getElementsByTagName("storage").item(0).getTextContent());
 		double ram = Double.parseDouble(datacenterElement.getElementsByTagName("ram").item(0).getTextContent());
 
+		String deviceTypeName = datacenterElement.getElementsByTagName("deviceTypeName").item(0).getTextContent();
+
+		SimLog.println("deviceTypeNameDebug");
+		SimLog.println(deviceTypeName);
+
 		Constructor<?> datacenterConstructor = computingNodeClass.getConstructor(SimulationManager.class, double.class,
-				int.class, double.class, double.class);
+				int.class, double.class, double.class, String.class);
 		ComputingNode computingNode = (ComputingNode) datacenterConstructor.newInstance(getSimulationManager(), mips,
-				numOfCores, storage, ram);
+				numOfCores, storage, ram, deviceTypeName);
 
 		computingNode.setAsOrchestrator(Boolean
 				.parseBoolean(datacenterElement.getElementsByTagName("isOrchestrator").item(0).getTextContent()));
@@ -431,6 +439,8 @@ public class ComputingNodesGenerator {
 			getSimulationManager().getSimulationLogger()
 					.deepLog("ComputingNodesGenerator- Edge device:" + mistOnlyList.size() + "    location: ( "
 							+ datacenterLocation.getXPos() + "," + datacenterLocation.getYPos() + " )");
+			SimLog.println("ComputingNodesGenerator- Edge deviceDebug:" + mistOnlyList.size() + "    location: ( "
+				+ datacenterLocation.getXPos() + "," + datacenterLocation.getYPos() + " )");
 		}
 		computingNode.setType(type);
 		Constructor<?> mobilityConstructor = mobilityModelClass.getConstructor(SimulationManager.class, Location.class);

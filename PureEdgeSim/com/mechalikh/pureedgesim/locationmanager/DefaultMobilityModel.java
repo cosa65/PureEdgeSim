@@ -42,11 +42,12 @@ public class DefaultMobilityModel extends MobilityModel {
 
 	public DefaultMobilityModel(SimulationManager simulationManager, Location currentLocation) {
 		super(simulationManager, currentLocation);
-		try {
-			random = SecureRandom.getInstanceStrong();
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			random = SecureRandom.getInstanceStrong();
+			random = simulationManager.getRandom();
+//		} catch (NoSuchAlgorithmException e) {
+//			e.printStackTrace();
+//		}
 		orientationAngle = random.nextInt(359);
 	}
 

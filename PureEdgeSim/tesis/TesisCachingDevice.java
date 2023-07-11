@@ -72,8 +72,8 @@ public class TesisCachingDevice extends examples.TesisClusteringDevice {
 	public Map<Integer, Integer> probability = new HashMap<Integer, Integer>();
 
 	public TesisCachingDevice(SimulationManager simulationManager, double mipsCapacity, int numberOfPes,
-			double storage, double ram) {
-		super(simulationManager, mipsCapacity, numberOfPes, storage, ram);
+			double storage, double ram, String deviceTypeName) {
+		super(simulationManager, mipsCapacity, numberOfPes, storage, ram, deviceTypeName);
 
 		// Initialize probability map
 		for (int i = 0; i < SimulationParameters.applicationList.size(); i++)

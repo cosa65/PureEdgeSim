@@ -5,7 +5,7 @@ import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 public class Router extends DefaultComputingNode {
 
 	public Router(SimulationManager simulationManager) {
-		super(simulationManager, 0, 0, 0, 0);
+		super(simulationManager, 0, 0, 0, 0, "Router");
 	}
 
 	@Override

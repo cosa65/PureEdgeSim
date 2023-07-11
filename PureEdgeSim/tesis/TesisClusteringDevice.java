@@ -29,6 +29,7 @@ import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationengine.Event;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import com.mechalikh.pureedgesim.simulationmanager.SimLog;
+import utils.Formulas;
 
 /** You must read this to understand 
  * This is a simple example showing how to launch simulation using a custom
@@ -82,8 +83,8 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	private int id;
 
 	public TesisClusteringDevice(SimulationManager simulationManager, double mipsCapacity, int numberOfPes,
-								 double storage, double ram) {
-		super(simulationManager, mipsCapacity, numberOfPes, storage, ram);
+								 double storage, double ram, String deviceTypeName) {
+		super(simulationManager, mipsCapacity, numberOfPes, storage, ram, deviceTypeName);
 		cluster = new ArrayList<TesisClusteringDevice>();
 		edgeDevices = simulationManager.getDataCentersManager().getComputingNodesGenerator().getMistOnlyList();
 		orchestratorsList = simulationManager.getDataCentersManager().getComputingNodesGenerator()
@@ -150,12 +151,12 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		int currentNeighborsCount = currentNeighbors.size();
 
 		double nextTimeSlot = simulationManager.getSimulation().clock() + 1;
-		int nextNeighborsCount = getPredictedNeighbours(nextTimeSlot).size();
+		int nextNeighborsCount = Formulas.getPredictedNeighbours(this.edgeDevices, nextTimeSlot, this.mobilityModel).size();
 
 		double battery;
 
 		if (getEnergyModel().isBatteryPowered()) {
-			battery = getEnergyModel().getBatteryLevelPercentage();
+			battery = getEnergyModel().getBatteryLevelPercentage()/100;
 		} else {
 			battery = 2;
 		}
@@ -172,12 +173,29 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 //		double alpha_3 = 0.2;
 //		double alpha_4 = 0.2;
 
+		double computingWeight = (mips / 200000) / currentNeighborsCount;
+
 		// capacity/#neighbours + #neighbours + #futureNeighbours + averageDistanceFromNeighbours / myTransmissionRange + remainingEnergy
-		double weightToReturn = (mips / 200000) / currentNeighborsCount
+		double weightToReturn = computingWeight
 				+ currentNeighborsCount
 				+ nextNeighborsCount
 				+ averageDistanceFromNeighbours / transmissionRange
 				+ battery;
+
+
+		SimLog.println("DebugcomputingWeight");
+		SimLog.println(Double.toString(computingWeight));
+		SimLog.println("DebugcurrentNeighborsCount");
+		SimLog.println(Double.toString(currentNeighborsCount));
+		SimLog.println("DebugnextNeighborsCount");
+		SimLog.println(Double.toString(nextNeighborsCount));
+		SimLog.println("DebugNeighborsDistance");
+		SimLog.println(Double.toString(averageDistanceFromNeighbours / transmissionRange));
+		SimLog.println("DebugBattery");
+		SimLog.println(Double.toString(battery));
+
+		SimLog.println("weightToReturnDebug");
+		SimLog.println(Double.toString(weightToReturn));
 
 		return weightToReturn;
 	}
@@ -222,26 +240,11 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	private ArrayList<TesisClusteringDevice> getNeighbors() {
-		return this.getPredictedNeighbours(simulationManager.getSimulation().clock());
-	}
-
-	private ArrayList<TesisClusteringDevice> getPredictedNeighbours(double timeSlot) {
-		ArrayList<TesisClusteringDevice> neighbours = new ArrayList();
-
-		for (int i = 0; i < edgeDevices.size(); i++) {
-//			TODO Not skipping myself (is this a problem? shouldn't I think?)
-
-			double distance = this.getMobilityModel().distanceBetween(
-					this.mobilityModel.getLocationForTime(timeSlot),
-					edgeDevices.get(i).getMobilityModel().getLocationForTime(timeSlot)
-			);
-
-			if (distance <= SimulationParameters.edgeDevicesRange) {
-				neighbours.add((TesisClusteringDevice) edgeDevices.get(i));
-			}
-		}
-
-		return neighbours;
+		return Formulas.getPredictedNeighbours(
+			this.edgeDevices,
+			simulationManager.getSimulation().clock(),
+			this.mobilityModel
+		);
 	}
 
 	private double getOrchestratorWeight() {
