@@ -52,12 +52,12 @@ public abstract class Chart {
 	/**
 	 * The height of the chart.
 	 */
-	protected static int height = 270;
+	protected static int height = 400;
 
 	/**
 	 * The width of the chart.
 	 */
-	protected static int width = 450;
+	protected static int width = 400;
 
 	/**
 	 * The clock used to track the simulation time.

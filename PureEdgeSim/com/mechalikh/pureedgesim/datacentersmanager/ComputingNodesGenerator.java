@@ -388,8 +388,8 @@ public class ComputingNodesGenerator {
 		ComputingNode computingNode = (ComputingNode) datacenterConstructor.newInstance(getSimulationManager(), mips,
 				numOfCores, storage, ram, deviceTypeName);
 
-		computingNode.setAsOrchestrator(Boolean
-				.parseBoolean(datacenterElement.getElementsByTagName("isOrchestrator").item(0).getTextContent()));
+//		computingNode.setAsOrchestrator(Boolean
+//				.parseBoolean(datacenterElement.getElementsByTagName("isOrchestrator").item(0).getTextContent()));
 
 		if (computingNode.isOrchestrator())
 			orchestratorsList.add(computingNode);

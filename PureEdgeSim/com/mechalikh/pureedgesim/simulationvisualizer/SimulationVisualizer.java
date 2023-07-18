@@ -81,12 +81,14 @@ public class SimulationVisualizer {
 
         // Create charts
         Chart mapChart = new MapChart("Simulation map", "Width (meters)", "Length (meters)", simulationManager);
-        Chart orchestratorsChart = new OrchestratorsMapChart("Cluster map", "Width (meters)", "Length (meters)", simulationManager);
+        Chart orchestratorsChart = new OrchestratorsMapChart("Orchestrators map", "Width (meters)", "Length (meters)", simulationManager);
         Chart deviceTypesChart = new DeviceTypesMapChart("Device types map", "Width (meters)", "Length (meters)", simulationManager);
         Chart cpuUtilizationChart = new CPUChart("CPU utilization", "Time (s)", "Utilization (%)", simulationManager);
         Chart tasksSuccessChart = new TasksChart("Tasks success rate", "Time (minutes)", "Success rate (%)",
                 simulationManager);
-        charts.addAll(List.of(mapChart, orchestratorsChart, deviceTypesChart, cpuUtilizationChart, tasksSuccessChart));
+        Chart clustersMapChart = new ClustersMapChart("Cluster map", "Width (meters)", "Length (meters)", simulationManager);
+        Chart deviceIdsMapChart = new DeviceIdsMapChart("Device ids map", "Width (meters)", "Length (meters)", simulationManager);
+        charts.addAll(List.of(mapChart, orchestratorsChart, deviceTypesChart, cpuUtilizationChart, tasksSuccessChart, clustersMapChart, deviceIdsMapChart));
 
         // Add network utilization chart if the useOneSharedWanLink parameter is true
         if (SimulationParameters.useOneSharedWanLink) {
@@ -161,8 +163,11 @@ public class SimulationVisualizer {
         BitmapEncoder.saveBitmapWithDPI(charts.get(2).getChart(), folderName + "/device_types_chart", BitmapFormat.PNG, 300);
         BitmapEncoder.saveBitmapWithDPI(charts.get(3).getChart(), folderName + "/cpu_usage", BitmapFormat.PNG, 300);
         BitmapEncoder.saveBitmapWithDPI(charts.get(4).getChart(), folderName + "/tasks_success_rate", BitmapFormat.PNG, 300);
+        BitmapEncoder.saveBitmapWithDPI(charts.get(5).getChart(), folderName + "/clusters_chart", BitmapFormat.PNG, 300);
+        BitmapEncoder.saveBitmapWithDPI(charts.get(6).getChart(), folderName + "/ids_map_chart", BitmapFormat.PNG, 300);
+
         if (SimulationParameters.useOneSharedWanLink) {
-            BitmapEncoder.saveBitmapWithDPI(charts.get(5).getChart(), folderName + "/network_usage", BitmapFormat.PNG, 300);
+            BitmapEncoder.saveBitmapWithDPI(charts.get(7).getChart(), folderName + "/network_usage", BitmapFormat.PNG, 300);
         }
     }
 

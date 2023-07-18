@@ -4,12 +4,13 @@ import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
+import org.jgrapht.alg.util.Pair;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 import utils.CustomCircle;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
 
 /**
@@ -22,8 +23,7 @@ import java.util.List;
  *
  * edge data centers and cloud CPU utilization.
  */
-public class OrchestratorsMapChart extends MapChart {
-
+public class DeviceIdsMapChart extends MapChart {
     /**
      *
      * Constructor for MapChart. Initializes the chart with the given title, x and y
@@ -36,7 +36,7 @@ public class OrchestratorsMapChart extends MapChart {
      * @param yAxisTitle        the title of the y axis
      * @param simulationManager the SimulationManager instance
      */
-    public OrchestratorsMapChart(String title, String xAxisTitle, String yAxisTitle, SimulationManager simulationManager) {
+    public DeviceIdsMapChart(String title, String xAxisTitle, String yAxisTitle, SimulationManager simulationManager) {
         super(title, xAxisTitle, yAxisTitle, simulationManager);
         getChart().getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Scatter);
         getChart().getStyler().setMarkerSize(4);
@@ -44,81 +44,21 @@ public class OrchestratorsMapChart extends MapChart {
             (double) SimulationParameters.simulationMapLength);
     }
 
-    private int getValueInPixels(int valueInMeters) {
-        int widthInPixels = getChart().getWidth();
-        int heightInPixels = getChart().getHeight();
-        int widthInMeters = SimulationParameters.simulationMapWidth;
-        int heightInMeters = SimulationParameters.simulationMapLength;
-
-//        if (heightInPixels != widthInPixels || heightInMeters != widthInMeters) {
-////            This doesn't work if the map isn't a square both in the display and the meters
-//            double a = 0/0;
-//        }
-
-        double pixelsPerMeter = widthInPixels / widthInMeters;
-
-        return (int) Math.round( valueInMeters * pixelsPerMeter);
-    }
-
     /**
      * Updates the map with the current edge devices and their status.
      */
     protected void updateEdgeDevices() {
-        List<Double> xChildDevices = new ArrayList<>();
-        List<Double> yChildDevices = new ArrayList<>();
-        List<Double> xOrchestrators = new ArrayList<>();
-        List<Double> yOrchestrators = new ArrayList<>();
-
-        List<Double> xOrphanDevices = new ArrayList<>();
-        List<Double> yOrphanDevices = new ArrayList<>();
-
-        List<Double> xRadiuses = new ArrayList<>();
-        List<Double> yRadiuses = new ArrayList<>();
-
-        ArrayList<Integer> radiuses = new ArrayList<>();
-
         for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
             examples.TesisClusteringDevice device = (examples.TesisClusteringDevice) node;
-            double xPos = device.getMobilityModel().getCurrentLocation().getXPos();
-            double yPos = device.getMobilityModel().getCurrentLocation().getYPos();
 
-            if (device.isOrchestrator()) {
-                xOrchestrators.add(xPos);
-                yOrchestrators.add(yPos);
+            Random random = new Random();
+            Color randomColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
 
-                xRadiuses.add(xPos);
-                yRadiuses.add(yPos);
+            double[] xPos = {device.getMobilityModel().getCurrentLocation().getXPos()};
+            double[] yPos = {device.getMobilityModel().getCurrentLocation().getYPos()};
 
-                radiuses.add(getValueInPixels(SimulationParameters.edgeDevicesRange));
-            } else if (device.getParent() == null || device.getParent().getId() == device.getId()) {
-                double a = 0/0;
-                xOrphanDevices.add(xPos);
-                yOrphanDevices.add(yPos);
-            } else {
-                xChildDevices.add(xPos);
-                yChildDevices.add(yPos);
-            }
+            updateSeries(getChart(), Integer.toString(device.getId()), xPos, yPos, SeriesMarkers.CIRCLE, randomColor);
         }
-
-        updateSeries(getChart(), "Orchestrators", toArray(xOrchestrators), toArray(yOrchestrators),
-            SeriesMarkers.CIRCLE, Color.red);
-        updateSeries(getChart(), "Child devices", toArray(xChildDevices), toArray(yChildDevices), SeriesMarkers.CIRCLE,
-            Color.blue);
-        updateSeries(getChart(), "Orphan devices", toArray(xOrphanDevices), toArray(yOrphanDevices), SeriesMarkers.CIRCLE,
-            Color.yellow);
-
-        CustomCircle.customMarkerSizes = radiuses;
-        CustomCircle.sizesIt = 0;
-        updateSeries(getChart(), "Radius", toArray(xRadiuses), toArray(yRadiuses),
-            new CustomCircle(radiuses), new Color(50, 60, 70, 20));
-
-//        updateSeries(getChart(), "Idle Edge data centers", toArray(x_idleEdgeDataCentersList),
-//            toArray(y_idleEdgeDataCentersList), SeriesMarkers.CROSS, new Color(50, 50, 50, 0.1f));
-
-//            series.setMarkerColor(new Color(0, 0, 0, 0.1f))
-        // Customize series marker to transparent circles
-//            getChart().getStyler().setMarkerSize(8);
-
     }
 
     /**

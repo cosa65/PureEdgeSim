@@ -69,9 +69,8 @@ import utils.Formulas;
  */
 public class TesisClusteringDevice extends DefaultComputingNode {
 	private double weight = 0;
-	private TesisClusteringDevice parent;
-	protected TesisClusteringDevice Orchestrator;
-	private double originalWeight = 0;
+	private TesisClusteringDevice parent = this;
+
 	public List<TesisClusteringDevice> cluster;
 	private static final int UPDATE_CLUSTERS = 11000;
 	private static final double weightDrop = 0.1;
@@ -89,12 +88,22 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		cluster = new ArrayList<TesisClusteringDevice>();
 		edgeDevices = simulationManager.getDataCentersManager().getComputingNodesGenerator().getMistOnlyList();
 		orchestratorsList = simulationManager.getDataCentersManager().getComputingNodesGenerator()
-				.getOrchestratorsList();
+			.getOrchestratorsList();
 
-		this.Orchestrator = this;
+		this.setAsOrchestrator(true);
 
 		this.id = TesisClusteringDevice.nextFreeId;
 		TesisClusteringDevice.nextFreeId += 1;
+	}
+
+	public double getCurrentWeight() {
+		if (this.isOrchestrator()) {
+			return this.getOriginalWeight();
+		} else {
+			double parentWeight = this.getParent().getCurrentWeight();
+
+			return parentWeight * (1 - weightDrop);
+		}
 	}
 
 	/**
@@ -136,11 +145,10 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	public void updateCluster() {
-		originalWeight = getOriginalWeight();
-		if ((getOrchestratorWeight() < originalWeight) || ((parent != null)
-				&& (this.getMobilityModel().distanceTo(parent) > SimulationParameters.edgeDevicesRange))) {
-			setOrchestrator(this);
-			weight = getOrchestratorWeight();
+		if ((!isOrchestrator() && getOrchestratorWeight() < getOriginalWeight()) || ((parent != this)
+			&& (this.getMobilityModel().distanceTo(parent) > SimulationParameters.edgeDevicesRange))) {
+			setParent(this);
+			weight = this.getOrchestratorWeight();
 		}
 
 		compareWeightWithNeighbors();
@@ -177,25 +185,10 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 		// capacity/#neighbours + #neighbours + #futureNeighbours + averageDistanceFromNeighbours / myTransmissionRange + remainingEnergy
 		double weightToReturn = computingWeight
-				+ currentNeighborsCount
-				+ nextNeighborsCount
-				+ averageDistanceFromNeighbours / transmissionRange
-				+ battery * 2;
-
-
-		SimLog.println("DebugcomputingWeight");
-		SimLog.println(Double.toString(computingWeight));
-		SimLog.println("DebugcurrentNeighborsCount");
-		SimLog.println(Double.toString(currentNeighborsCount));
-		SimLog.println("DebugnextNeighborsCount");
-		SimLog.println(Double.toString(nextNeighborsCount));
-		SimLog.println("DebugNeighborsDistance");
-		SimLog.println(Double.toString(averageDistanceFromNeighbours / transmissionRange));
-		SimLog.println("DebugBattery");
-		SimLog.println(Double.toString(battery));
-
-		SimLog.println("weightToReturnDebug");
-		SimLog.println(Double.toString(weightToReturn));
+			+ currentNeighborsCount
+			+ nextNeighborsCount
+			+ averageDistanceFromNeighbours / transmissionRange
+			+ battery * 2;
 
 		return weightToReturn;
 	}
@@ -208,8 +201,8 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		double sum = 0;
 		for (TesisClusteringDevice node : nodes) {
 			double distance = this.getMobilityModel().distanceBetween(
-					this.getMobilityModel().getCurrentLocation(),
-					node.getMobilityModel().getCurrentLocation()
+				this.getMobilityModel().getCurrentLocation(),
+				node.getMobilityModel().getCurrentLocation()
 			);
 
 			sum += distance;
@@ -219,6 +212,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	private ArrayList<TesisClusteringDevice> getNeighbors() {
+		SimLog.println(String.format("Distances from %d", this.getId()));
 		return Formulas.getPredictedNeighbours(
 			this.edgeDevices,
 			simulationManager.getSimulation().clock(),
@@ -226,20 +220,41 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		);
 	}
 
-	private double getOrchestratorWeight() {
-		if (this.isOrchestrator())
-			return originalWeight;
-//		TODO what is this case???
-		if (this.Orchestrator == null || !this.Orchestrator.isOrchestrator())
-			return 0;
-	   return getOrchestrator().getOrchestratorWeight();
+	public boolean isOrchestrator() {
+		return this.orchestrator.getId() == this.getId();
 	}
 
-	public void setOrchestrator(TesisClusteringDevice newOrchestrator) {
-		// this device has changed its cluster, so it should be removed from the
-		// previous one
-		if (Orchestrator != null)
-			Orchestrator.cluster.remove(this);
+	private double getOrchestratorWeight() {
+		if (this.isOrchestrator())
+			return getOriginalWeight();
+//		TODO what is this case???
+		if (this.orchestrator == null || this.parent == null)
+			return 0/0;
+		return this.getOrchestrator().getOrchestratorWeight();
+	}
+
+	public void setAsOrchestrator(boolean isOrchestrator) {
+		this.isOrchestrator = isOrchestrator;
+
+		if (isOrchestrator == false) {
+			double a = 0 / 0;
+		}
+
+		super.setAsOrchestrator(isOrchestrator);
+		this.parent = this;
+	}
+
+	public void setParent(TesisClusteringDevice newParent) {
+//		If setting myself as the parent, then that means I am also setting myself as orchestrator
+		if (newParent == this) {
+			this.orchestrator = this;
+		}
+
+		// this device has changed its cluster, so it should be removed from the previous one
+		if (orchestrator != this)
+			((TesisClusteringDevice) orchestrator).cluster.remove(this);
+
+		TesisClusteringDevice newOrchestrator = (TesisClusteringDevice) newParent.orchestrator;
 
 		// If the new orchestrator is another device (not this one)
 		if (this != newOrchestrator) {
@@ -253,19 +268,21 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 			cluster.clear();
 			// remove this device from orchestrators list
 			orchestratorsList.remove(this);
-			// set the new orchestrator as the parent node ( a tree-like topology)
-			parent = newOrchestrator;
-			// this device is no more an orchestrator so set it to false
-			this.setAsOrchestrator(false);
+
+			// this device is no more an orchestrator;
+			this.parent = newParent;
+			this.orchestrator = newOrchestrator;
+			this.isOrchestrator = false;
 
 			// in case the cluster doesn't has this device as member
 			if (!newOrchestrator.cluster.contains(this))
 				newOrchestrator.cluster.add(this);
 		}
+
 		// configure the new orchestrator (it can be another device, or this device)
 		newOrchestrator.setAsOrchestrator(true);
-		newOrchestrator.Orchestrator = newOrchestrator;
-		newOrchestrator.parent = null;
+
+		newOrchestrator.parent = newOrchestrator;
 		// in case the cluster doesn't has the orchestrator as member
 		if (!newOrchestrator.cluster.contains(newOrchestrator))
 			newOrchestrator.cluster.add(newOrchestrator);
@@ -273,26 +290,38 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		if (!orchestratorsList.contains(newOrchestrator))
 			orchestratorsList.add(newOrchestrator);
 
-		this.Orchestrator = newOrchestrator;
+		this.orchestrator = newOrchestrator;
+
+		if ((this.parent == this && this.orchestrator != this) || (this.orchestrator == this && this.parent != this)) {
+			double a = 0/0;
+		}
+	}
+
+	public TesisClusteringDevice getParent() {
+		return this.parent;
 	}
 
 	private void compareWeightWithNeighbors() {
-		TesisClusteringDevice bestOrchestrator = (this.getOrchestrator() != null) ? this.getOrchestrator() : this;
+		TesisClusteringDevice bestParent = (this.getOrchestrator() != null) ? this.getOrchestrator() : this;
 
-		double bestWeight = weight;
+		double bestWeight = this.getCurrentWeight();
 
-		for (TesisClusteringDevice neighbor : getNeighbors()) {
+		ArrayList<TesisClusteringDevice> neighbors =  this.getNeighbors();
+
+		for (TesisClusteringDevice neighbor : neighbors) {
+			SimLog.println(neighbor.getDeviceTypeName());
+			SimLog.println("myWeight %s, their weight %s", this.getCurrentWeight(), neighbor.getCurrentWeight());
 			if (
 				this.getMobilityModel().distanceTo(neighbor) <= SimulationParameters.edgeDevicesRange
-				&& (bestWeight < neighbor.weight)
+					&& (bestWeight < neighbor.getCurrentWeight())
 			) {
-				bestOrchestrator = neighbor;
+				bestParent = neighbor;
 				bestWeight = getOrchestratorWeight() * (1 - weightDrop);
 			}
 		}
 
-		if (bestOrchestrator.getId() != getOrchestrator().getId()) {
-			this.setOrchestrator(bestOrchestrator);
+		if (bestParent.orchestrator.getId() != this.getOrchestrator().getId()) {
+			this.setParent(bestParent);
 			weight = bestWeight;
 			SimLog.println("Setting a new orchestrator");
 			SimLog.println("%s child of: %s" , Integer.toString(this.getId()), Integer.toString(this.getOrchestrator().getId()));
@@ -300,7 +329,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	public TesisClusteringDevice getOrchestrator() {
-		return Orchestrator;
+		return (TesisClusteringDevice) this.orchestrator;
 	}
 
 }

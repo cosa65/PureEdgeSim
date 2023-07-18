@@ -6,22 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="28ec3683-b113-40f8-bead-f2759b175d48" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/AbstractNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/AbstractNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNodeNull.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNodeNull.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/DefaultTopologyCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/DefaultTopologyCreator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/LocationAwareNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/LocationAwareNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/locationmanager/MobilityModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/locationmanager/MobilityModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/DefaultNetworkModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/DefaultNetworkModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/NetworkLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/NetworkLink.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/NetworkLinkNull.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/NetworkLinkNull.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNodesGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNodesGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimulationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimulationManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimulationThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimulationThread.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/Chart.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/Chart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/OrchestratorsMapChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/OrchestratorsMapChart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/DefaultTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/DefaultTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/SimulationVisualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/SimulationVisualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/DefaultTaskGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/DefaultTaskGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/edge_devices.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/edge_devices.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/utils/Formulas.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/utils/Formulas.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,8 +103,25 @@
           <properties class="java.lang.IndexOutOfBoundsException" package="java.lang" />
           <option name="timeStamp" value="23" />
         </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.IllegalArgumentException" package="java.lang" />
+          <option name="timeStamp" value="30" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ArithmeticException" package="java.lang" />
+          <option name="timeStamp" value="35" />
+        </breakpoint>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.StackOverflowError" package="java.lang" />
+          <option name="timeStamp" value="45" />
+        </breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="examples.TesisCachingDevice" memberName="orchestrator" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

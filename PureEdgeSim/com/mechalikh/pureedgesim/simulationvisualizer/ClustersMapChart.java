@@ -2,15 +2,17 @@ package com.mechalikh.pureedgesim.simulationvisualizer;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
-import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 import utils.CustomCircle;
 
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -22,7 +24,7 @@ import java.util.List;
  *
  * edge data centers and cloud CPU utilization.
  */
-public class OrchestratorsMapChart extends MapChart {
+public class ClustersMapChart extends MapChart {
 
     /**
      *
@@ -36,7 +38,7 @@ public class OrchestratorsMapChart extends MapChart {
      * @param yAxisTitle        the title of the y axis
      * @param simulationManager the SimulationManager instance
      */
-    public OrchestratorsMapChart(String title, String xAxisTitle, String yAxisTitle, SimulationManager simulationManager) {
+    public ClustersMapChart(String title, String xAxisTitle, String yAxisTitle, SimulationManager simulationManager) {
         super(title, xAxisTitle, yAxisTitle, simulationManager);
         getChart().getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Scatter);
         getChart().getStyler().setMarkerSize(4);
@@ -44,81 +46,85 @@ public class OrchestratorsMapChart extends MapChart {
             (double) SimulationParameters.simulationMapLength);
     }
 
-    private int getValueInPixels(int valueInMeters) {
-        int widthInPixels = getChart().getWidth();
-        int heightInPixels = getChart().getHeight();
-        int widthInMeters = SimulationParameters.simulationMapWidth;
-        int heightInMeters = SimulationParameters.simulationMapLength;
+    protected class ClusterToRender {
+        public int id;
 
-//        if (heightInPixels != widthInPixels || heightInMeters != widthInMeters) {
-////            This doesn't work if the map isn't a square both in the display and the meters
-//            double a = 0/0;
-//        }
+        public Color color;
 
-        double pixelsPerMeter = widthInPixels / widthInMeters;
+        public ArrayList<Double> nodesX;
 
-        return (int) Math.round( valueInMeters * pixelsPerMeter);
+        public ArrayList<Double> nodesY;
+
+        ClusterToRender(int id, Color color) {
+            this.id = id;
+            this.color = color;
+
+            this.nodesX = new ArrayList<>();
+            this.nodesY = new ArrayList<>();
+        }
+
+        public void addNode(double x, double y) {
+            this.nodesX.add(x);
+            this.nodesY.add(y);
+        }
     }
 
     /**
      * Updates the map with the current edge devices and their status.
      */
     protected void updateEdgeDevices() {
-        List<Double> xChildDevices = new ArrayList<>();
-        List<Double> yChildDevices = new ArrayList<>();
-        List<Double> xOrchestrators = new ArrayList<>();
-        List<Double> yOrchestrators = new ArrayList<>();
+        HashMap<Integer, ClusterToRender> clustersById = new HashMap<>();
 
-        List<Double> xOrphanDevices = new ArrayList<>();
-        List<Double> yOrphanDevices = new ArrayList<>();
+        ArrayList<Double> orphansX = new ArrayList<>();
+        ArrayList<Double> orphansY = new ArrayList<>();
 
-        List<Double> xRadiuses = new ArrayList<>();
-        List<Double> yRadiuses = new ArrayList<>();
+        for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
+            examples.TesisClusteringDevice device = (examples.TesisClusteringDevice) node;
 
-        ArrayList<Integer> radiuses = new ArrayList<>();
+            if (device.isOrchestrator() && device.cluster.size() > 1) {
+                Random random = new Random();
+                Color randomColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
+
+                clustersById.put(device.getId(), new ClusterToRender(device.getId(), randomColor));
+            }
+        }
 
         for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
             examples.TesisClusteringDevice device = (examples.TesisClusteringDevice) node;
             double xPos = device.getMobilityModel().getCurrentLocation().getXPos();
             double yPos = device.getMobilityModel().getCurrentLocation().getYPos();
 
-            if (device.isOrchestrator()) {
-                xOrchestrators.add(xPos);
-                yOrchestrators.add(yPos);
+            ClusterToRender cluster = clustersById.getOrDefault(device.getOrchestrator().getId(), null);
 
-                xRadiuses.add(xPos);
-                yRadiuses.add(yPos);
+            if (cluster == null) {
+                orphansX.add(xPos);
+                orphansY.add(yPos);
 
-                radiuses.add(getValueInPixels(SimulationParameters.edgeDevicesRange));
-            } else if (device.getParent() == null || device.getParent().getId() == device.getId()) {
-                double a = 0/0;
-                xOrphanDevices.add(xPos);
-                yOrphanDevices.add(yPos);
-            } else {
-                xChildDevices.add(xPos);
-                yChildDevices.add(yPos);
+                continue;
             }
+
+            cluster.addNode(xPos, yPos);
         }
 
-        updateSeries(getChart(), "Orchestrators", toArray(xOrchestrators), toArray(yOrchestrators),
-            SeriesMarkers.CIRCLE, Color.red);
-        updateSeries(getChart(), "Child devices", toArray(xChildDevices), toArray(yChildDevices), SeriesMarkers.CIRCLE,
-            Color.blue);
-        updateSeries(getChart(), "Orphan devices", toArray(xOrphanDevices), toArray(yOrphanDevices), SeriesMarkers.CIRCLE,
-            Color.yellow);
+        for (ClusterToRender cluster : clustersById.values()) {
+            updateSeries(
+                getChart(),
+                Integer.toString(cluster.id),
+                toArray(cluster.nodesX),
+                toArray(cluster.nodesY),
+                SeriesMarkers.CIRCLE,
+                cluster.color
+            );
+        }
 
-        CustomCircle.customMarkerSizes = radiuses;
-        CustomCircle.sizesIt = 0;
-        updateSeries(getChart(), "Radius", toArray(xRadiuses), toArray(yRadiuses),
-            new CustomCircle(radiuses), new Color(50, 60, 70, 20));
-
-//        updateSeries(getChart(), "Idle Edge data centers", toArray(x_idleEdgeDataCentersList),
-//            toArray(y_idleEdgeDataCentersList), SeriesMarkers.CROSS, new Color(50, 50, 50, 0.1f));
-
-//            series.setMarkerColor(new Color(0, 0, 0, 0.1f))
-        // Customize series marker to transparent circles
-//            getChart().getStyler().setMarkerSize(8);
-
+        updateSeries(
+            getChart(),
+            "Orphans",
+            toArray(orphansX),
+            toArray(orphansY),
+            SeriesMarkers.CIRCLE,
+            Color.GRAY
+        );
     }
 
     /**

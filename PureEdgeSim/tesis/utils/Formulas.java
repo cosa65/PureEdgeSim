@@ -3,6 +3,7 @@ package utils;
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.locationmanager.MobilityModel;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
+import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,8 @@ public class Formulas {
                 mobilityModel.getLocationForTime(timeSlot),
                 edgeDevices.get(i).getMobilityModel().getLocationForTime(timeSlot)
             );
+
+            SimLog.println(String.format("with %d: %f" , edgeDevices.get(i).getId(), distance));
 
             if (distance <= SimulationParameters.edgeDevicesRange) {
                 neighbours.add((examples.TesisClusteringDevice) edgeDevices.get(i));

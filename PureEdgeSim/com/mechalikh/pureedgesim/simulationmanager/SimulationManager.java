@@ -96,7 +96,7 @@ public abstract class SimulationManager extends SimEntity {
 		this.simulationId = simulationId;
 		this.iteration = iteration;
 
-		this.random.setSeed(44);
+		this.random.setSeed(45);
 	}
 
 	/**

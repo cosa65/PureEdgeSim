@@ -22,7 +22,8 @@ package com.mechalikh.pureedgesim.taskgenerator;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
@@ -66,11 +67,18 @@ public class DefaultTaskGenerator extends TaskGenerator {
 		int devicesCount = devicesList.size();
 
 		// Browse all applications
-		IntStream.range(0, SimulationParameters.applicationList.size() - 1).forEach(app -> {
-			int numberOfDevices = (int) (SimulationParameters.applicationList.get(app).getUsagePercentage()
+		IntStream.range(0, SimulationParameters.applicationList.size()).forEach(app -> {
+			int numberOfDevicesRequired = (int) (SimulationParameters.applicationList.get(app).getUsagePercentage()
 					* devicesCount / 100);
-			IntStream.range(0, numberOfDevices).mapToObj(i -> devicesList.remove(random.nextInt(devicesList.size())))
-					.peek(dev -> dev.setApplicationType(app)).forEach(dev -> generateTasksForDevice(dev, app));
+
+			ArrayList<ComputingNode> shuffledDevices = new ArrayList<>(devicesList);
+			Collections.shuffle(shuffledDevices);
+			List<ComputingNode> devicesToGenerateTask = shuffledDevices.subList(0, numberOfDevicesRequired);
+
+			for (ComputingNode device : devicesToGenerateTask) {
+				device.setApplicationType(app);
+				generateTasksForDevice(device, app);
+			}
 		});
 
 		devicesList.forEach(dev -> generateTasksForDevice(dev, SimulationParameters.applicationList.size() - 1));

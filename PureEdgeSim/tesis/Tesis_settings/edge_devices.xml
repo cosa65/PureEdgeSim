@@ -5,7 +5,8 @@
 		<deviceTypeName>Light Cellphone</deviceTypeName>
 		<percentage>80</percentage>
 		<connectivity>wifi</connectivity>
-		<mobility>true</mobility>
+<!--		<mobility>true</mobility>-->
+		<mobility>false</mobility>
 		<speed>1</speed>
 		<minPauseDuration>1</minPauseDuration>
 		<maxPauseDuration>2</maxPauseDuration>
