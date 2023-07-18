@@ -183,12 +183,20 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		// the weight becomes 0 when mips = 0
 		double computingWeight = (mips / 200000) / currentNeighborsCount;
 
+		SimLog.println(String.format("computingWeight: %s", Double.toString(computingWeight)));
+		SimLog.println(String.format("currentNeighborsCount: %s", Integer.toString(currentNeighborsCount)));
+		SimLog.println(String.format("nextNeighborsCount: %s", Integer.toString(nextNeighborsCount)));
+		SimLog.println(String.format("averageDistanceFromNeighbours / transmissionRange: %s", Double.toString(averageDistanceFromNeighbours / transmissionRange)));
+		SimLog.println(String.format("battery * 2: %s", Double.toString(battery * 2)));
+
 		// capacity/#neighbours + #neighbours + #futureNeighbours + averageDistanceFromNeighbours / myTransmissionRange + remainingEnergy
 		double weightToReturn = computingWeight
 			+ currentNeighborsCount
 			+ nextNeighborsCount
 			+ averageDistanceFromNeighbours / transmissionRange
 			+ battery * 2;
+
+		SimLog.println(String.format("weightToReturn: %s", Double.toString(weightToReturn)));
 
 		return weightToReturn;
 	}
@@ -302,14 +310,14 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	private void compareWeightWithNeighbors() {
-		TesisClusteringDevice bestParent = (this.getOrchestrator() != null) ? this.getOrchestrator() : this;
+		TesisClusteringDevice bestParent = this.getOrchestrator();
 
 		double bestWeight = this.getCurrentWeight();
 
 		for (TesisClusteringDevice neighbor : this.getNeighbors()) {
 			if (bestWeight < neighbor.getCurrentWeight()) {
 				bestParent = neighbor;
-				bestWeight = getOrchestratorWeight() * (1 - weightDrop);
+				bestWeight = neighbor.getCurrentWeight() * (1 - weightDrop);
 			}
 		}
 
