@@ -313,12 +313,8 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 			}
 		}
 
-		if (bestParent.orchestrator.getId() != this.getOrchestrator().getId()) {
-			this.setParent(bestParent);
-			weight = bestWeight;
-			SimLog.println("Setting a new orchestrator");
-			SimLog.println("%s child of: %s" , Integer.toString(this.getId()), Integer.toString(this.getOrchestrator().getId()));
-		}
+		this.setParent(bestParent);
+		weight = bestWeight;
 	}
 
 	public TesisClusteringDevice getOrchestrator() {
