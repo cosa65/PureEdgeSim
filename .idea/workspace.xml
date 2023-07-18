@@ -6,17 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="28ec3683-b113-40f8-bead-f2759b175d48" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNodesGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNodesGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimulationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimulationManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/Chart.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/Chart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/OrchestratorsMapChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/OrchestratorsMapChart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/SimulationVisualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/SimulationVisualizer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/DefaultTaskGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/DefaultTaskGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/edge_devices.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/edge_devices.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/utils/Formulas.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/utils/Formulas.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

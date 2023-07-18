@@ -309,12 +309,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		ArrayList<TesisClusteringDevice> neighbors =  this.getNeighbors();
 
 		for (TesisClusteringDevice neighbor : neighbors) {
-			SimLog.println(neighbor.getDeviceTypeName());
-			SimLog.println("myWeight %s, their weight %s", this.getCurrentWeight(), neighbor.getCurrentWeight());
-			if (
-				this.getMobilityModel().distanceTo(neighbor) <= SimulationParameters.edgeDevicesRange
-					&& (bestWeight < neighbor.getCurrentWeight())
-			) {
+			if (bestWeight < neighbor.getCurrentWeight()) {
 				bestParent = neighbor;
 				bestWeight = getOrchestratorWeight() * (1 - weightDrop);
 			}
