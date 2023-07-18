@@ -73,7 +73,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 	public List<TesisClusteringDevice> cluster;
 	private static final int UPDATE_CLUSTERS = 11000;
-	private static final double weightDrop = 0.1;
+	private static final double weightDrop = 0.5;
 	private int time = -30;
 	private List<ComputingNode> edgeDevices;
 	private List<ComputingNode> orchestratorsList;
@@ -229,14 +229,14 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	public boolean isOrchestrator() {
-		return this.orchestrator.getId() == this.getId();
+		return this.parent.getId() == this.getId();
 	}
 
 	private double getOrchestratorWeight() {
 		if (this.isOrchestrator())
 			return getOriginalWeight();
 //		TODO what is this case???
-		if (this.orchestrator == null || this.parent == null)
+		if (this.parent == null)
 			return 0/0;
 		return this.getOrchestrator().getOrchestratorWeight();
 	}
@@ -259,10 +259,10 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		}
 
 		// this device has changed its cluster, so it should be removed from the previous one
-		if (orchestrator != this)
-			((TesisClusteringDevice) orchestrator).cluster.remove(this);
+		if (this.getOrchestrator() != this)
+			this.getOrchestrator().cluster.remove(this);
 
-		TesisClusteringDevice newOrchestrator = (TesisClusteringDevice) newParent.orchestrator;
+		TesisClusteringDevice newOrchestrator = newParent.getOrchestrator();
 
 		// If the new orchestrator is another device (not this one)
 		if (this != newOrchestrator) {
@@ -300,7 +300,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 		this.orchestrator = newOrchestrator;
 
-		if ((this.parent == this && this.orchestrator != this) || (this.orchestrator == this && this.parent != this)) {
+		if ((this.parent == this && this.getOrchestrator() != this) || (this.getOrchestrator() == this && this.parent != this)) {
 			double a = 0/0;
 		}
 	}
@@ -326,7 +326,9 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	public TesisClusteringDevice getOrchestrator() {
-		return (TesisClusteringDevice) this.orchestrator;
+		if (this.isOrchestrator()) return this;
+
+		return this.parent.getOrchestrator();
 	}
 
 }

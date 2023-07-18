@@ -62,6 +62,7 @@ public abstract class LocationAwareNode extends EnergyAwareNode {
 
 	@Override
 	public ComputingNode getOrchestrator() {
+		double a = 0/0;
 		if (orchestrator == ComputingNode.NOT_THE_REAL_NULL && SimulationParameters.enableOrchestrators) {
 			if ("".equals(SimulationParameters.deployOrchestrators)
 					|| ("CLOUD".equals(SimulationParameters.deployOrchestrators))) {
