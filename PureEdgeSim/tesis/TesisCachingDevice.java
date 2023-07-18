@@ -140,7 +140,7 @@ public class TesisCachingDevice extends examples.TesisClusteringDevice {
 	private double countT(Task task) {
 		int count = 0;
 		TesisCachingDevice orch = this;
-		if (!isOrchestrator)
+		if (!this.isOrchestrator())
 			orch = (TesisCachingDevice) getOrchestrator();
 		for (int i = 0; i < orch.Remotecache.size(); i++)
 			if (orch.Remotecache.get(i)[0] == task.getApplicationID())
@@ -151,7 +151,7 @@ public class TesisCachingDevice extends examples.TesisClusteringDevice {
 	private double getProbability(int appId) {
 		TesisCachingDevice orch = this;
 
-		if (!isOrchestrator)
+		if (!this.isOrchestrator())
 			orch = (TesisCachingDevice) getOrchestrator();
 
 		return orch.probability.get(appId);
@@ -161,7 +161,7 @@ public class TesisCachingDevice extends examples.TesisClusteringDevice {
 	public void addRequest(Task task) { // update application requesting probability
 		TesisCachingDevice orch = this;
 
-		if (!isOrchestrator)
+		if (!this.isOrchestrator())
 			orch = (TesisCachingDevice) getOrchestrator();
 		orch.probability.put(task.getApplicationID(), orch.probability.get(task.getApplicationID()) + 1);
 
@@ -172,7 +172,7 @@ public class TesisCachingDevice extends examples.TesisClusteringDevice {
 		if (app != -1) {
 			this.setAvailableStorage(this.getAvailableStorage() + cache.get(app).getContainerSizeInMBytes());
 			TesisCachingDevice orch = this;
-			if (!isOrchestrator)
+			if (!this.isOrchestrator())
 				orch = (TesisCachingDevice) getOrchestrator();
 			removeFromRemote(orch, cache.get(app));
 			cache.remove(app);

@@ -152,6 +152,7 @@ public abstract class AbstractNode extends SimEntity implements ComputingNode {
      * @return true if this computing node is set as orchestrator, false otherwise.
      */
     public boolean isOrchestrator() {
+        double a = 0/0;
         return isOrchestrator;
     }
 
