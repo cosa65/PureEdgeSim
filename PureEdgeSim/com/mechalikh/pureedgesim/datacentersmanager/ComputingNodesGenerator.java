@@ -25,8 +25,8 @@ import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
@@ -203,6 +203,71 @@ public class ComputingNodesGenerator {
 
 	}
 
+	private class LocationsChecker {
+		private class LocationsStore {
+			ArrayList<Integer> xs = new ArrayList<>();
+			ArrayList<Integer> ys = new ArrayList<>();
+
+			LocationsStore() {}
+
+			public void addCustomPosition(int x, int y) {
+				this.xs.add(x);
+				this.ys.add(y);
+			}
+
+			public Location popLocation() {
+				if (this.xs.size() == 0) {
+					//		Random random = SecureRandom.getInstanceStrong();
+					Random random = simulationManager.getRandom();
+
+					return new Location(
+						random.nextInt(SimulationParameters.simulationMapLength),
+						random.nextInt(SimulationParameters.simulationMapLength)
+					);
+				}
+
+				return new Location(
+					this.xs.remove(0),
+					this.ys.remove(0)
+				);
+			}
+		}
+
+		HashMap<String, LocationsStore> locationsByDeviceType = new HashMap<>();
+
+		LocationsChecker() {
+			try (InputStream startingPositionsFile = new FileInputStream(SimulationParameters.startingPositionsFile)) {
+				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				dbFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
+				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				Document doc = dBuilder.parse(startingPositionsFile);
+				NodeList nodeList = doc.getElementsByTagName("position");
+
+				for (int i = 0; i < nodeList.getLength(); i++) {
+					Element position = (Element) nodeList.item(i);
+
+					String deviceTypeName = position.getElementsByTagName("deviceTypeName").item(0).getTextContent();
+					int x = Integer.parseInt(position.getElementsByTagName("x").item(0).getTextContent());
+					int y = Integer.parseInt(position.getElementsByTagName("y").item(0).getTextContent());
+
+					LocationsStore store = this.locationsByDeviceType.getOrDefault(deviceTypeName, new LocationsStore());
+
+					store.addCustomPosition(x, y);
+
+					this.locationsByDeviceType.put(deviceTypeName, store);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+
+		public Location getLocation(String deviceTypeName) {
+			LocationsStore store = this.locationsByDeviceType.getOrDefault(deviceTypeName, new LocationsStore());
+
+			return store.popLocation();
+		}
+	}
+
 	/**
 	 * Generates edge devices
 	 */
@@ -221,10 +286,13 @@ public class ComputingNodesGenerator {
 			NodeList nodeList = doc.getElementsByTagName("device");
 			Element edgeElement = null;
 
+			LocationsChecker locationsChecker = new LocationsChecker();
+
 			// Load all devices types in edge_devices.xml file.
 			for (int i = 0; i < nodeList.getLength(); i++) {
 				Node edgeNode = nodeList.item(i);
 				edgeElement = (Element) edgeNode;
+
 				generateDevicesInstances(edgeElement);
 			}
 
@@ -237,7 +305,7 @@ public class ComputingNodesGenerator {
 			if (edgeElement != null) {
 				int missingInstances = getSimulationManager().getScenario().getDevicesCount() - mistOnlyList.size();
 				for (int k = 0; k < missingInstances; k++) {
-					ComputingNode newDevice = createComputingNode(edgeElement, SimulationParameters.TYPES.EDGE_DEVICE);
+					ComputingNode newDevice = createComputingNode(edgeElement, SimulationParameters.TYPES.EDGE_DEVICE, locationsChecker);
 					insertEdgeDevice(newDevice);
 				}
 			}
@@ -267,6 +335,10 @@ public class ComputingNodesGenerator {
 	 * @param type The type of edge devices.
 	 */
 	protected void generateDevicesInstances(Element type) {
+		generateDevicesInstances(type, new LocationsChecker());
+	}
+
+	protected void generateDevicesInstances(Element type, LocationsChecker locationsChecker) {
 
 		int instancesPercentage = Integer.parseInt(type.getElementsByTagName("percentage").item(0).getTextContent());
 
@@ -282,9 +354,8 @@ public class ComputingNodesGenerator {
 			}
 
 			try {
-				insertEdgeDevice(createComputingNode(type, SimulationParameters.TYPES.EDGE_DEVICE));
-			} catch (NoSuchAlgorithmException | NoSuchMethodException | SecurityException | InstantiationException
-					| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				insertEdgeDevice(createComputingNode(type, SimulationParameters.TYPES.EDGE_DEVICE, locationsChecker));
+			} catch (Exception e ) {
 				e.printStackTrace();
 			}
 
@@ -353,12 +424,14 @@ public class ComputingNodesGenerator {
 	 * @throws IllegalAccessException
 	 * @throws InstantiationException
 	 */
-	protected ComputingNode createComputingNode(Element datacenterElement, SimulationParameters.TYPES type)
+	protected ComputingNode createComputingNode(Element datacenterElement, SimulationParameters.TYPES type) throws Exception {
+		return this.createComputingNode(datacenterElement, type, new LocationsChecker());
+	}
+
+	protected ComputingNode createComputingNode(Element datacenterElement, SimulationParameters.TYPES type, LocationsChecker locationsChecker)
 			throws NoSuchAlgorithmException, NoSuchMethodException, SecurityException, InstantiationException,
 			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// SecureRandom is preferred to generate random values.
-//		Random random = SecureRandom.getInstanceStrong();
-		Random random = simulationManager.getRandom();
 
 		Boolean mobile = false;
 		double speed = 0;
@@ -379,9 +452,6 @@ public class ComputingNodesGenerator {
 		double ram = Double.parseDouble(datacenterElement.getElementsByTagName("ram").item(0).getTextContent());
 
 		String deviceTypeName = datacenterElement.getElementsByTagName("deviceTypeName").item(0).getTextContent();
-
-		SimLog.println("deviceTypeNameDebug");
-		SimLog.println(deviceTypeName);
 
 		Constructor<?> datacenterConstructor = computingNodeClass.getConstructor(SimulationManager.class, double.class,
 				int.class, double.class, double.class, String.class);
@@ -434,8 +504,8 @@ public class ComputingNodesGenerator {
 			computingNode.enableTaskGeneration(Boolean
 					.parseBoolean(datacenterElement.getElementsByTagName("generateTasks").item(0).getTextContent()));
 			// Generate random location for edge devices
-			datacenterLocation = new Location(random.nextInt(SimulationParameters.simulationMapLength),
-					random.nextInt(SimulationParameters.simulationMapLength));
+			datacenterLocation = locationsChecker.getLocation(deviceTypeName);
+
 			getSimulationManager().getSimulationLogger()
 					.deepLog("ComputingNodesGenerator- Edge device:" + mistOnlyList.size() + "    location: ( "
 							+ datacenterLocation.getXPos() + "," + datacenterLocation.getYPos() + " )");

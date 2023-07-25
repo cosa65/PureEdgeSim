@@ -61,6 +61,8 @@ public class SimulationParameters {
 	 */
 	public static String edgeDevicesFile = "PureEdgeSim/settings/edge_devices.xml";
 
+	public static String startingPositionsFile = "PureEdgeSim/settings/starting_positions.xml";
+
 	/**
 	 * The path to the cloud characteristics file.
 	 * 
