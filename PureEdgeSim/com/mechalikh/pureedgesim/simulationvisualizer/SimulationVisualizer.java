@@ -49,7 +49,10 @@ public class SimulationVisualizer {
     protected SimulationManager simulationManager;
 
     // List of charts to display
-    protected List<Chart> charts = new ArrayList<Chart>(4);
+    protected List<Chart> charts = new ArrayList<Chart>(8);
+
+    // List of charts to display
+    protected List<Chart> realTimeCharts = new ArrayList<Chart>(4);
 
     // Flag that indicates if it is the first time charts are updated
     protected boolean firstTime = true;
@@ -90,6 +93,8 @@ public class SimulationVisualizer {
         Chart deviceIdsMapChart = new DeviceIdsMapChart("Device ids map", "Width (meters)", "Length (meters)", simulationManager);
         charts.addAll(List.of(mapChart, orchestratorsChart, deviceTypesChart, cpuUtilizationChart, tasksSuccessChart, clustersMapChart, deviceIdsMapChart));
 
+        realTimeCharts.addAll(List.of(orchestratorsChart, deviceTypesChart, clustersMapChart, deviceIdsMapChart));
+
         // Add network utilization chart if the useOneSharedWanLink parameter is true
         if (SimulationParameters.useOneSharedWanLink) {
             Chart networkUtilizationChart = new WanChart("Network utilization", "Time (s)", "Utilization (Mbps)",
@@ -106,7 +111,7 @@ public class SimulationVisualizer {
     public void updateCharts() {
         if (firstTime) {
             SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(
-                    charts.stream().map(Chart::getChart).collect(Collectors.toList()));
+                realTimeCharts.stream().map(Chart::getChart).collect(Collectors.toList()));
             simulationResultsFrame = swingWrapper.displayChartMatrix(); // Display charts
             simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         }
@@ -125,6 +130,7 @@ public class SimulationVisualizer {
      * Repaints the charts with the latest simulation results.
      */
     protected void repaint() {
+        realTimeCharts.forEach(Chart::update);
         charts.forEach(Chart::update);
         simulationResultsFrame.repaint();
     }

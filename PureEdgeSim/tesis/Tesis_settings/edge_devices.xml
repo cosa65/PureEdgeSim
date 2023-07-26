@@ -3,7 +3,7 @@
 	<!-- Type 1 -->
 	<device arch="x86" os="linux" vmm="xen">
 		<deviceTypeName>Light Cellphone</deviceTypeName>
-		<percentage>50</percentage>
+		<percentage>75</percentage>
 		<connectivity>wifi</connectivity>
 		<mobility>true</mobility>
 <!--		<mobility>false</mobility>-->
@@ -29,7 +29,7 @@
 	<!-- Type 1 -->
 	<device arch="x86" os="linux" vmm="xen">
 		<deviceTypeName>Light Computer</deviceTypeName>
-		<percentage>50</percentage>
+		<percentage>25</percentage>
 		<connectivity>wifi</connectivity>
 		<mobility>false</mobility>
 		<speed>1</speed>

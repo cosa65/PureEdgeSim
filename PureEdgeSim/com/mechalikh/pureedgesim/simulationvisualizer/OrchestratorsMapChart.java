@@ -5,6 +5,7 @@ import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import org.knowm.xchart.XYSeries;
+import org.knowm.xchart.style.Styler;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 import utils.CustomCircle;
 
@@ -40,6 +41,7 @@ public class OrchestratorsMapChart extends MapChart {
         super(title, xAxisTitle, yAxisTitle, simulationManager);
         getChart().getStyler().setDefaultSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Scatter);
         getChart().getStyler().setMarkerSize(4);
+        getChart().getStyler().setLegendPosition(Styler.LegendPosition.InsideNW);
         updateSize(0.0, (double) SimulationParameters.simulationMapWidth, 0.0,
             (double) SimulationParameters.simulationMapLength);
     }
@@ -82,7 +84,7 @@ public class OrchestratorsMapChart extends MapChart {
             double xPos = device.getMobilityModel().getCurrentLocation().getXPos();
             double yPos = device.getMobilityModel().getCurrentLocation().getYPos();
 
-            if (device.isOrchestrator()) {
+            if (device.isOrchestrator() && device.cluster.size() > 1) {
                 xOrchestrators.add(xPos);
                 yOrchestrators.add(yPos);
 
@@ -90,13 +92,12 @@ public class OrchestratorsMapChart extends MapChart {
                 yRadiuses.add(yPos);
 
                 radiuses.add(getValueInPixels(SimulationParameters.edgeDevicesRange));
-            } else if (device.getParent() == null || device.getParent().getId() == device.getId()) {
-                double a = 0/0;
-                xOrphanDevices.add(xPos);
-                yOrphanDevices.add(yPos);
-            } else {
+            } else if (device.getOrchestrator().getId() != device.getId()) {
                 xChildDevices.add(xPos);
                 yChildDevices.add(yPos);
+            } else {
+                xOrphanDevices.add(xPos);
+                yOrphanDevices.add(yPos);
             }
         }
 
@@ -105,7 +106,7 @@ public class OrchestratorsMapChart extends MapChart {
         updateSeries(getChart(), "Child devices", toArray(xChildDevices), toArray(yChildDevices), SeriesMarkers.CIRCLE,
             Color.blue);
         updateSeries(getChart(), "Orphan devices", toArray(xOrphanDevices), toArray(yOrphanDevices), SeriesMarkers.CIRCLE,
-            Color.yellow);
+            Color.lightGray);
 
         CustomCircle.customMarkerSizes = radiuses;
         CustomCircle.sizesIt = 0;
