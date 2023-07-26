@@ -74,6 +74,9 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	public List<TesisClusteringDevice> cluster;
 	private static final int UPDATE_CLUSTERS = 11000;
 	private static final double weightDrop = 0.5;
+
+	private static final int updateClusterPollingSlot = 1;
+
 	private int time = -30;
 	private List<ComputingNode> edgeDevices;
 	private List<ComputingNode> orchestratorsList;
@@ -126,15 +129,18 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	public void processEvent(Event ev) {
 		switch (ev.getTag()) {
 			case UPDATE_CLUSTERS:
-				if ("CLUSTER".equals(SimulationParameters.deployOrchestrators) && (getSimulation().clock() - time > 30)) {
+				if ("CLUSTER".equals(SimulationParameters.deployOrchestrators)) {
 					time = (int) getSimulation().clock();
 
 					// Update clusters.
 					for (int i = 0; i < edgeDevices.size(); i++)
 						((TesisClusteringDevice) edgeDevices.get(i)).updateCluster();
 
-					// Schedule the next update.
-					schedule(this, 1, UPDATE_CLUSTERS);
+
+					// Schedule the next update if still within simulation duration
+					if (SimulationParameters.simulationDuration > time + SimulationParameters.updateInterval) {
+						schedule(this, SimulationParameters.updateInterval, UPDATE_CLUSTERS);
+					}
 				}
 
 				break;

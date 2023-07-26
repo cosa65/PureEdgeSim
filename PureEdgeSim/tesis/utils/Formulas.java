@@ -24,8 +24,6 @@ public class Formulas {
                 edgeDevices.get(i).getMobilityModel().getLocationForTime(timeSlot)
             );
 
-            SimLog.println(String.format("with %d: %f" , edgeDevices.get(i).getId(), distance));
-
             if (distance <= SimulationParameters.edgeDevicesRange) {
                 neighbours.add((examples.TesisClusteringDevice) edgeDevices.get(i));
             }

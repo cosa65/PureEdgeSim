@@ -23,15 +23,10 @@ public class TesisOrchestrator extends DefaultOrchestrator {
     protected int findComputingNode(String[] architecture, Task task) {
         if ("RANKING".equals(algorithmName)) {
             int selectedNode = ranking(architecture, task);
-            SimLog.println("selectedNodeDebug");
-            SimLog.println(Integer.toString(selectedNode));
             return selectedNode;
         }
 
-        int selectedNode = super.findComputingNode(architecture, task);
-        SimLog.println("selectedNodeDebug");
-        SimLog.println(Integer.toString(selectedNode));
-        return selectedNode;
+        return super.findComputingNode(architecture, task);
     }
 
     private int ranking(String[] architecture, Task task) {
