@@ -73,7 +73,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 	public List<TesisClusteringDevice> cluster;
 	private static final int UPDATE_CLUSTERS = 11000;
-	private static final double weightDrop = 0.5;
+	private static final double weightDrop = 0.2;
 
 	private static final int updateClusterPollingSlot = 1;
 
@@ -88,9 +88,11 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	public TesisClusteringDevice(SimulationManager simulationManager, double mipsCapacity, int numberOfPes,
 								 double storage, double ram, String deviceTypeName) {
 		super(simulationManager, mipsCapacity, numberOfPes, storage, ram, deviceTypeName);
-		cluster = new ArrayList<TesisClusteringDevice>();
-		edgeDevices = simulationManager.getDataCentersManager().getComputingNodesGenerator().getMistOnlyList();
-		orchestratorsList = simulationManager.getDataCentersManager().getComputingNodesGenerator()
+		this.cluster = new ArrayList<TesisClusteringDevice>();
+		this.cluster.add(this);
+
+		this.edgeDevices = simulationManager.getDataCentersManager().getComputingNodesGenerator().getMistOnlyList();
+		this.orchestratorsList = simulationManager.getDataCentersManager().getComputingNodesGenerator()
 			.getOrchestratorsList();
 
 		this.setAsOrchestrator(true);
@@ -259,52 +261,47 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	public void setParent(TesisClusteringDevice newParent) {
-//		If setting myself as the parent, then that means I am also setting myself as orchestrator
-		if (newParent == this) {
-			this.orchestrator = this;
-		}
+//		Not necessary anymore, this.orchestrator is no longer used
+//		if (newParent == this) {
+//			this.orchestrator = this;
+//		}
 
-		// this device has changed its cluster, so it should be removed from the previous one
-		if (this.getOrchestrator() != this)
-			this.getOrchestrator().cluster.remove(this);
+		// If I already have this one set as parent then skip, necessary operations were already done
+		if (this.parent.getId() == newParent.getId()) { return; }
+
+		this.parent = newParent;
 
 		TesisClusteringDevice newOrchestrator = newParent.getOrchestrator();
 
 		// If the new orchestrator is another device (not this one)
-		if (this != newOrchestrator) {
+		if (this.isOrchestrator() && this != newOrchestrator) {
 			SimLog.println(String.format("%d is setting external orchestrator: %d", this.getId(), newOrchestrator.getId()));
 			// if this device is no more an orchestrator, its cluster will be joined with
 			// the cluster of the new orchestrator
-			if (isOrchestrator()) {
-				newOrchestrator.cluster.addAll(this.cluster);
-			}
-			// now remove it cluster after
-			cluster.clear();
-			// remove this device from orchestrators list
-			orchestratorsList.remove(this);
+			newOrchestrator.cluster.addAll(this.cluster);
+			this.cluster.clear();
+
+			this.orchestratorsList.remove(this);
 
 			// this device is no more an orchestrator;
-			this.parent = newParent;
 			this.orchestrator = newOrchestrator;
 			this.isOrchestrator = false;
-
-			// in case the cluster doesn't has this device as member
-			if (!newOrchestrator.cluster.contains(this))
-				newOrchestrator.cluster.add(this);
+		} else if (!this.isOrchestrator()) {
+//			This device has changed its cluster, so it should be removed from the previous one and added the new one
+			this.getOrchestrator().cluster.remove(this);
+			newOrchestrator.cluster.add(this);
 		}
 
 		// configure the new orchestrator (it can be another device, or this device)
 		newOrchestrator.setAsOrchestrator(true);
-
 		newOrchestrator.parent = newOrchestrator;
-		// in case the cluster doesn't has the orchestrator as member
-		if (!newOrchestrator.cluster.contains(newOrchestrator))
-			newOrchestrator.cluster.add(newOrchestrator);
+
 		// add the new orchestrator to the list
 		if (!orchestratorsList.contains(newOrchestrator))
 			orchestratorsList.add(newOrchestrator);
 
 		this.orchestrator = newOrchestrator;
+		this.cluster = newOrchestrator.cluster;
 
 		if ((this.parent == this && this.getOrchestrator() != this) || (this.getOrchestrator() == this && this.parent != this)) {
 			double a = 0/0;
@@ -316,10 +313,11 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	private void compareWeightWithNeighbors() {
-		TesisClusteringDevice bestParent = this.getOrchestrator();
-
-		double bestWeight = this.getCurrentWeight();
-
+//		My weight might have changed, so I need to compare again from scratch, I can't rely on the weight I held before
+//		So use my own weight as the initial best option (because it's always going to exist)
+		TesisClusteringDevice bestParent = this;
+		double bestWeight = this.getOriginalWeight();
+		
 		for (TesisClusteringDevice neighbor : this.getNeighbors()) {
 			if (bestWeight < neighbor.getCurrentWeight()) {
 				bestParent = neighbor;

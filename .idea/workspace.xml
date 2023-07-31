@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="28ec3683-b113-40f8-bead-f2759b175d48" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/OrchestratorsMapChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/OrchestratorsMapChart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/SimulationVisualizer.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/SimulationVisualizer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/edge_devices.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/edge_devices.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/starting_positions.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/starting_positions.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,9 +113,14 @@
           <option name="timeStamp" value="62" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/OrchestratorsMapChart.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="65" />
+          <url>file://$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java</url>
+          <line>269</line>
+          <option name="timeStamp" value="67" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java</url>
+          <line>305</line>
+          <option name="timeStamp" value="68" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -126,6 +129,14 @@
         <PinnedItemInfo parentTag="examples.TesisCachingDevice" memberName="orchestrator" />
       </pinned-members>
     </pin-to-top-manager>
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="this.cluster" language="JAVA" />
+        <watch expression="((TesisCachingDevice)newParent).cluster" custom="examples.TesisCachingDevice" />
+        <watch expression="((TesisCachingDevice)newParent).id" custom="examples.TesisCachingDevice" />
+        <watch expression="((TesisCachingDevice)this).id" custom="examples.TesisCachingDevice" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
