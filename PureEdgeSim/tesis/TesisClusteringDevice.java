@@ -21,6 +21,7 @@
 package examples;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
@@ -71,7 +72,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	private double weight = 0;
 	private TesisClusteringDevice parent = this;
 
-	public List<TesisClusteringDevice> cluster;
+	public HashSet<TesisClusteringDevice> cluster;
 	private static final int UPDATE_CLUSTERS = 11000;
 	private static final double weightDrop = 0.2;
 
@@ -88,7 +89,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	public TesisClusteringDevice(SimulationManager simulationManager, double mipsCapacity, int numberOfPes,
 								 double storage, double ram, String deviceTypeName) {
 		super(simulationManager, mipsCapacity, numberOfPes, storage, ram, deviceTypeName);
-		this.cluster = new ArrayList<TesisClusteringDevice>();
+		this.cluster = new HashSet<>();
 		this.cluster.add(this);
 
 		this.edgeDevices = simulationManager.getDataCentersManager().getComputingNodesGenerator().getMistOnlyList();
@@ -240,6 +241,14 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		return this.parent.getId() == this.getId();
 	}
 
+	public HashSet<TesisClusteringDevice> getCluster() {
+		if (this.isOrchestrator()) {
+			return this.cluster;
+		} else {
+			return this.getOrchestrator().getCluster();
+		}
+	}
+
 	private double getOrchestratorWeight() {
 		if (this.isOrchestrator())
 			return getOriginalWeight();
@@ -266,20 +275,45 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 //			this.orchestrator = this;
 //		}
 
+		if (this.time == 30) {
+			double b = 1/1;
+		}
+
+		if (this.time == 31) {
+			double c = 1/1;
+		}
+
+//		10 9 32
+
+		ArrayList<HashSet<TesisClusteringDevice>> clustersList = new ArrayList<>();
+		for (ComputingNode orchestratorNode : orchestratorsList) {
+			TesisClusteringDevice orchestrator = (TesisClusteringDevice) orchestratorNode;
+			clustersList.add(orchestrator.cluster);
+		}
+
+		if (newParent.id == 10 && this.id == 9 && this.time == 32) {
+			double d = 1/1;
+		}
+
+		int previousSize = this.cluster.size();
+
 		// If I already have this one set as parent then skip, necessary operations were already done
 		if (this.parent.getId() == newParent.getId()) { return; }
 
-		this.parent = newParent;
-
 		TesisClusteringDevice newOrchestrator = newParent.getOrchestrator();
+
+		if (this.time == 14 && this.id == 2 && newParent.id == 10) {
+			double b = 1/1;
+		}
 
 		// If the new orchestrator is another device (not this one)
 		if (this.isOrchestrator() && this != newOrchestrator) {
 			SimLog.println(String.format("%d is setting external orchestrator: %d", this.getId(), newOrchestrator.getId()));
 			// if this device is no more an orchestrator, its cluster will be joined with
 			// the cluster of the new orchestrator
+//			<TesisClusteringDevice> oldCluster = this.cluster;
+//			this.cluster.clear();
 			newOrchestrator.cluster.addAll(this.cluster);
-			this.cluster.clear();
 
 			this.orchestratorsList.remove(this);
 
@@ -291,6 +325,8 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 			this.getOrchestrator().cluster.remove(this);
 			newOrchestrator.cluster.add(this);
 		}
+
+		this.parent = newParent;
 
 		// configure the new orchestrator (it can be another device, or this device)
 		newOrchestrator.setAsOrchestrator(true);
@@ -306,6 +342,10 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		if ((this.parent == this && this.getOrchestrator() != this) || (this.getOrchestrator() == this && this.parent != this)) {
 			double a = 0/0;
 		}
+
+		if (previousSize != 0 && this.cluster.size() == 0) {
+			double b = 1/1;
+		}
 	}
 
 	public TesisClusteringDevice getParent() {
@@ -317,7 +357,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 //		So use my own weight as the initial best option (because it's always going to exist)
 		TesisClusteringDevice bestParent = this;
 		double bestWeight = this.getOriginalWeight();
-		
+
 		for (TesisClusteringDevice neighbor : this.getNeighbors()) {
 			if (bestWeight < neighbor.getCurrentWeight()) {
 				bestParent = neighbor;
