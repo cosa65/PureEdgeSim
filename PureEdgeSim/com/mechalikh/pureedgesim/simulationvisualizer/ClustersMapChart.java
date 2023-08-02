@@ -81,7 +81,7 @@ public class ClustersMapChart extends MapChart {
         for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
             examples.TesisClusteringDevice device = (examples.TesisClusteringDevice) node;
 
-            if (device.isOrchestrator() && device.cluster.size() > 1) {
+            if (device.isOrchestrator() && device.getCluster().size() > 1) {
                 Random random = new Random();
                 Color randomColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
 

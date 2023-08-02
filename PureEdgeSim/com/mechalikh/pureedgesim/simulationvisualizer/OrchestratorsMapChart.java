@@ -84,7 +84,7 @@ public class OrchestratorsMapChart extends MapChart {
             double xPos = device.getMobilityModel().getCurrentLocation().getXPos();
             double yPos = device.getMobilityModel().getCurrentLocation().getYPos();
 
-            if (device.isOrchestrator() && device.cluster.size() > 1) {
+            if (device.isOrchestrator() && device.getCluster().size() > 1) {
                 xOrchestrators.add(xPos);
                 yOrchestrators.add(yPos);
 
