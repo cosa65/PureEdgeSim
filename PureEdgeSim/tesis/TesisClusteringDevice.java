@@ -263,7 +263,6 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 			}
 
 			return cluster;
-//			return this.cluster;
 		} else {
 			return this.getOrchestrator().getCluster();
 		}
@@ -272,9 +271,6 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	private double getOrchestratorWeight() {
 		if (this.isOrchestrator())
 			return getOriginalWeight();
-//		TODO what is this case???
-		if (this.parent == null)
-			return 0/0;
 		return this.getOrchestrator().getOrchestratorWeight();
 	}
 
@@ -296,19 +292,8 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	public void setParent(TesisClusteringDevice newParent) {
-		ArrayList<HashSet<TesisClusteringDevice>> clustersListBefore = getClustersList();
-		ArrayList<List<NodeRelevant>> clustersListRelevantBefore = getClusterRelevantInfoList();
-
-		boolean wasClustersListBroken = isClustersListBroken();
-
-		int previousSize = this.getCluster().size();
-
-		// If I already have this one set as parent then skip, necessary operations were already done
-//		if (this.parent.getId() == newParent.getId()) { return; }
-
-//		If breaking away from its current cluster
+//		If breaking away from its current cluster, just setting itself as orchestrator should be enough
 		if (newParent.id == this.id && !this.isOrchestrator()) {
-//			this.getCluster().remove(this);
 			this.setAsOrchestrator(true);
 
 			return;
@@ -321,19 +306,10 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		// If the new orchestrator is another device (not this one)
 		if (this.isOrchestrator() && this != newOrchestrator) {
 			SimLog.println(String.format("%d is setting external orchestrator: %d", this.getId(), newOrchestrator.getId()));
-			// if this device is no more an orchestrator, its cluster will be joined with
-			// the cluster of the new orchestrator
-//			<TesisClusteringDevice> oldCluster = this.cluster;
-//			this.cluster.clear();
-//			newOrchestrator.getCluster().addAll(this.cluster);
 
 			// this device is no more an orchestrator;
 			this.orchestrator = newOrchestrator;
 			this.isOrchestrator = false;
-		} else if (!this.isOrchestrator()) {
-//			This device has changed its cluster, so it should be removed from the previous one and added the new one
-//			this.getCluster().remove(this);
-//			newOrchestrator.getCluster().add(this);
 		}
 
 //		If I'm no longer an orchestrator, remove from list
@@ -343,21 +319,6 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 		this.parent = newParent;
 		this.orchestrator = newOrchestrator;
-
-		if ((this.parent == this && this.getOrchestrator() != this) || (this.getOrchestrator() == this && this.parent != this)) {
-			double a = 0/0;
-		}
-
-		if (previousSize != 0 && this.getCluster().size() == 0) {
-			double b = 1/1;
-		}
-
-		if (!wasClustersListBroken && isClustersListBroken()) {
-			ArrayList<HashSet<TesisClusteringDevice>> clustersListAfter = getClustersList();
-			ArrayList<List<NodeRelevant>> clustersListRelevantAfter = getClusterRelevantInfoList();
-
-			double a = 0/0;
-		}
 	}
 
 	public class NodeRelevant {
@@ -370,7 +331,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		}
 	}
 
-	public ArrayList<List<NodeRelevant>> getClusterRelevantInfoList() {
+	public ArrayList<List<NodeRelevant>> debugGetClusterRelevantInfoList() {
 		ArrayList<List<NodeRelevant>> clustersList = new ArrayList<>();
 		for (ComputingNode orchestratorNode : TesisClusteringDevice.orchestratorsList) {
 			TesisClusteringDevice orchestrator = (TesisClusteringDevice) orchestratorNode;
@@ -385,7 +346,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		return clustersList;
 	}
 
-	public ArrayList<HashSet<TesisClusteringDevice>> getClustersList() {
+	public ArrayList<HashSet<TesisClusteringDevice>> debugGetClustersList() {
 		ArrayList<HashSet<TesisClusteringDevice>> clustersList = new ArrayList<>();
 		for (ComputingNode orchestratorNode : TesisClusteringDevice.orchestratorsList) {
 			TesisClusteringDevice orchestrator = (TesisClusteringDevice) orchestratorNode;
@@ -395,8 +356,8 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		return clustersList;
 	}
 
-	public boolean isClustersListBroken() {
-		for (HashSet<TesisClusteringDevice> cluster : getClustersList()) {
+	public boolean debugIsClustersListBroken() {
+		for (HashSet<TesisClusteringDevice> cluster : debugGetClustersList()) {
 			int orchestratorId = cluster.iterator().next().getOrchestrator().id;
 
 			for (TesisClusteringDevice node : cluster) {

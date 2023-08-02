@@ -112,7 +112,6 @@ public class Tesis {
 
 	public static void main(String[] args) {
 		new Tesis();
-
 	}
 
 }

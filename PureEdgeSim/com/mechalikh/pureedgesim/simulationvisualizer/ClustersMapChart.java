@@ -140,6 +140,8 @@ public class ClustersMapChart extends MapChart {
      */
     public void update() {
         for (String seriesId : this.previousSeriesIds) {
+//            This avoids a bug where previous series hang around when they shouldn't,
+//            but it also adds some lag to the intensive update of the map, so comment out to remove lag
             chart.removeSeries(seriesId);
         }
 
