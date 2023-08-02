@@ -26,6 +26,8 @@ import java.util.Random;
  */
 public class ClustersMapChart extends MapChart {
 
+    private ArrayList<String> previousSeriesIds = new ArrayList<>();
+
     /**
      *
      * Constructor for MapChart. Initializes the chart with the given title, x and y
@@ -107,9 +109,13 @@ public class ClustersMapChart extends MapChart {
         }
 
         for (ClusterToRender cluster : clustersById.values()) {
+            String seriesId = Integer.toString(cluster.id);
+
+            this.previousSeriesIds.add(seriesId);
+
             updateSeries(
                 getChart(),
-                Integer.toString(cluster.id),
+                seriesId,
                 toArray(cluster.nodesX),
                 toArray(cluster.nodesY),
                 SeriesMarkers.CIRCLE,
@@ -133,6 +139,12 @@ public class ClustersMapChart extends MapChart {
      * cloud CPU utilization.
      */
     public void update() {
+        for (String seriesId : this.previousSeriesIds) {
+            chart.removeSeries(seriesId);
+        }
+
+        this.previousSeriesIds = new ArrayList<>();
+
         // Add edge devices to map and display their CPU utilization
         updateEdgeDevices();
         // Add edge data centers to the map and display their CPU utilization
