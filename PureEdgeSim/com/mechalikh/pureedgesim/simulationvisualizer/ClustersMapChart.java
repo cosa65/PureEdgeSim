@@ -9,10 +9,8 @@ import utils.CustomCircle;
 
 import java.awt.*;
 import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Random;
 
 /**
  *
@@ -26,7 +24,7 @@ import java.util.Random;
  */
 public class ClustersMapChart extends MapChart {
 
-    private ArrayList<String> previousSeriesIds = new ArrayList<>();
+    private HashSet<String> previousSeriesIds = new HashSet<>();
 
     /**
      *
@@ -80,6 +78,8 @@ public class ClustersMapChart extends MapChart {
         ArrayList<Double> orphansX = new ArrayList<>();
         ArrayList<Double> orphansY = new ArrayList<>();
 
+        HashSet<String> newClusterSeriesIds = new HashSet<>();
+
         for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
             examples.TesisClusteringDevice device = (examples.TesisClusteringDevice) node;
 
@@ -88,6 +88,8 @@ public class ClustersMapChart extends MapChart {
                 Color randomColor = new Color(random.nextInt(256), random.nextInt(256), random.nextInt(256));
 
                 clustersById.put(device.getId(), new ClusterToRender(device.getId(), randomColor));
+
+                newClusterSeriesIds.add(Integer.toString(device.getId()));
             }
         }
 
@@ -111,8 +113,6 @@ public class ClustersMapChart extends MapChart {
         for (ClusterToRender cluster : clustersById.values()) {
             String seriesId = Integer.toString(cluster.id);
 
-            this.previousSeriesIds.add(seriesId);
-
             updateSeries(
                 getChart(),
                 seriesId,
@@ -131,6 +131,16 @@ public class ClustersMapChart extends MapChart {
             SeriesMarkers.CIRCLE,
             Color.GRAY
         );
+
+//        Find series that need to be removed (clusters that disappeared)
+        this.previousSeriesIds.removeAll(newClusterSeriesIds);
+
+//        Remove them
+        for (String seriesId : this.previousSeriesIds) {
+            this.getChart().removeSeries(seriesId);
+        }
+
+        this.previousSeriesIds = newClusterSeriesIds;
     }
 
     /**
@@ -139,20 +149,11 @@ public class ClustersMapChart extends MapChart {
      * cloud CPU utilization.
      */
     public void update() {
-        for (String seriesId : this.previousSeriesIds) {
-//            This avoids a bug where previous series hang around when they shouldn't,
-//            but it also adds some lag to the intensive update of the map, so comment out to remove lag
-            chart.removeSeries(seriesId);
-        }
-
-        this.previousSeriesIds = new ArrayList<>();
-
         // Add edge devices to map and display their CPU utilization
         updateEdgeDevices();
         // Add edge data centers to the map and display their CPU utilization
         updateEdgeDataCenters();
     }
-
 
     /**
      * Updates the map with the current edge data centers and their status.
