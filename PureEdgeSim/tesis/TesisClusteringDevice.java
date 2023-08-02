@@ -74,7 +74,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	private double weight = 0;
 	private TesisClusteringDevice parent = this;
 
-	public HashSet<TesisClusteringDevice> cluster;
+	private HashSet<TesisClusteringDevice> cluster;
 	private static final int UPDATE_CLUSTERS = 11000;
 	private static final double weightDrop = 0.2;
 	private static final int updateClusterPollingSlot = 1;
@@ -249,20 +249,21 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	public HashSet<TesisClusteringDevice> getCluster() {
+		if (edgeDevices == null) { return new HashSet<>(); }
+
 		if (this.isOrchestrator()) {
-//			HashSet<TesisClusteringDevice> cluster = new HashSet<>();
-//			cluster.add(this);
-//
-//			for (ComputingNode device : edgeDevices) {
-//				device = (TesisClusteringDevice) device;
-//
-//				if (device.getOrchestrator() == this) {
-//					cluster.add(this);
-//				}
-//			}
-//
-//			return cluster;
-			return this.cluster;
+			HashSet<TesisClusteringDevice> cluster = new HashSet<>();
+			cluster.add(this);
+			for (ComputingNode device : edgeDevices) {
+				TesisClusteringDevice clusteringDevice = (TesisClusteringDevice) device;
+
+				if (clusteringDevice.getOrchestrator().id == this.id) {
+					cluster.add(clusteringDevice);
+				}
+			}
+
+			return cluster;
+//			return this.cluster;
 		} else {
 			return this.getOrchestrator().getCluster();
 		}
@@ -300,10 +301,6 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 		boolean wasClustersListBroken = isClustersListBroken();
 
-		if (newParent.id == 3 && this.id == 3) {
-			double b = 1/1;
-		}
-
 		int previousSize = this.getCluster().size();
 
 		// If I already have this one set as parent then skip, necessary operations were already done
@@ -311,13 +308,15 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 //		If breaking away from its current cluster
 		if (newParent.id == this.id && !this.isOrchestrator()) {
-			this.getCluster().remove(this);
+//			this.getCluster().remove(this);
 			this.setAsOrchestrator(true);
 
 			return;
 		}
 
 		TesisClusteringDevice newOrchestrator = newParent.getOrchestrator();
+
+		newOrchestrator.setAsOrchestrator(true);
 
 		// If the new orchestrator is another device (not this one)
 		if (this.isOrchestrator() && this != newOrchestrator) {
@@ -326,18 +325,16 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 			// the cluster of the new orchestrator
 //			<TesisClusteringDevice> oldCluster = this.cluster;
 //			this.cluster.clear();
-			newOrchestrator.getCluster().addAll(this.cluster);
+//			newOrchestrator.getCluster().addAll(this.cluster);
 
 			// this device is no more an orchestrator;
 			this.orchestrator = newOrchestrator;
 			this.isOrchestrator = false;
 		} else if (!this.isOrchestrator()) {
 //			This device has changed its cluster, so it should be removed from the previous one and added the new one
-			this.getCluster().remove(this);
-			newOrchestrator.getCluster().add(this);
+//			this.getCluster().remove(this);
+//			newOrchestrator.getCluster().add(this);
 		}
-
-		newOrchestrator.setAsOrchestrator(true);
 
 //		If I'm no longer an orchestrator, remove from list
 		if (this != newOrchestrator) {
