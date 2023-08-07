@@ -381,9 +381,11 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		double bestWeight = this.getOriginalWeight();
 
 		for (TesisClusteringDevice neighbor : this.getNeighbors()) {
-			if (bestWeight < neighbor.getCurrentWeight()) {
+			double weightIfParent = neighbor.getCurrentWeight() * (1 - weightDrop);
+
+			if (bestWeight < weightIfParent) {
 				bestParent = neighbor;
-				bestWeight = neighbor.getCurrentWeight() * (1 - weightDrop);
+				bestWeight = weightIfParent;
 			}
 		}
 
