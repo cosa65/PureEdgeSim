@@ -6,8 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="28ec3683-b113-40f8-bead-f2759b175d48" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/Chart.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/Chart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/ClustersMapChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/ClustersMapChart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -106,11 +107,6 @@
           <properties class="java.lang.StackOverflowError" package="java.lang" />
           <option name="timeStamp" value="45" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jrt:///Users/martinfosco/Library/Java/JavaVirtualMachines/corretto-17.0.7/Contents/Home!/java.base/java/lang/NullPointerException.class</url>
-          <line>20</line>
-          <option name="timeStamp" value="62" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
@@ -121,12 +117,12 @@
     </pin-to-top-manager>
     <watches-manager>
       <configuration name="Application">
-        <watch expression="this.cluster" language="JAVA" />
-        <watch expression="((TesisCachingDevice)newParent).cluster" custom="examples.TesisCachingDevice" />
         <watch expression="((TesisCachingDevice)newParent).id" custom="examples.TesisCachingDevice" />
         <watch expression="((TesisCachingDevice)this).id" custom="examples.TesisCachingDevice" />
         <watch expression="((TesisCachingDevice)this.parent).id" custom="examples.TesisCachingDevice" />
         <watch expression="computingNodesGenerator" language="JAVA" />
+        <watch expression="this.getCluster()&#10;" language="JAVA" />
+        <watch expression="newParent.getCluster()&#10;" language="JAVA" />
       </configuration>
     </watches-manager>
   </component>

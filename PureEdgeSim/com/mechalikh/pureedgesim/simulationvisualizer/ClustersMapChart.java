@@ -80,6 +80,9 @@ public class ClustersMapChart extends MapChart {
 
         HashSet<String> newClusterSeriesIds = new HashSet<>();
 
+        ArrayList<Double> parentsX = new ArrayList<>();
+        ArrayList<Double> parentsY = new ArrayList<>();
+
         for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
             examples.TesisClusteringDevice device = (examples.TesisClusteringDevice) node;
 
@@ -121,6 +124,14 @@ public class ClustersMapChart extends MapChart {
                 SeriesMarkers.CIRCLE,
                 cluster.color
             );
+
+            updateLineSeries(
+                getChart(),
+                String.format("Line-%s", seriesId),
+                toArray(cluster.nodesX),
+                toArray(cluster.nodesY),
+                new Color(100, 100, 100, 30)
+            );
         }
 
         updateSeries(
@@ -129,8 +140,10 @@ public class ClustersMapChart extends MapChart {
             toArray(orphansX),
             toArray(orphansY),
             SeriesMarkers.CIRCLE,
-            Color.GRAY
+            Color.LIGHT_GRAY
         );
+
+
 
 //        Find series that need to be removed (clusters that disappeared)
         this.previousSeriesIds.removeAll(newClusterSeriesIds);
@@ -138,6 +151,7 @@ public class ClustersMapChart extends MapChart {
 //        Remove them
         for (String seriesId : this.previousSeriesIds) {
             this.getChart().removeSeries(seriesId);
+            this.getChart().removeSeries(String.format("Line-%s", seriesId));
         }
 
         this.previousSeriesIds = newClusterSeriesIds;

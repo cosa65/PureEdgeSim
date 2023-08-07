@@ -26,6 +26,8 @@ import org.knowm.xchart.XYChartBuilder;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.Styler.ChartTheme;
 import org.knowm.xchart.style.Styler.LegendPosition;
+import org.knowm.xchart.style.colors.XChartSeriesColors;
+import org.knowm.xchart.style.lines.SeriesLines;
 import org.knowm.xchart.style.markers.Marker;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNodesGenerator;
@@ -125,6 +127,17 @@ public abstract class Chart {
 			series.setMarker(marker); // Marker type: circle, rectangle, diamond..
 			series.setMarkerColor(color); // The color: blue, red, green, yellow, gray..
 			series.setLineStyle(new BasicStroke());
+		}
+	}
+
+	protected static void updateLineSeries(XYChart chart, String name, double[] X, double[] Y, Color color) {
+		if (chart.getSeriesMap().containsKey(name)) {
+			chart.updateXYSeries(name, X, Y, null);
+		} else {
+			XYSeries lineSeries = chart.addSeries(name, X, Y);
+			lineSeries.setXYSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
+			lineSeries.setLineColor(color);
+			lineSeries.setLineStyle(SeriesLines.SOLID);
 		}
 	}
 
