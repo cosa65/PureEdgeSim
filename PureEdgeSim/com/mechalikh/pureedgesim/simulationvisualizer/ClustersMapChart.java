@@ -3,6 +3,7 @@ package com.mechalikh.pureedgesim.simulationvisualizer;
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
+import org.jgrapht.alg.util.Pair;
 import org.knowm.xchart.XYSeries;
 import org.knowm.xchart.style.markers.SeriesMarkers;
 import utils.CustomCircle;
@@ -55,18 +56,64 @@ public class ClustersMapChart extends MapChart {
 
         public ArrayList<Double> nodesY;
 
+        public ArrayList<examples.TesisClusteringDevice> nodes;
+
         ClusterToRender(int id, Color color) {
             this.id = id;
             this.color = color;
 
             this.nodesX = new ArrayList<>();
             this.nodesY = new ArrayList<>();
+            this.nodes = new ArrayList<>();
         }
 
-        public void addNode(double x, double y) {
+        public void addNode(examples.TesisClusteringDevice node, double x, double y) {
             this.nodesX.add(x);
             this.nodesY.add(y);
+            this.nodes.add(node);
         }
+    }
+
+    protected ArrayList<examples.TesisClusteringDevice> getPathToOrchestrator(examples.TesisClusteringDevice device) {
+        ArrayList<examples.TesisClusteringDevice> pathTo = new ArrayList<>();
+
+        examples.TesisClusteringDevice currentDevice = device;
+
+        while (!currentDevice.isOrchestrator()) {
+            pathTo.add(currentDevice);
+            currentDevice = currentDevice.getParent();
+        }
+
+//        Add the orchestrator to complete the path
+        pathTo.add(currentDevice);
+
+        return pathTo;
+    }
+
+    protected Pair<ArrayList<Double>, ArrayList<Double>> toXYPaths(ArrayList<examples.TesisClusteringDevice> devices) {
+        ArrayList<Double> pathX = new ArrayList<>();
+        ArrayList<Double> pathY = new ArrayList<>();
+
+        for (examples.TesisClusteringDevice device : devices) {
+            double posX = device.getMobilityModel().getCurrentLocation().getXPos();
+            double posY = device.getMobilityModel().getCurrentLocation().getYPos();
+
+            pathX.add(posX);
+            pathY.add(posY);
+        }
+
+        ArrayList<Double> fullPathX = (ArrayList<Double>) pathX.clone();
+        ArrayList<Double> fullPathY = (ArrayList<Double>) pathY.clone();
+
+        Collections.reverse(fullPathX);
+        Collections.reverse(fullPathY);
+
+        fullPathX.addAll(pathX);
+        fullPathY.addAll(pathY);
+
+//        Need a path that begins from orch and ends in orch so that the line doesn't jump to places
+//        where there is not a cluster link in between nodes in the cluster
+        return new Pair<>(fullPathX, fullPathY);
     }
 
     /**
@@ -79,9 +126,6 @@ public class ClustersMapChart extends MapChart {
         ArrayList<Double> orphansY = new ArrayList<>();
 
         HashSet<String> newClusterSeriesIds = new HashSet<>();
-
-        ArrayList<Double> parentsX = new ArrayList<>();
-        ArrayList<Double> parentsY = new ArrayList<>();
 
         for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
             examples.TesisClusteringDevice device = (examples.TesisClusteringDevice) node;
@@ -110,26 +154,32 @@ public class ClustersMapChart extends MapChart {
                 continue;
             }
 
-            cluster.addNode(xPos, yPos);
+            cluster.addNode(device, xPos, yPos);
         }
 
         for (ClusterToRender cluster : clustersById.values()) {
             String seriesId = Integer.toString(cluster.id);
 
-            updateSeries(
-                getChart(),
-                seriesId,
-                toArray(cluster.nodesX),
-                toArray(cluster.nodesY),
-                SeriesMarkers.CIRCLE,
-                cluster.color
-            );
+            ArrayList<Double> fullPathX = new ArrayList<>();
+            ArrayList<Double> fullPathY = new ArrayList<>();
+
+//            Connect all paths between nodes and the orchestrator
+            for (examples.TesisClusteringDevice node : cluster.nodes) {
+                ArrayList<examples.TesisClusteringDevice> pathTo = getPathToOrchestrator(node);
+                Pair<ArrayList<Double>, ArrayList<Double>> pair = toXYPaths(getPathToOrchestrator(node));
+
+                fullPathX.addAll(pair.getFirst());
+                fullPathY.addAll(pair.getSecond());
+            }
+
 
             updateLineSeries(
                 getChart(),
-                String.format("Line-%s", seriesId),
-                toArray(cluster.nodesX),
-                toArray(cluster.nodesY),
+                seriesId,
+                toArray(fullPathX),
+                toArray(fullPathY),
+                SeriesMarkers.CIRCLE,
+                cluster.color,
                 new Color(100, 100, 100, 30)
             );
         }
@@ -143,15 +193,12 @@ public class ClustersMapChart extends MapChart {
             Color.LIGHT_GRAY
         );
 
-
-
 //        Find series that need to be removed (clusters that disappeared)
         this.previousSeriesIds.removeAll(newClusterSeriesIds);
 
 //        Remove them
         for (String seriesId : this.previousSeriesIds) {
             this.getChart().removeSeries(seriesId);
-            this.getChart().removeSeries(String.format("Line-%s", seriesId));
         }
 
         this.previousSeriesIds = newClusterSeriesIds;

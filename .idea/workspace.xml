@@ -6,9 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="28ec3683-b113-40f8-bead-f2759b175d48" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/Chart.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/Chart.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/ClustersMapChart.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationvisualizer/ClustersMapChart.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,6 +121,9 @@
         <watch expression="computingNodesGenerator" language="JAVA" />
         <watch expression="this.getCluster()&#10;" language="JAVA" />
         <watch expression="newParent.getCluster()&#10;" language="JAVA" />
+        <watch expression="pathTow" language="JAVA" />
+        <watch expression="pathTo" />
+        <watch expression="pathTo" />
       </configuration>
     </watches-manager>
   </component>

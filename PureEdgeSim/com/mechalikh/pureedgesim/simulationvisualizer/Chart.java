@@ -130,14 +130,24 @@ public abstract class Chart {
 		}
 	}
 
-	protected static void updateLineSeries(XYChart chart, String name, double[] X, double[] Y, Color color) {
+	protected static void updateLineSeries(
+		XYChart chart,
+		String name,
+		double[] X,
+		double[] Y,
+		Marker marker,
+		Color markerColor,
+		Color lineColor
+	) {
 		if (chart.getSeriesMap().containsKey(name)) {
 			chart.updateXYSeries(name, X, Y, null);
 		} else {
-			XYSeries lineSeries = chart.addSeries(name, X, Y);
-			lineSeries.setXYSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
-			lineSeries.setLineColor(color);
-			lineSeries.setLineStyle(SeriesLines.SOLID);
+			XYSeries series = chart.addSeries(name, X, Y);
+			series.setXYSeriesRenderStyle(XYSeries.XYSeriesRenderStyle.Line);
+			series.setMarkerColor(markerColor);
+			series.setMarker(marker);
+			series.setLineColor(lineColor);
+			series.setLineStyle(SeriesLines.SOLID);
 		}
 	}
 
