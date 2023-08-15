@@ -102,7 +102,7 @@ public class TesisCustomNetworkModel extends DefaultNetworkModel {
 	private void keepReplica(Task task) {
 
 		// Check if there are enough replicas before keeping a new one
-		TesisCachingDevice edgeDevice = (TesisCachingDevice) task.getEdgeDevice();
+		examples.TesisCachingDevice edgeDevice = (examples.TesisCachingDevice) task.getEdgeDevice();
 		if (canKeepReplica(edgeDevice, task)) {
 			// bits to MBytes
 			if (edgeDevice.getAvailableStorage() >= task.getContainerSizeInMBytes()) {
@@ -118,13 +118,13 @@ public class TesisCustomNetworkModel extends DefaultNetworkModel {
 		}
 	}
 
-	private boolean canKeepReplica(TesisCachingDevice edgeDevice, Task task) {
+	private boolean canKeepReplica(examples.TesisCachingDevice edgeDevice, Task task) {
 		return ("CACHE".equals(SimulationParameters.registryMode)
-				&& ((TesisCachingDevice) edgeDevice.getOrchestrator())
+				&& ((examples.TesisCachingDevice) edgeDevice.getOrchestrator())
 						.countContainer(task.getApplicationID()) < MAX_NUMBER_OF_REPLICAS);
 	}
 
-	private void freeStorage(TesisCachingDevice edgeDevice, Task task) {
+	private void freeStorage(examples.TesisCachingDevice edgeDevice, Task task) {
 		// while the available storage is not enough
 		double min = 0;
 		while (storageIsNotEnough(edgeDevice, task)) {
@@ -138,22 +138,22 @@ public class TesisCustomNetworkModel extends DefaultNetworkModel {
 		}
 	}
 
-	private boolean storageIsNotEnough(TesisCachingDevice edgeDevice, Task task) {
+	private boolean storageIsNotEnough(examples.TesisCachingDevice edgeDevice, Task task) {
 		return (edgeDevice.getAvailableStorage() < task.getContainerSizeInMBytes()
 				&& edgeDevice.getTotalStorage() >= task.getContainerSizeInMBytes());
 	}
 
-	private void saveImage(TesisCachingDevice edgeDevice, Task task) {
+	private void saveImage(examples.TesisCachingDevice edgeDevice, Task task) {
 		edgeDevice.setAvailableStorage(edgeDevice.getAvailableStorage() - task.getContainerSizeInMBytes());
 		edgeDevice.cache.add(task);
 		int[] array = new int[2];
 		array[0] = task.getApplicationID();
 		array[1] = task.getEdgeDevice().getId();
-		((TesisCachingDevice) edgeDevice.getOrchestrator()).Remotecache.add(array);
+		((examples.TesisCachingDevice) edgeDevice.getOrchestrator()).Remotecache.add(array);
 	}
 
 	private void pullContainer(Task task) {
-		if (!((TesisCachingDevice) task.getEdgeDevice().getOrchestrator())
+		if (!((examples.TesisCachingDevice) task.getEdgeDevice().getOrchestrator())
 				.hasRemoteContainer(task.getApplicationID())) {
 			// No replica found
 			scheduleNow(this, NetworkModel.DOWNLOAD_CONTAINER, task);
@@ -164,13 +164,13 @@ public class TesisCustomNetworkModel extends DefaultNetworkModel {
 
 	private void pullFromCache(Task task) {
 
-		((TesisCachingDevice) task.getOrchestrator()).addRequest(task);
-		if (((TesisCachingDevice) task.getOffloadingDestination()).hasContainer(task.getApplicationID())
-				|| ((TesisCachingDevice) task.getOffloadingDestination()).getType() == TYPES.CLOUD) {
+		((examples.TesisCachingDevice) task.getOrchestrator()).addRequest(task);
+		if (((examples.TesisCachingDevice) task.getOffloadingDestination()).hasContainer(task.getApplicationID())
+				|| ((examples.TesisCachingDevice) task.getOffloadingDestination()).getType() == TYPES.CLOUD) {
 			// This device has a replica in its cache, so execute a task directly
 			scheduleNow(simulationManager, DefaultSimulationManager.EXECUTE_TASK, task);
 		} else {
-			int from = ((TesisCachingDevice) task.getEdgeDevice().getOrchestrator())
+			int from = ((examples.TesisCachingDevice) task.getEdgeDevice().getOrchestrator())
 					.findReplica(task.getApplicationID());
 			// The IDs are shifted by 2 (to avoid the cloud data center and the edge data
 			// centers)
