@@ -1,43 +1,25 @@
 <?xml version="1.0"?>
 <applications>
-	<application name="Updates from devices">
-		<type>Periodic metadata updates</type> <!-- the type of this application, can be used to differentiate between applications during the orchestration, you can write anything -->
+	<application>
+		<type>Metadata update</type> <!-- the type of this application, can be used to differentiate between applications during the orchestration, you can write anything -->
 		<rate>2</rate> <!-- how many tasks are generated each minute -->
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>0.02</latency> <!-- latency in seconds -->
 		<container_size>20</container_size> <!--application/container size in kilobytes -->
-		<request_size>20</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>10</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>50</task_length> <!--MI: million instructions -->
+		<orchestrator_only>true</orchestrator_only> <!-- Whether only the orchestrator can perform this task or not. This governs whether the task can be offloaded or not -->
 	</application>
-	<application name="Light task">
+	<application name="Communicate metadata">
 		<type>Light task</type> <!-- the type of this application, can be used to differentiate between applications during the orchestration, you can write anything -->
-		<rate>5</rate> <!-- how many tasks are generated each minute -->
+		<rate>2</rate> <!-- how many tasks are generated each minute -->
 		<usage_percentage>10</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>0.02</latency> <!-- latency in seconds -->
 		<container_size>20</container_size> <!--application/container size in kilobytes -->
-		<request_size>20</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>10</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
-		<task_length>200</task_length> <!--MI: million instructions -->
+		<task_length>50</task_length> <!--MI: million instructions -->
+		<orchestrator_only>false</orchestrator_only>
 	</application>
-<!--	<application name="Heavy task">-->
-<!--		<type>Heavy task</type> &lt;!&ndash; the type of this application, can be used to differentiate between applications during the orchestration, you can write anything &ndash;&gt;-->
-<!--		<rate>0.2</rate> &lt;!&ndash; how many tasks are generated each minute &ndash;&gt;-->
-<!--		<usage_percentage>100</usage_percentage> &lt;!&ndash; percentage of devices using this type of applications &ndash;&gt;-->
-<!--		<latency>0.02</latency> &lt;!&ndash; latency in seconds &ndash;&gt;-->
-<!--		<container_size>20</container_size> &lt;!&ndash;application/container size in kilobytes &ndash;&gt;-->
-<!--		<request_size>20</request_size> &lt;!&ndash; the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes &ndash;&gt;-->
-<!--		<results_size>10</results_size> &lt;!&ndash; the results of the offloaded task in kilobytes &ndash;&gt;-->
-<!--		<task_length>200</task_length> &lt;!&ndash;MI: million instructions &ndash;&gt;-->
-<!--	</application>-->
-<!--	<application name="Heavy task">-->
-<!--		<type>Heavy task</type> &lt;!&ndash; the type of this application, can be used to differentiate between applications during the orchestration, you can write anything &ndash;&gt;-->
-<!--		<rate>0.2</rate> &lt;!&ndash; how many tasks are generated each minute &ndash;&gt;-->
-<!--		<usage_percentage>100</usage_percentage> &lt;!&ndash; percentage of devices using this type of applications &ndash;&gt;-->
-<!--		<latency>0.02</latency> &lt;!&ndash; latency in seconds &ndash;&gt;-->
-<!--		<container_size>20</container_size> &lt;!&ndash;application/container size in kilobytes &ndash;&gt;-->
-<!--		<request_size>20</request_size> &lt;!&ndash; the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes &ndash;&gt;-->
-<!--		<results_size>10</results_size> &lt;!&ndash; the results of the offloaded task in kilobytes &ndash;&gt;-->
-<!--		<task_length>2000</task_length> &lt;!&ndash;MI: million instructions &ndash;&gt;-->
-<!--	</application>-->
 </applications>

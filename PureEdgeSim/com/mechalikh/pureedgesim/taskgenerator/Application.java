@@ -62,6 +62,11 @@ public class Application {
 	protected double taskLength;
 
 	/**
+	 * Whether tasks from this application can be resolved only by the orchestrator or any device
+	 */
+	protected boolean orchestratorOnly;
+
+	/**
 	 * The percentage of time that the application is being used by the user
 	 */
 	protected double usagePercentage;
@@ -95,7 +100,7 @@ public class Application {
 	 *                        execute, in MI (Mega-Instructions)
 	 */
 	public Application(String type, int rate, double usagePercentage, double latency, long containerSize,
-			long requestSize, long resultsSize, double taskLength) {
+			long requestSize, long resultsSize, double taskLength, boolean orchestratorOnly) {
 		setType(type);
 		setRate(rate);
 		setUsagePercentage(usagePercentage);
@@ -104,6 +109,7 @@ public class Application {
 		setRequestSize(requestSize);
 		setResultsSize(resultsSize);
 		setTaskLength(taskLength);
+		setOrchestratorOnly(orchestratorOnly);
 	}
 
 	/**
@@ -182,6 +188,10 @@ public class Application {
 	 */
 	public void setTaskLength(double taskLength) {
 		this.taskLength = taskLength;
+	}
+
+	public void setOrchestratorOnly(boolean orchestratorOnly) {
+		this.orchestratorOnly = orchestratorOnly;
 	}
 
 	/**
