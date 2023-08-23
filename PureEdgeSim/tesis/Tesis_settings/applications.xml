@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <applications>
-	<application>
+	<application name="Metadata update">
 		<type>Metadata update</type> <!-- the type of this application, can be used to differentiate between applications during the orchestration, you can write anything -->
 		<rate>2</rate> <!-- how many tasks are generated each minute -->
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
@@ -11,7 +11,7 @@
 		<task_length>50</task_length> <!--MI: million instructions -->
 		<orchestrator_only>true</orchestrator_only> <!-- Whether only the orchestrator can perform this task or not. This governs whether the task can be offloaded or not -->
 	</application>
-	<application name="Communicate metadata">
+	<application name="Light task">
 		<type>Light task</type> <!-- the type of this application, can be used to differentiate between applications during the orchestration, you can write anything -->
 		<rate>2</rate> <!-- how many tasks are generated each minute -->
 		<usage_percentage>10</usage_percentage> <!-- percentage of devices using this type of applications -->

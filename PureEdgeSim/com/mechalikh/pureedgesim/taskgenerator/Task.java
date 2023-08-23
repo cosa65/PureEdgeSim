@@ -226,6 +226,8 @@ public interface Task extends QueueElement {
 	 */
 	int getApplicationID();
 
+	boolean getOrchestratorOnly();
+
 	/**
 	 * 
 	 * Sets the ID of the application associated with the task.

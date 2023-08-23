@@ -21,6 +21,7 @@
 package com.mechalikh.pureedgesim.taskgenerator;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
+import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 
 /**
  * 
@@ -232,6 +233,12 @@ public class DefaultTask extends TaskAbstract {
 	@Override
 	public int getApplicationID() {
 		return applicationID;
+	}
+
+	public boolean getOrchestratorOnly() {
+		Application application = SimulationParameters.applicationList.get(this.getApplicationID());
+
+		return application.getOrchestratorOnly();
 	}
 
 	/**

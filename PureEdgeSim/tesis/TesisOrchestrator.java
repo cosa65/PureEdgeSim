@@ -5,6 +5,7 @@ import com.mechalikh.pureedgesim.energy.EnergyModelComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
+import com.mechalikh.pureedgesim.taskgenerator.Application;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
 import com.mechalikh.pureedgesim.taskorchestrator.DefaultOrchestrator;
 import net.sourceforge.jFuzzyLogic.FIS;
@@ -21,6 +22,10 @@ public class TesisOrchestrator extends DefaultOrchestrator {
     }
 
     protected int findComputingNode(String[] architecture, Task task) {
+        Application application = SimulationParameters.applicationList.get(task.getApplicationID());
+
+        if (application.getOrchestratorOnly()) { return this.id; }
+
         if ("RANKING".equals(algorithmName)) {
             int selectedNode = ranking(architecture, task);
             return selectedNode;

@@ -23,6 +23,7 @@ package com.mechalikh.pureedgesim.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mechalikh.pureedgesim.taskgenerator.Application;
 import org.jgrapht.GraphPath;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
@@ -149,9 +150,9 @@ public class DefaultNetworkModel extends NetworkModel {
 		if (task.getOffloadingDestination() != task.getOrchestrator())
 			send(task.getOffloadingDestination(), task.getOrchestrator(), task, task.getOutputSizeInBits(),
 					TransferProgress.Type.RESULTS_TO_ORCH);
-		else
+		else if (!task.getOrchestratorOnly()) {
 			scheduleNow(this, DefaultNetworkModel.SEND_RESULT_FROM_ORCH_TO_DEV, task);
-
+		}
 	}
 
 	public void addContainer(Task task) {
@@ -237,6 +238,8 @@ public class DefaultNetworkModel extends NetworkModel {
 	}
 
 	protected void returnResultsToDevice(TransferProgress transfer) {
+		if (transfer.getTask().getOrchestratorOnly()) return;
+
 		scheduleNow(this, NetworkModel.SEND_RESULT_FROM_ORCH_TO_DEV, transfer.getTask());
 	}
 

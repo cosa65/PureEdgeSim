@@ -180,6 +180,8 @@ public class Application {
 		return taskLength;
 	}
 
+	public boolean getOrchestratorOnly() { return this.orchestratorOnly; }
+
 	/**
 	 * 
 	 * Sets the length of the task in MI.
