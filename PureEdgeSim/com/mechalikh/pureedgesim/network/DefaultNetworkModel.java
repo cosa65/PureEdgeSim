@@ -150,9 +150,12 @@ public class DefaultNetworkModel extends NetworkModel {
 		if (task.getOffloadingDestination() != task.getOrchestrator())
 			send(task.getOffloadingDestination(), task.getOrchestrator(), task, task.getOutputSizeInBits(),
 					TransferProgress.Type.RESULTS_TO_ORCH);
+//		orchestratorOnly tasks don't get sent back because they aren't actual tasks,
+//		they are metadata updates that don't even count as successfully finished tasks
 		else if (!task.getOrchestratorOnly()) {
 			scheduleNow(this, DefaultNetworkModel.SEND_RESULT_FROM_ORCH_TO_DEV, task);
 		}
+
 	}
 
 	public void addContainer(Task task) {
