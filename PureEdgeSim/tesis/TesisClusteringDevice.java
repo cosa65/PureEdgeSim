@@ -199,11 +199,11 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		// the weight becomes 0 when mips = 0
 		double computingWeight = (mips / 200000) / currentNeighborsCount;
 
-		SimLog.println(String.format("computingWeight: %s", Double.toString(computingWeight)));
-		SimLog.println(String.format("currentNeighborsCount: %s", Integer.toString(currentNeighborsCount)));
-		SimLog.println(String.format("nextNeighborsCount: %s", Integer.toString(nextNeighborsCount)));
-		SimLog.println(String.format("averageDistanceFromNeighbours / transmissionRange: %s", Double.toString(averageDistanceFromNeighbours / transmissionRange)));
-		SimLog.println(String.format("battery * 2: %s", Double.toString(battery * 2)));
+//		SimLog.println(String.format("computingWeight: %s", Double.toString(computingWeight)));
+//		SimLog.println(String.format("currentNeighborsCount: %s", Integer.toString(currentNeighborsCount)));
+//		SimLog.println(String.format("nextNeighborsCount: %s", Integer.toString(nextNeighborsCount)));
+//		SimLog.println(String.format("averageDistanceFromNeighbours / transmissionRange: %s", Double.toString(averageDistanceFromNeighbours / transmissionRange)));
+//		SimLog.println(String.format("battery * 2: %s", Double.toString(battery * 2)));
 
 		// capacity/#neighbours + #neighbours + #futureNeighbours + averageDistanceFromNeighbours / myTransmissionRange + remainingEnergy
 		double weightToReturn = computingWeight
@@ -212,7 +212,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 			+ averageDistanceFromNeighbours / transmissionRange
 			+ battery * 2;
 
-		SimLog.println(String.format("weightToReturn: %s", Double.toString(weightToReturn)));
+//		SimLog.println(String.format("weightToReturn: %s", Double.toString(weightToReturn)));
 
 		return weightToReturn;
 	}
@@ -236,7 +236,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	private ArrayList<TesisClusteringDevice> getNeighbors() {
-		SimLog.println(String.format("Distances from %d", this.getId()));
+//		SimLog.println(String.format("Distances from %d", this.getId()));
 		return Formulas.getPredictedNeighbours(
 			this.edgeDevices,
 			simulationManager.getSimulation().clock(),
@@ -305,7 +305,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 		// If the new orchestrator is another device (not this one)
 		if (this.isOrchestrator() && this != newOrchestrator) {
-			SimLog.println(String.format("%d is setting external orchestrator: %d", this.getId(), newOrchestrator.getId()));
+//			SimLog.println(String.format("%d is setting external orchestrator: %d", this.getId(), newOrchestrator.getId()));
 
 			// this device is no more an orchestrator;
 			this.orchestrator = newOrchestrator;
