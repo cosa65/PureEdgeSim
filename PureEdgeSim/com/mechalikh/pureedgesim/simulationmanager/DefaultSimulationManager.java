@@ -179,6 +179,7 @@ public class DefaultSimulationManager extends SimulationManager {
 			break;
 
 		case EXECUTE_TASK:
+			SimLog.println("ExecuteTaskDebug");
 			// Offlaoding request received by the destination, execute the task.
 			if (taskFailed(task, 2))
 				return;
