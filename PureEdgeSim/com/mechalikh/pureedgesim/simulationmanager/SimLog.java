@@ -589,6 +589,10 @@ public class SimLog {
 	}
 
 	public void incrementTasksFailed(Task task) {
+//		These are not real tasks, just the algorithm
+		if (task.getOrchestratorOnly())
+			return;
+
 		this.tasksFailed++;
 		if (task.getOffloadingDestination() == null)
 			return;

@@ -23,6 +23,7 @@ package com.mechalikh.pureedgesim.network;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.taskgenerator.Application;
 import org.jgrapht.GraphPath;
 
@@ -137,12 +138,15 @@ public class DefaultNetworkModel extends NetworkModel {
 					new TransferProgress(task, task.getFileSizeInBits(), TransferProgress.Type.TASK));
 	}
 
+	int offloadedTotal = 0;
+
 	public void sendResultFromOrchToDev(Task task) {
 		if (task.getOrchestrator() != task.getEdgeDevice())
 			send(task.getOrchestrator(), task.getEdgeDevice(), task, task.getOutputSizeInBits(),
 					TransferProgress.Type.RESULTS_TO_DEV);
 		else
 			scheduleNow(simulationManager, DefaultSimulationManager.RESULT_RETURN_FINISHED, task);
+			this.offloadedTotal += 1;
 
 	}
 
@@ -279,5 +283,7 @@ public class DefaultNetworkModel extends NetworkModel {
 	@Override
 	public void onSimulationEnd() {
 		// Do something when the simulation finishes.
+		SimLog.println("offloadedTotalDebug");
+		SimLog.println(Integer.toString(this.offloadedTotal));
 	}
 }

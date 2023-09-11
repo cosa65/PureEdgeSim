@@ -84,7 +84,7 @@ public class ApplicationFileParser extends XmlFileParser {
 				// The type of application.
 				String type = appElement.getElementsByTagName("type").item(0).getTextContent();
 
-				boolean orchestratorOnly = Boolean.parseBoolean(appElement.getElementsByTagName("type").item(0).getTextContent());
+				boolean orchestratorOnly = Boolean.parseBoolean(appElement.getElementsByTagName("orchestrator_only").item(0).getTextContent());
 
 				// Save applications parameters.
 				SimulationParameters.applicationList.add(new Application(type, rate, usagePercentage, latency,

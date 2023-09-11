@@ -95,10 +95,9 @@ public class DefaultTaskGenerator extends TaskGenerator {
 	protected void generateTasksForDevice(ComputingNode dev, int app) {
 		IntStream.range(0, (int) simulationTime)
 				// First get time in seconds
-				.forEach(st -> insert((st * 60)
-						// Then pick up random second in this minute "st". Shift the time by a random
-						// value
-						+ random.nextInt(15), app, dev));
+				.forEach(st -> insert(st * 60 + random.nextInt(15), app, dev));
+
+		double b = 1;
 	}
 
 	/**

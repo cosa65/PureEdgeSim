@@ -76,7 +76,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 
 	private HashSet<TesisClusteringDevice> cluster;
 	private static final int UPDATE_CLUSTERS = 11000;
-	private static final double weightDrop = 0.2;
+	private static final double weightDrop = 0.5;
 	private static final int updateClusterPollingSlot = 1;
 
 	private int time = -30;
@@ -206,11 +206,11 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 //		SimLog.println(String.format("battery * 2: %s", Double.toString(battery * 2)));
 
 		// capacity/#neighbours + #neighbours + #futureNeighbours + averageDistanceFromNeighbours / myTransmissionRange + remainingEnergy
-		double weightToReturn = computingWeight
-			+ currentNeighborsCount
-			+ nextNeighborsCount
-			+ averageDistanceFromNeighbours / transmissionRange
-			+ battery * 2;
+		double weightToReturn = 0.4 * computingWeight
+			+ 0.1 * currentNeighborsCount
+			+ 0.1 * nextNeighborsCount
+			+ 0.2 * (averageDistanceFromNeighbours / transmissionRange)
+			+ 0.2 * (battery * 2);
 
 //		SimLog.println(String.format("weightToReturn: %s", Double.toString(weightToReturn)));
 

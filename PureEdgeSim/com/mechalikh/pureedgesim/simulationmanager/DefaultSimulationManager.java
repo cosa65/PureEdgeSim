@@ -169,7 +169,9 @@ public class DefaultSimulationManager extends SimulationManager {
 		case SEND_TO_ORCH:
 			// Send the offloading request to the closest orchestrator.
 			sendTaskToOrchestrator(task);
-			sentTasks++;
+
+			if (!task.getOrchestratorOnly())
+				sentTasks++;
 			break;
 
 		case SEND_TASK_FROM_ORCH_TO_DESTINATION:
@@ -179,7 +181,6 @@ public class DefaultSimulationManager extends SimulationManager {
 			break;
 
 		case EXECUTE_TASK:
-			SimLog.println("ExecuteTaskDebug");
 			// Offlaoding request received by the destination, execute the task.
 			if (taskFailed(task, 2))
 				return;
@@ -267,6 +268,8 @@ public class DefaultSimulationManager extends SimulationManager {
 
 	}
 
+	int executedLocallyTotal = 0;
+
 	/**
 	 * Returns the task execution results to the orchestrator.
 	 *
@@ -280,6 +283,7 @@ public class DefaultSimulationManager extends SimulationManager {
 			scheduleNow(getNetworkModel(), NetworkModel.SEND_RESULT_TO_ORCH, task);
 		else // The task has been executed locally / no offloading
 			scheduleNow(this, RESULT_RETURN_FINISHED, task);
+			this.executedLocallyTotal += 1;
 
 		// Update tasks execution and waiting delays
 		simLog.getTasksExecutionInfos(task);
@@ -331,7 +335,9 @@ public class DefaultSimulationManager extends SimulationManager {
 
 		if (SimulationParameters.enableOrchestrators)
 			task.setOrchestrator(task.getEdgeDevice().getOrchestrator());
-		simLog.incrementTasksSent();
+
+		if (!task.getOrchestratorOnly())
+			simLog.incrementTasksSent();
 
 		scheduleNow(networkModel, NetworkModel.SEND_REQUEST_FROM_DEVICE_TO_ORCH, task);
 	}
@@ -402,9 +408,11 @@ public class DefaultSimulationManager extends SimulationManager {
 		}
 		// The task is failed due to long delay
 		if (phase == 3 && task.getTotalDelay() >= task.getMaxLatency()) {
-			task.setFailureReason(Task.FailureReason.FAILED_DUE_TO_LATENCY);
-			simLog.incrementTasksFailedLatency(task);
-			return setFailed(task, phase);
+//			TMP disable timeout
+			return false;
+//			task.setFailureReason(Task.FailureReason.FAILED_DUE_TO_LATENCY);
+//			simLog.incrementTasksFailedLatency(task);
+//			return setFailed(task, phase);
 		}
 		return false;
 	}
@@ -416,6 +424,8 @@ public class DefaultSimulationManager extends SimulationManager {
 	 * @param phase
 	 */
 	protected boolean setFailed(Task task, int phase) {
+		if (task.getOrchestratorOnly())
+			return true;
 
 		// Keep record of the failed and returned tasks
 		failedTasksCount++;
@@ -456,6 +466,14 @@ public class DefaultSimulationManager extends SimulationManager {
 	@Override
 	public void onSimulationEnd() {
 		// Do something when the simulation finishes.
+		SimLog.println("executedLocallyTotalDebug");
+		SimLog.println(Integer.toString(this.executedLocallyTotal));
+
+		SimLog.println("thisSentTasksDebug");
+		SimLog.println(Integer.toString(this.sentTasks));
+
+		SimLog.println("thisFailedTasksCountDebug");
+		SimLog.println(Integer.toString(this.failedTasksCount));
 	}
 
 }
