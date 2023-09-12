@@ -299,9 +299,10 @@ public class DefaultSimulationManager extends SimulationManager {
 		if (task.getEdgeDevice() != task.getOffloadingDestination())
 			scheduleNow(getNetworkModel(), SEND_RESULT_TO_ORCH, task);
 		else // The task has been executed locally / no offloading
-			if (!task.getOrchestratorOnly()) scheduleNow(this, RESULT_RETURN_FINISHED, task);
-
-			this.executedLocallyTotal += 1;
+			if (!task.getOrchestratorOnly()) {
+				scheduleNow(this, RESULT_RETURN_FINISHED, task);
+				this.executedLocallyTotal += 1;
+			}
 
 		// Update tasks execution and waiting delays
 		simLog.getTasksExecutionInfos(task);
