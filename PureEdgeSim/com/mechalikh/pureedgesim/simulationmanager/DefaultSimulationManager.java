@@ -245,7 +245,7 @@ public class DefaultSimulationManager extends SimulationManager {
 		case PRINT_LOG:
 			// Whether to wait or not, if some tasks have not been executed yet.
 			boolean shouldWaitForTasks = simLog.getGeneratedTasks() == 0 || tasksCount/simLog.getGeneratedTasks() < 1;
-			if (SimulationParameters.waitForAllTasksToFinish && shouldWaitForTasks) {
+			if (taskList.size() > 0 && SimulationParameters.waitForAllTasksToFinish && shouldWaitForTasks) {
 				// 1 = 100% , 0,9= 90%
 				// Some tasks may take hours to be executed that's why we don't wait until
 				// all of them get executed, but we only wait for 99% of tasks to be executed at
@@ -299,7 +299,8 @@ public class DefaultSimulationManager extends SimulationManager {
 		if (task.getEdgeDevice() != task.getOffloadingDestination())
 			scheduleNow(getNetworkModel(), SEND_RESULT_TO_ORCH, task);
 		else // The task has been executed locally / no offloading
-			scheduleNow(this, RESULT_RETURN_FINISHED, task);
+			if (!task.getOrchestratorOnly()) scheduleNow(this, RESULT_RETURN_FINISHED, task);
+
 			this.executedLocallyTotal += 1;
 
 		// Update tasks execution and waiting delays

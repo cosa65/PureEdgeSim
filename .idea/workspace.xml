@@ -121,6 +121,11 @@
           <line>158</line>
           <option name="timeStamp" value="49" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java</url>
+          <line>205</line>
+          <option name="timeStamp" value="70" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

@@ -192,14 +192,16 @@ public class SimLog {
 	}
 
 	public void printTasksRelatedResults() {
+		int generatedTasksSafeDivision = this.generatedTasksCount > 0 ? this.generatedTasksCount : 1;
+
 		print(getClass().getSimpleName() + " - Printing iteration output...");
 		print("------------------------------------------------------- OUTPUT -------------------------------------------------------");
 		print("");
 		print("Tasks not sent because device died (low energy)                         :"
-				+ padLeftSpaces(decimalFormat.format(notGeneratedBecDeviceDead / generatedTasksCount), 20) + " %% ("
+				+ padLeftSpaces(decimalFormat.format(notGeneratedBecDeviceDead / generatedTasksSafeDivision), 20) + " %% ("
 				+ notGeneratedBecDeviceDead + " tasks)");
 		print("Tasks sent from edge devices                                            :"
-				+ padLeftSpaces("" + decimalFormat.format(((double) tasksSent * 100) / ((double) generatedTasksCount)),
+				+ padLeftSpaces("" + decimalFormat.format(((double) tasksSent * 100) / ((double) generatedTasksSafeDivision)),
 						20)
 				+ " %% (" + tasksSent + " among " + generatedTasksCount + " generated tasks)");
 
