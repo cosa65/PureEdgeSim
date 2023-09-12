@@ -28,6 +28,9 @@ import com.mechalikh.pureedgesim.simulationengine.Event;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
 
+import static com.mechalikh.pureedgesim.simulationengine.EventType.EXECUTION_FINISHED;
+import static com.mechalikh.pureedgesim.simulationengine.EventType.TRANSFER_RESULTS_TO_ORCH;
+
 /**
  * This computing node class used by the simulator by default. PureEdgeSim's
  * users can extend it and use their custom class (@see
@@ -55,7 +58,6 @@ public class DefaultComputingNode extends LocationAwareNode {
 	protected List<Task> tasksQueue = new ArrayList<>();
 	protected double availableRam; // in Megabytes
 	protected double ram; // in Megabytes
-	protected static final int EXECUTION_FINISHED = 2;
 
 	public DefaultComputingNode(SimulationManager simulationManager, double mipsPerCore, int numberOfCPUCores,
 			double storage, double ram, String deviceTypeName) {
@@ -76,7 +78,7 @@ public class DefaultComputingNode extends LocationAwareNode {
 	@Override
 	public void processEvent(Event e) {
 		super.processEvent(e);
-		if (e.getTag() == EXECUTION_FINISHED)
+		if (e.getType() == EXECUTION_FINISHED)
 			executionFinished(e);
 	}
 
@@ -296,7 +298,7 @@ public class DefaultComputingNode extends LocationAwareNode {
 
 		// Notify the simulation manager that a task has been finished, and it's time to
 		// return the execution results.
-		scheduleNow(simulationManager, SimulationManager.TRANSFER_RESULTS_TO_ORCH, e.getData());
+		scheduleNow(simulationManager, TRANSFER_RESULTS_TO_ORCH, e.getData());
 
 		// If there are tasks waiting for execution
 		if (!getTasksQueue().isEmpty()) {

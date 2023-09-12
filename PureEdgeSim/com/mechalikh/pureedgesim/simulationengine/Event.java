@@ -9,22 +9,26 @@ public class Event implements Comparable<Event>, QueueElement {
 	protected Object data;
 	protected long serial;
 
-	public Event(SimEntity simEntity, Double time, int tag) {
+	protected EventType type;
+
+	public Event(SimEntity simEntity, Double time, EventType type) {
 		this.simEntity = simEntity;
 		this.time = time;
-		this.tag = tag;
+		this.type = type;
 	}
 
-	public Event(SimEntity simEntity, Double time, int tag, Object data) {
+	public Event(SimEntity simEntity, Double time, EventType eventType, Object data) {
 		this.simEntity = simEntity;
 		this.time = time;
-		this.tag = tag;
+		this.type = eventType;
 		this.data = data;
 	}
 
-	public int getTag() {
-		return tag;
-	}
+	public EventType getType() { return this.type; }
+
+//	public int getTag() {
+//		return tag;
+//	}
 
 	public double getTime() {
 		return time;
@@ -67,13 +71,13 @@ public class Event implements Comparable<Event>, QueueElement {
 		if (obj == null || getClass() != obj.getClass())
 			return false;
 		final Event that = (Event) obj;
-		return Double.compare(that.getTime(), getTime()) == 0 && getTag() == that.getTag()
-				&& getSerial() == that.getSerial();
+		return Double.compare(that.getTime(), getTime()) == 0 && this.getType() == that.getType()
+			&& getSerial() == that.getSerial();
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(getTime(), getTag(), getSerial());
+		return Objects.hash(getTime(), this.getType(), getSerial());
 	}
 
 	public long getSerial() {

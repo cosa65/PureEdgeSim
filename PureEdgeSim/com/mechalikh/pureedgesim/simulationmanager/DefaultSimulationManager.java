@@ -23,7 +23,6 @@ package com.mechalikh.pureedgesim.simulationmanager;
 import java.io.IOException;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
-import com.mechalikh.pureedgesim.network.NetworkModel;
 import com.mechalikh.pureedgesim.scenariomanager.Scenario;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters.TYPES;
@@ -31,6 +30,8 @@ import com.mechalikh.pureedgesim.simulationengine.Event;
 import com.mechalikh.pureedgesim.simulationengine.PureEdgeSim;
 import com.mechalikh.pureedgesim.simulationvisualizer.SimulationVisualizer;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
+
+import static com.mechalikh.pureedgesim.simulationengine.EventType.*;
 
 /**
  * The {@code SimulationManager} class represents the default implementation of
@@ -154,8 +155,11 @@ public class DefaultSimulationManager extends SimulationManager {
 	 */
 	@Override
 	public void processEvent(Event ev) {
+		SimLog.println("evnameDebug");
+		SimLog.println(ev.getType().name());
+
 		Task task = (Task) ev.getData();
-		switch (ev.getTag()) {
+		switch (ev.getType()) {
 		case NEXT_BATCH:
 			// Schedule this batch.
 			for (int i = 0; i < Math.min(taskList.size(), SimulationParameters.batchSize); i++) {
@@ -280,7 +284,7 @@ public class DefaultSimulationManager extends SimulationManager {
 			return;
 		// If the task was offloaded
 		if (task.getEdgeDevice() != task.getOffloadingDestination())
-			scheduleNow(getNetworkModel(), NetworkModel.SEND_RESULT_TO_ORCH, task);
+			scheduleNow(getNetworkModel(), SEND_RESULT_TO_ORCH, task);
 		else // The task has been executed locally / no offloading
 			scheduleNow(this, RESULT_RETURN_FINISHED, task);
 			this.executedLocallyTotal += 1;
@@ -320,7 +324,7 @@ public class DefaultSimulationManager extends SimulationManager {
 		simLog.taskSentFromOrchToDest(task);
 
 		// Send the task from the orchestrator to the destination
-		scheduleNow(getNetworkModel(), NetworkModel.SEND_REQUEST_FROM_ORCH_TO_DESTINATION, task);
+		scheduleNow(getNetworkModel(), SEND_REQUEST_FROM_ORCH_TO_DESTINATION, task);
 
 	}
 
@@ -339,7 +343,7 @@ public class DefaultSimulationManager extends SimulationManager {
 		if (!task.getOrchestratorOnly())
 			simLog.incrementTasksSent();
 
-		scheduleNow(networkModel, NetworkModel.SEND_REQUEST_FROM_DEVICE_TO_ORCH, task);
+		scheduleNow(networkModel, SEND_REQUEST_FROM_DEVICE_TO_ORCH, task);
 	}
 
 	/**

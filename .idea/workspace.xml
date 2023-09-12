@@ -6,14 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="28ec3683-b113-40f8-bead-f2759b175d48" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/AbstractNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/AbstractNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/DefaultComputingNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/DefaultComputingNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/DefaultNetworkModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/DefaultNetworkModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/scenariomanager/ApplicationFileParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/scenariomanager/ApplicationFileParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/NetworkLink.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/NetworkLink.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/NetworkModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/NetworkModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationengine/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationengine/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationengine/SimEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationengine/SimEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/DefaultTaskGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/DefaultTaskGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimulationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimulationManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/examples/Example4CustomComputingNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/examples/Example4CustomComputingNode.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/examples/Example7ClusteringDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/examples/Example7ClusteringDevice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/examples/Example7CustomNetworkModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/examples/Example7CustomNetworkModel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisCustomNetworkModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisCustomNetworkModel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +125,7 @@
         </breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java</url>
-          <line>173</line>
+          <line>177</line>
           <option name="timeStamp" value="46" />
         </line-breakpoint>
       </breakpoints>

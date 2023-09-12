@@ -30,11 +30,13 @@ import com.mechalikh.pureedgesim.simulationengine.Event;
 import com.mechalikh.pureedgesim.simulationengine.SimEntity;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 
+import static com.mechalikh.pureedgesim.simulationengine.EventType.TRANSFER_FINISHED;
+import static com.mechalikh.pureedgesim.simulationengine.EventType.UPDATE_PROGRESS;
+
 /**
  * Link between two compute nodes in the infrastructure graph
  */
 public class NetworkLink extends SimEntity {
-	public static final int UPDATE_PROGRESS = 1;
 	protected double latency = 0;
 	protected double bandwidth = 0;
 	protected List<TransferProgress> transferProgressList = new ArrayList<>();
@@ -107,7 +109,7 @@ public class NetworkLink extends SimEntity {
 
 	@Override
 	public void processEvent(Event evt) {
-		if (evt.getTag() == UPDATE_PROGRESS) {
+		if (evt.getType() == UPDATE_PROGRESS) {
 			// Update the progress of the current transfers and their allocated bandwidth
 			updateTransfersProgress();
 			if (this.transferProgressList.size() != 0)
@@ -185,7 +187,7 @@ public class NetworkLink extends SimEntity {
 			// Update logger parameters
 			simulationManager.getSimulationLogger().updateNetworkUsage(transfer);
 
-			schedule(simulationManager.getNetworkModel(), latency, NetworkModel.TRANSFER_FINISHED, transfer);
+			schedule(simulationManager.getNetworkModel(), latency, TRANSFER_FINISHED, transfer);
 		} else {
 			// Still did not reach destination, send it to the next hop
 			transfer.setRemainingFileSize(transfer.getFileSize());

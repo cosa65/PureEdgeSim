@@ -33,12 +33,6 @@ import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
  * @since PureEdgeSim 5.0
  */
 public abstract class NetworkModel extends SimEntity {
-	public static final int SEND_REQUEST_FROM_ORCH_TO_DESTINATION = 1;
-	protected static final int TRANSFER_FINISHED = 2;
-	public static final int DOWNLOAD_CONTAINER = 3;
-	public static final int SEND_REQUEST_FROM_DEVICE_TO_ORCH = 4;
-	public static final int SEND_RESULT_TO_ORCH = 6;
-	public static final int SEND_RESULT_FROM_ORCH_TO_DEV = 7;
 	// the list where the current (and the previous)
 	// transferred files are stored
 	protected SimulationManager simulationManager;

@@ -48,18 +48,8 @@ public abstract class SimulationManager extends SimEntity {
 	 * Simulation manager tags.
 	 * 
 	 * @see com.mechalikh.pureedgesim.simulationengine.SimEntity#schedule(SimEntity
-	 *      simEntity, Double time, int tag)
+	 *      simEntity, Double time, EventType eventType)
 	 **/
-	protected static final int PRINT_LOG = 1;
-	protected static final int SHOW_PROGRESS = 2;
-	public static final int EXECUTE_TASK = 3;
-	public static final int TRANSFER_RESULTS_TO_ORCH = 4;
-	public static final int RESULT_RETURN_FINISHED = 5;
-	public static final int SEND_TO_ORCH = 6;
-	public static final int UPDATE_REAL_TIME_CHARTS = 7;
-	public static final int SEND_TASK_FROM_ORCH_TO_DESTINATION = 8;
-	protected static final int NEXT_BATCH = 9; 
-
 	private Random random = new Random();
 
 	protected Orchestrator edgeOrchestrator;

@@ -34,6 +34,8 @@ import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationvisualizer.ClustersMapChart;
 import utils.Formulas;
 
+import static com.mechalikh.pureedgesim.simulationengine.EventType.UPDATE_CLUSTERS;
+
 /** You must read this to understand 
  * This is a simple example showing how to launch simulation using a custom
  * network model. The CustomNetworkModel.java is located under the examples/f
@@ -75,7 +77,6 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	private TesisClusteringDevice parent = this;
 
 	private HashSet<TesisClusteringDevice> cluster;
-	private static final int UPDATE_CLUSTERS = 11000;
 	private static final double weightDrop = 0.5;
 	private static final int updateClusterPollingSlot = 1;
 
@@ -134,7 +135,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	 */
 	@Override
 	public void processEvent(Event ev) {
-		switch (ev.getTag()) {
+		switch (ev.getType()) {
 			case UPDATE_CLUSTERS:
 				if ("CLUSTER".equals(SimulationParameters.deployOrchestrators)) {
 					time = (int) getSimulation().clock();

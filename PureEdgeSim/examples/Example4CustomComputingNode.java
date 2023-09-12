@@ -21,8 +21,11 @@
 package examples;
 
 import com.mechalikh.pureedgesim.datacentersmanager.DefaultComputingNode;
-import com.mechalikh.pureedgesim.simulationengine.Event; 
+import com.mechalikh.pureedgesim.simulationengine.Event;
+import com.mechalikh.pureedgesim.simulationengine.EventType;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
+
+import static com.mechalikh.pureedgesim.simulationengine.EventType.UPDATE_STATUS;
 
 /**
  * To create your own custom edge device/data center class, you need to extend the DataCenter class first.
@@ -53,7 +56,7 @@ public class Example4CustomComputingNode extends DefaultComputingNode {
 	@Override
 	public void startInternal() {
 		super.startInternal();
-		scheduleNow(this, DO_SOMETHING);
+		scheduleNow(this, UPDATE_STATUS);
 
 	}
 
@@ -65,8 +68,8 @@ public class Example4CustomComputingNode extends DefaultComputingNode {
 	 */
 	@Override
 	public void processEvent(final Event ev) {
-		switch (ev.getTag()) {
-		case DO_SOMETHING:
+		switch (ev.getType()) {
+		case UPDATE_STATUS:
 			System.out.println("Event received, you can do any action here");
 			break;
 		default:

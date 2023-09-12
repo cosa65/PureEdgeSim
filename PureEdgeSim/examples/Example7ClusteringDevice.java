@@ -27,6 +27,7 @@ import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.datacentersmanager.DefaultComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationengine.Event;
+import com.mechalikh.pureedgesim.simulationengine.EventType;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 
 /** You must read this to understand 
@@ -94,7 +95,7 @@ public class Example7ClusteringDevice extends DefaultComputingNode {
 	@Override
 	public void startInternal() {
 		super.startInternal();
-		schedule(this, 1, UPDATE_CLUSTERS);
+		schedule(this, 1, EventType.UPDATE_CLUSTERS);
 	}
 
 	/**
@@ -104,7 +105,7 @@ public class Example7ClusteringDevice extends DefaultComputingNode {
 	 */
 	@Override
 	public void processEvent(Event ev) {
-		switch (ev.getTag()) {
+		switch (ev.getType()) {
 		case UPDATE_CLUSTERS:
 			if ("CLUSTER".equals(SimulationParameters.deployOrchestrators) && (getSimulation().clock() - time > 30)) {
 				time = (int) getSimulation().clock();
@@ -114,7 +115,7 @@ public class Example7ClusteringDevice extends DefaultComputingNode {
 					((Example7ClusteringDevice) edgeDevices.get(i)).updateCluster();
 
 				// Schedule the next update.
-				schedule(this, 1, UPDATE_CLUSTERS);
+				schedule(this, 1, EventType.UPDATE_CLUSTERS);
 			}
 
 			break;

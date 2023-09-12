@@ -18,18 +18,16 @@ package com.mechalikh.pureedgesim.datacentersmanager;
 
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationengine.Event;
+import com.mechalikh.pureedgesim.simulationengine.EventType;
 import com.mechalikh.pureedgesim.simulationengine.SimEntity;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
+
+import static com.mechalikh.pureedgesim.simulationengine.EventType.UPDATE_STATUS;
+
 /**
  * This abstract class represents a computing node in the simulation.
  */
 public abstract class AbstractNode extends SimEntity implements ComputingNode {
-    
-    /**
-     * The update status event ID.
-     */
-    protected static final int UPDATE_STATUS = 1;
-
     /**
      * The type of this node, whether a cloud data center, an edge data center, or an edge/IoT device.
      *
@@ -92,7 +90,7 @@ public abstract class AbstractNode extends SimEntity implements ComputingNode {
      * @param e the event to be processed
      */
     public void processEvent(Event e) {
-        if (e.getTag() == UPDATE_STATUS) {
+        if (e.getType() == UPDATE_STATUS) {
             updateStatus();
             schedule(this, SimulationParameters.updateInterval, UPDATE_STATUS);
         }

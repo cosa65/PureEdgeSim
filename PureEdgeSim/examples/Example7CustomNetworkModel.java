@@ -29,6 +29,9 @@ import com.mechalikh.pureedgesim.simulationmanager.DefaultSimulationManager;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
 
+import static com.mechalikh.pureedgesim.simulationengine.EventType.DOWNLOAD_CONTAINER;
+import static com.mechalikh.pureedgesim.simulationengine.EventType.EXECUTE_TASK;
+
 /** You must read this to understand 
  * This is a simple example showing how to launch simulation using a custom
  * network model. The CustomNetworkModel.java is located under the examples/f
@@ -156,7 +159,7 @@ public class Example7CustomNetworkModel extends DefaultNetworkModel {
 		if (!((Example7CachingDevice) task.getEdgeDevice().getOrchestrator())
 				.hasRemoteContainer(task.getApplicationID())) {
 			// No replica found
-			scheduleNow(this, NetworkModel.DOWNLOAD_CONTAINER, task);
+			scheduleNow(this, DOWNLOAD_CONTAINER, task);
 		} else { // replica found
 			pullFromCache(task);
 		}
@@ -168,7 +171,7 @@ public class Example7CustomNetworkModel extends DefaultNetworkModel {
 		if (((Example7CachingDevice) task.getOffloadingDestination()).hasContainer(task.getApplicationID())
 				|| ((Example7CachingDevice) task.getOffloadingDestination()).getType() == TYPES.CLOUD) {
 			// This device has a replica in its cache, so execute a task directly
-			scheduleNow(simulationManager, DefaultSimulationManager.EXECUTE_TASK, task);
+			scheduleNow(simulationManager, EXECUTE_TASK, task);
 		} else {
 			int from = ((Example7CachingDevice) task.getEdgeDevice().getOrchestrator())
 					.findReplica(task.getApplicationID());
@@ -177,7 +180,7 @@ public class Example7CustomNetworkModel extends DefaultNetworkModel {
 			task.setRegistry(
 					simulationManager.getDataCentersManager().getComputingNodesGenerator().getAllNodesList().get(from));
 			// Pull container from another edge device
-			scheduleNow(this, NetworkModel.DOWNLOAD_CONTAINER, task);
+			scheduleNow(this, DOWNLOAD_CONTAINER, task);
 		}
 
 	}

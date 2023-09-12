@@ -33,32 +33,32 @@ public abstract class SimEntity {
 		this.simulation = simulator;
 	}
 
-	protected Event schedule(SimEntity simEntity, Double time, int tag) {
-		Event e = new Event(simEntity, simulation.clock() + time, tag);
+	protected Event schedule(SimEntity simEntity, Double time, EventType eventType) {
+		Event e = new Event(simEntity, simulation.clock() + time, eventType);
 		simulation.insert(e);
 		return e;
 	}
 
-	protected Event schedule(SimEntity simEntity, int time, int tag) {
-		Event e = new Event(simEntity, simulation.clock() + time, tag);
+	protected Event schedule(SimEntity simEntity, int time, EventType eventType) {
+		Event e = new Event(simEntity, simulation.clock() + time, eventType);
 		simulation.insert(e);
 		return e;
 	}
 
-	protected Event schedule(SimEntity simEntity, Double time, int tag, Object data) {
-		Event e = new Event(simEntity, simulation.clock() + time, tag, data);
+	protected Event schedule(SimEntity simEntity, Double time, EventType eventType, Object data) {
+		Event e = new Event(simEntity, simulation.clock() + time, eventType, data);
 		simulation.insert(e); 
 		return e;
 	}
 
-	protected Event scheduleNow(SimEntity simEntity, int tag) {
-		Event e = new Event(simEntity, simulation.clock(), tag);
+	protected Event scheduleNow(SimEntity simEntity, EventType eventType) {
+		Event e = new Event(simEntity, simulation.clock(), eventType);
 		simulation.insertFirst(e);
 		return e;
 	}
 
-	protected Event scheduleNow(SimEntity simEntity, int tag, Object data) {
-		Event e = new Event(simEntity, simulation.clock(), tag, data);
+	protected Event scheduleNow(SimEntity simEntity, EventType eventType, Object data) {
+		Event e = new Event(simEntity, simulation.clock(), eventType, data);
 		simulation.insertFirst(e);
 		return e;
 	}

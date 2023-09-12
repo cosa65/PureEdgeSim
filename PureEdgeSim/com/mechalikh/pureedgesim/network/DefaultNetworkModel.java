@@ -37,6 +37,8 @@ import com.mechalikh.pureedgesim.simulationmanager.DefaultSimulationManager;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
 
+import static com.mechalikh.pureedgesim.simulationengine.EventType.*;
+
 public class DefaultNetworkModel extends NetworkModel {
 
 	public DefaultNetworkModel(SimulationManager simulationManager) {
@@ -45,7 +47,7 @@ public class DefaultNetworkModel extends NetworkModel {
 
 	@Override
 	public void processEvent(Event ev) {
-		switch (ev.getTag()) {
+		switch (ev.getType()) {
 		case SEND_REQUEST_FROM_DEVICE_TO_ORCH:
 			// Send the offloading request to the orchestrator
 			sendRequestFromDeviceToOrch((Task) ev.getData());
@@ -145,7 +147,7 @@ public class DefaultNetworkModel extends NetworkModel {
 			send(task.getOrchestrator(), task.getEdgeDevice(), task, task.getOutputSizeInBits(),
 					TransferProgress.Type.RESULTS_TO_DEV);
 		else
-			scheduleNow(simulationManager, DefaultSimulationManager.RESULT_RETURN_FINISHED, task);
+			scheduleNow(simulationManager, RESULT_RETURN_FINISHED, task);
 			this.offloadedTotal += 1;
 
 	}
@@ -157,7 +159,7 @@ public class DefaultNetworkModel extends NetworkModel {
 //		orchestratorOnly tasks don't get sent back because they aren't actual tasks,
 //		they are metadata updates that don't even count as successfully finished tasks
 		else if (!task.getOrchestratorOnly()) {
-			scheduleNow(this, DefaultNetworkModel.SEND_RESULT_FROM_ORCH_TO_DEV, task);
+			scheduleNow(this, SEND_RESULT_FROM_ORCH_TO_DEV, task);
 		}
 
 	}
@@ -167,7 +169,7 @@ public class DefaultNetworkModel extends NetworkModel {
 			send(task.getRegistry(), task.getOffloadingDestination(), task, task.getContainerSizeInBits(),
 					TransferProgress.Type.CONTAINER);
 		else
-			scheduleNow(simulationManager, DefaultSimulationManager.EXECUTE_TASK, task);
+			scheduleNow(simulationManager, EXECUTE_TASK, task);
 	}
 
 	public void sendRequestFromDeviceToOrch(Task task) {
@@ -178,7 +180,7 @@ public class DefaultNetworkModel extends NetworkModel {
 		} else // The device orchestrates its tasks by itself, so, send the request directly to
 				// destination
 		{
-			scheduleNow(simulationManager, DefaultSimulationManager.SEND_TASK_FROM_ORCH_TO_DESTINATION, task);
+			scheduleNow(simulationManager, SEND_TASK_FROM_ORCH_TO_DESTINATION, task);
 		}
 	}
 
@@ -237,17 +239,17 @@ public class DefaultNetworkModel extends NetworkModel {
 	}
 
 	protected void containerDownloadFinished(TransferProgress transfer) {
-		scheduleNow(simulationManager, DefaultSimulationManager.EXECUTE_TASK, transfer.getTask());
+		scheduleNow(simulationManager, EXECUTE_TASK, transfer.getTask());
 	}
 
 	protected void resultsReturnedToDevice(TransferProgress transfer) {
-		scheduleNow(simulationManager, DefaultSimulationManager.RESULT_RETURN_FINISHED, transfer.getTask());
+		scheduleNow(simulationManager, RESULT_RETURN_FINISHED, transfer.getTask());
 	}
 
 	protected void returnResultsToDevice(TransferProgress transfer) {
 		if (transfer.getTask().getOrchestratorOnly()) return;
 
-		scheduleNow(this, NetworkModel.SEND_RESULT_FROM_ORCH_TO_DEV, transfer.getTask());
+		scheduleNow(this, SEND_RESULT_FROM_ORCH_TO_DEV, transfer.getTask());
 	}
 
 	protected void executeTaskOrDownloadContainer(TransferProgress transfer) {
@@ -256,15 +258,15 @@ public class DefaultNetworkModel extends NetworkModel {
 			// If the registry is enabled and the task is offloaded to the edge data centers
 			// or the mist nodes (edge devices),
 			// then download the container
-			scheduleNow(this, DefaultNetworkModel.DOWNLOAD_CONTAINER, transfer.getTask());
+			scheduleNow(this, DOWNLOAD_CONTAINER, transfer.getTask());
 
 		} else// if the registry is disabled, execute directly the task
-			scheduleNow(simulationManager, DefaultSimulationManager.EXECUTE_TASK, transfer.getTask());
+			scheduleNow(simulationManager, EXECUTE_TASK, transfer.getTask());
 	}
 
 	protected void offloadingRequestRecievedByOrchestrator(TransferProgress transfer) {
 		// Find the offloading destination and execute the task
-		scheduleNow(simulationManager, DefaultSimulationManager.SEND_TASK_FROM_ORCH_TO_DESTINATION, transfer.getTask());
+		scheduleNow(simulationManager, SEND_TASK_FROM_ORCH_TO_DESTINATION, transfer.getTask());
 	}
 
 	/**
