@@ -525,8 +525,8 @@ public class SimLog {
 		print(DEFAULT, line, args);
 	}
 
-	public static void println(String line, Object... args) {
-		System.out.format(line + "\n", args);
+	public static void println(Object line, Object... args) {
+		System.out.format(line.toString() + "\n", args);
 	}
 
 	public void deepLog(String line, Object... args) {
@@ -546,15 +546,15 @@ public class SimLog {
 		print(NO_TIME, line, args);
 	}
 
-	public void printSameLine(String line, String color) {
+	public void printSameLine(Object line, String color) {
 		if ("red".equalsIgnoreCase(color))
-			System.err.print(line);
+			System.err.print(line.toString());
 		else
-			System.out.print(line);
+			System.out.print(line.toString());
 	}
 
-	public void printSameLine(String line) {
-		System.out.print(line);
+	public void printSameLine(Object line) {
+		System.out.print(line.toString());
 	}
 
 	public int getGeneratedTasks() {

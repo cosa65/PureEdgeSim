@@ -57,7 +57,7 @@ public class DefaultSimulationManager extends SimulationManager {
 	 * Simulation progress parameters.
 	 **/
 	protected int lastWrittenNumber = 0;
-	protected int oldProgress = -1;
+	protected long oldProgress = -1;
 
 	/**
 	 * The number of failed tasks.
@@ -114,7 +114,7 @@ public class DefaultSimulationManager extends SimulationManager {
 	@Override
 	public void startInternal() {
 		// Initialize logger variables.
-		simLog.setGeneratedTasks(taskList.size());
+		simLog.setGeneratedTasks(taskList.stream().filter(task -> !task.getOrchestratorOnly()).toList().size());
 		simLog.setCurrentOrchPolicy(scenario.getStringOrchArchitecture());
 
 		simLog.print("%s - Simulation: %d  , iteration: %d", getClass().getSimpleName(), getSimulationId(),
@@ -155,8 +155,8 @@ public class DefaultSimulationManager extends SimulationManager {
 	 */
 	@Override
 	public void processEvent(Event ev) {
-		SimLog.println("evnameDebug");
-		SimLog.println(ev.getType().name());
+//		SimLog.println("evnameDebug");
+//		SimLog.println(ev.getType().name());
 
 		Task task = (Task) ev.getData();
 		switch (ev.getType()) {
@@ -208,16 +208,29 @@ public class DefaultSimulationManager extends SimulationManager {
 
 		case SHOW_PROGRESS:
 			// Calculate the simulation progress.
-			int progress = simLog.getGeneratedTasks() == 0 ? 100 : 100 * tasksCount / simLog.getGeneratedTasks();
-			if (oldProgress != progress) {
-				oldProgress = progress;
-				if (progress % 10 == 0 || (progress % 10 < 5) && lastWrittenNumber + 10 < progress) {
-					lastWrittenNumber = progress - progress % 10;
-					if (lastWrittenNumber != 100)
-						simLog.printSameLine(" " + lastWrittenNumber + " ", "red");
-				} else
-					simLog.printSameLine("#", "red");
+//			int progress = simLog.getGeneratedTasks() == 0 ? 100 : 100 * tasksCount / simLog.getGeneratedTasks();
+//			SimLog.println("simLoggetGeneratedTasksDebug");
+//			SimLog.println(simLog.getGeneratedTasks());
+
+			long progress = Math.round((this.simulation.clock() / SimulationParameters.simulationDuration) * 100);
+
+			if (oldProgress != progress && progress % 5 == 0) {
+				this.oldProgress = progress;
+
+				if (progress > 0) this.simLog.printSameLine(" ", "red");
+
+				this.simLog.printSameLine(progress, "red");
+				this.simLog.printSameLine("%", "red");
+
+//				oldProgress = progress;
+//				if (progress % 10 == 0 || (progress % 10 < 5) && lastWrittenNumber + 10 < progress) {
+//					lastWrittenNumber = progress - progress % 10;
+//					if (lastWrittenNumber != 100)
+//						simLog.printSameLine(" " + lastWrittenNumber + " ", "red");
+//				} else
+//					simLog.printSameLine("#", "red");
 			}
+//			SimLog.println("ShowProgressDbug");
 			schedule(this, SimulationParameters.simulationDuration / 100, SHOW_PROGRESS);
 			break;
 
