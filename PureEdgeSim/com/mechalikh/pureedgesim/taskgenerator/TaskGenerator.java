@@ -34,7 +34,7 @@ public abstract class TaskGenerator {
 	 * @see #setCustomTaskClass(Class)
 	 */
 
-	protected Class<? extends Task> taskClass = DefaultTask.class;
+	protected Class<? extends Task> taskClass = Task.class;
 
 	/**
 	 * The ordered list of offloading requests.

@@ -26,7 +26,6 @@ import com.mechalikh.pureedgesim.network.TransferProgress;
 import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationAbstract.Files;
 import com.mechalikh.pureedgesim.taskgenerator.Application;
-import com.mechalikh.pureedgesim.taskgenerator.Task;
 
 public class SimulationParameters {
 	

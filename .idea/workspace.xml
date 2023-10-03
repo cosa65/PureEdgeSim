@@ -6,8 +6,22 @@
   <component name="ChangeListManager">
     <list default="true" id="28ec3683-b113-40f8-bead-f2759b175d48" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNodesGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/datacentersmanager/ComputingNodesGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/DefaultNetworkModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/network/DefaultNetworkModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/scenariomanager/SimulationParameters.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/scenariomanager/SimulationParameters.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/SimLog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/DefaultTask.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/TaskAbstract.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/TaskGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/taskgenerator/TaskGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/examples/Example7CustomNetworkModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/examples/Example7CustomNetworkModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisClusteringDevice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisCustomNetworkModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisCustomNetworkModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisOrchestrator.java" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/TesisOrchestrator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/applications.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/cloud.xml" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/cloud.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" beforeDir="false" afterPath="$PROJECT_DIR$/PureEdgeSim/tesis/Tesis_settings/simulation_parameters.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +70,19 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration name="Tesis" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="tesis.Tesis" />
+      <module name="pureedgesim" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="tesis.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="JetRunConfigurationType">
       <module name="PureEdgeSim" />
       <method v="2">
@@ -69,6 +96,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Tesis" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -111,21 +143,6 @@
           <properties class="java.lang.StackOverflowError" package="java.lang" />
           <option name="timeStamp" value="45" />
         </breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java</url>
-          <line>177</line>
-          <option name="timeStamp" value="46" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java</url>
-          <line>158</line>
-          <option name="timeStamp" value="49" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/PureEdgeSim/com/mechalikh/pureedgesim/simulationmanager/DefaultSimulationManager.java</url>
-          <line>205</line>
-          <option name="timeStamp" value="70" />
-        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>

@@ -42,7 +42,6 @@ import com.mechalikh.pureedgesim.energy.EnergyModelNetworkLink;
 import com.mechalikh.pureedgesim.network.NetworkLink;
 import com.mechalikh.pureedgesim.network.TransferProgress;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
-import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters.TYPES;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
 
 public class SimLog {
@@ -102,6 +101,7 @@ public class SimLog {
 		if (isFirstIteration) {
 			// Add the CSV file header
 			resultsList.add("Orchestration architecture,Orchestration algorithm,Edge devices count,"
+					+ "Total request completion time (s), Average request completion time (s),"
 					+ "Total tasks execution delay (s),Average execution delay (s),Total tasks waiting time (s),"
 					+ "Average waiting time (s),Number of generated tasks,Tasks successfully executed,"
 					+ "Task not executed (No resources available or long waiting time),Tasks failed (delay),Tasks failed (device dead),"
@@ -120,8 +120,9 @@ public class SimLog {
 		}
 	}
 
-	public void showIterationResults(List<Task> finishedTasks) {
+	public void showSimulationResults(List<Task> finishedTasks) {
 		printTasksRelatedResults();
+		printToCsv(finishedTasks);
 		printNetworkRelatedResults();
 		printCPUUtilizationResults();
 		printPowerConsumptionResults(finishedTasks);
@@ -191,6 +192,30 @@ public class SimLog {
 		return averageCpuUtilization;
 	}
 
+	public void printToCsv(List<Task> finishedTasks) {
+		double totalRequestCompletionTime = finishedTasks.stream()
+			.map((task) -> task.getCompletionTime())
+			.reduce(0.0, (element1, element2) -> element1 + element2);
+
+		double averageRequestCompletionTime = totalRequestCompletionTime / finishedTasks.size();
+
+//		double totalDelay = this.taskList.stream()
+//			.filter(task -> !task.getOrchestratorOnly())
+//			.reduce(0.0, (acum, task) -> task.getTotalDelay() + acum, Double::sum);
+
+		resultsList.add(currentOrchArchitecture + "," + currentOrchAlgorithm + "," + currentEdgeDevicesCount + ","
+			+ decimalFormat.format(totalRequestCompletionTime) + "," + decimalFormat.format(averageRequestCompletionTime) + ","
+			+ decimalFormat.format(totalExecutionTime) + ","
+			+ decimalFormat.format(totalExecutionTime / executedTasksCount) + ","
+			+ decimalFormat.format(totalWaitingTime) + ","
+			+ decimalFormat.format(totalWaitingTime / executedTasksCount) + "," + generatedTasksCount + ","
+			+ (tasksSent - tasksFailed) + "," + tasksFailedRessourcesUnavailable + "," + tasksFailedLatency + ","
+			+ tasksFailedBeacauseDeviceDead + "," + tasksFailedMobility + "," + notGeneratedBecDeviceDead + ","
+			+ tasksExecutedOnCloud + "," + (tasksExecutedOnCloud - tasksFailedCloud) + "," + tasksExecutedOnEdge
+			+ "," + (tasksExecutedOnEdge - tasksFailedEdge) + "," + tasksExecutedOnMist + ","
+			+ (tasksExecutedOnMist - tasksFailedMist) + ",");
+	}
+
 	public void printTasksRelatedResults() {
 		int generatedTasksSafeDivision = this.generatedTasksCount > 0 ? this.generatedTasksCount : 1;
 
@@ -241,17 +266,6 @@ public class SimLog {
 		print("                                                                         " + " Mist="
 				+ padLeftSpaces("" + tasksExecutedOnMist, 14) + " tasks (where "
 				+ (tasksExecutedOnMist - tasksFailedMist) + " were successfully executed )");
-
-		resultsList.add(currentOrchArchitecture + "," + currentOrchAlgorithm + "," + currentEdgeDevicesCount + ","
-				+ decimalFormat.format(totalExecutionTime) + ","
-				+ decimalFormat.format(totalExecutionTime / executedTasksCount) + ","
-				+ decimalFormat.format(totalWaitingTime) + ","
-				+ decimalFormat.format(totalWaitingTime / executedTasksCount) + "," + generatedTasksCount + ","
-				+ (tasksSent - tasksFailed) + "," + tasksFailedRessourcesUnavailable + "," + tasksFailedLatency + ","
-				+ tasksFailedBeacauseDeviceDead + "," + tasksFailedMobility + "," + notGeneratedBecDeviceDead + ","
-				+ tasksExecutedOnCloud + "," + (tasksExecutedOnCloud - tasksFailedCloud) + "," + tasksExecutedOnEdge
-				+ "," + (tasksExecutedOnEdge - tasksFailedEdge) + "," + tasksExecutedOnMist + ","
-				+ (tasksExecutedOnMist - tasksFailedMist) + ",");
 	}
 
 	public void printNetworkRelatedResults() {

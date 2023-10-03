@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mechalikh.pureedgesim.simulationmanager.SimLog;
-import com.mechalikh.pureedgesim.taskgenerator.Application;
+import com.mechalikh.pureedgesim.taskgenerator.Task;
 import org.jgrapht.GraphPath;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
@@ -33,9 +33,7 @@ import com.mechalikh.pureedgesim.energy.EnergyModelComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters.TYPES;
 import com.mechalikh.pureedgesim.simulationengine.Event;
-import com.mechalikh.pureedgesim.simulationmanager.DefaultSimulationManager;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
-import com.mechalikh.pureedgesim.taskgenerator.Task;
 
 import static com.mechalikh.pureedgesim.simulationengine.EventType.*;
 

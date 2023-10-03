@@ -3,17 +3,10 @@ package examples;
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.energy.EnergyModelComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
-import com.mechalikh.pureedgesim.simulationmanager.SimLog;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import com.mechalikh.pureedgesim.taskgenerator.Application;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
 import com.mechalikh.pureedgesim.taskorchestrator.DefaultOrchestrator;
-import net.sourceforge.jFuzzyLogic.FIS;
-import utils.Formulas;
-
-import java.util.ArrayList;
-
-import static utils.Formulas.getPredictedNeighbours;
 
 public class TesisOrchestrator extends DefaultOrchestrator {
 

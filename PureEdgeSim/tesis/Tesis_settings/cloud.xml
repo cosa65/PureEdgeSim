@@ -4,9 +4,9 @@
 		<deviceTypeName>Cloud datacenter</deviceTypeName>
 		<idleConsumption>0</idleConsumption>
 		<maxConsumption>1440</maxConsumption>
-		<isOrchestrator>true</isOrchestrator> <!-- it has a task orchestrator or not  -->
+		<isOrchestrator>false</isOrchestrator> <!-- it has a task orchestrator or not  -->
 		<cores>16</cores>
-		<mips>2000000</mips>
+		<mips>2000</mips>
 		<ram>16000</ram>
 		<storage>1000000</storage>
 	</datacenter>

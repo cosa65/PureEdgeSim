@@ -22,10 +22,8 @@ package examples;
 
 import com.mechalikh.pureedgesim.network.TransferProgress;
 import com.mechalikh.pureedgesim.network.DefaultNetworkModel;
-import com.mechalikh.pureedgesim.network.NetworkModel;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters.TYPES;
-import com.mechalikh.pureedgesim.simulationmanager.DefaultSimulationManager;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
 

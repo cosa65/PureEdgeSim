@@ -22,10 +22,8 @@ package examples;
 
 import com.mechalikh.pureedgesim.network.TransferProgress;
 import com.mechalikh.pureedgesim.network.DefaultNetworkModel;
-import com.mechalikh.pureedgesim.network.NetworkModel;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters.TYPES;
-import com.mechalikh.pureedgesim.simulationmanager.DefaultSimulationManager;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import com.mechalikh.pureedgesim.taskgenerator.Task;
 
@@ -105,7 +103,7 @@ public class Example7CustomNetworkModel extends DefaultNetworkModel {
 	private void keepReplica(Task task) {
 
 		// Check if there are enough replicas before keeping a new one
-		Example7CachingDevice edgeDevice = (Example7CachingDevice) task.getEdgeDevice();
+		examples.Example7CachingDevice edgeDevice = (examples.Example7CachingDevice) task.getEdgeDevice();
 		if (canKeepReplica(edgeDevice, task)) {
 			// bits to MBytes
 			if (edgeDevice.getAvailableStorage() >= task.getContainerSizeInMBytes()) {
@@ -121,9 +119,9 @@ public class Example7CustomNetworkModel extends DefaultNetworkModel {
 		}
 	}
 
-	private boolean canKeepReplica(Example7CachingDevice edgeDevice, Task task) {
+	private boolean canKeepReplica(examples.Example7CachingDevice edgeDevice, Task task) {
 		return ("CACHE".equals(SimulationParameters.registryMode)
-				&& ((Example7CachingDevice) edgeDevice.getOrchestrator())
+				&& ((examples.Example7CachingDevice) edgeDevice.getOrchestrator())
 						.countContainer(task.getApplicationID()) < MAX_NUMBER_OF_REPLICAS);
 	}
 

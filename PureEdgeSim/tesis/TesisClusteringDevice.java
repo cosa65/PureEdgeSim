@@ -110,7 +110,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		} else {
 			double parentWeight = this.getParent().getCurrentWeight();
 
-			return parentWeight * (1 - weightDrop);
+			return parentWeight * weightDrop;
 		}
 	}
 
@@ -190,15 +190,22 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		double averageDistanceFromNeighbours = getAverageDistance(currentNeighbors);
 		double transmissionRange = SimulationParameters.edgeDevicesRange;
 
-//		double alpha0 = 0.2;
-//		double alpha_1 = 0.2;
-//		double alpha2 = 0.2;
-//		double alpha_3 = 0.2;
-//		double alpha_4 = 0.2;
+		double alpha0 = 0.4;
+		double alpha1 = 0.1;
+		double alpha2 = 0.1;
+		double alpha3 = 0.2;
+		double alpha4 = 0.2;
+
+//		double alpha0 = 1;
+//		double alpha1 = 1;
+//		double alpha2 = 1;
+//		double alpha3 = 1;
+//		double alpha4 = 1;
 
 		// mips is divided by 200000 to normalize it, it is out of the parenthesis so
 		// the weight becomes 0 when mips = 0
-		double computingWeight = (mips / 200000) / currentNeighborsCount;
+//		double computingWeight = (mips / 200000) / currentNeighborsCount;
+		double computingWeight = mips / currentNeighborsCount;
 
 //		SimLog.println(String.format("computingWeight: %s", Double.toString(computingWeight)));
 //		SimLog.println(String.format("currentNeighborsCount: %s", Integer.toString(currentNeighborsCount)));
@@ -207,11 +214,11 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 //		SimLog.println(String.format("battery * 2: %s", Double.toString(battery * 2)));
 
 		// capacity/#neighbours + #neighbours + #futureNeighbours + averageDistanceFromNeighbours / myTransmissionRange + remainingEnergy
-		double weightToReturn = 0.4 * computingWeight
-			+ 0.1 * currentNeighborsCount
-			+ 0.1 * nextNeighborsCount
-			+ 0.2 * (averageDistanceFromNeighbours / transmissionRange)
-			+ 0.2 * (battery * 2);
+		double weightToReturn = alpha0 * computingWeight
+			+ alpha1 * currentNeighborsCount
+			+ alpha2 * nextNeighborsCount
+			+ alpha3 * (averageDistanceFromNeighbours / transmissionRange)
+			+ alpha4 * (battery * 2);
 
 //		SimLog.println(String.format("weightToReturn: %s", Double.toString(weightToReturn)));
 
@@ -382,7 +389,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		double bestWeight = this.getOriginalWeight();
 
 		for (TesisClusteringDevice neighbor : this.getNeighbors()) {
-			double weightIfParent = neighbor.getCurrentWeight() * (1 - weightDrop);
+			double weightIfParent = neighbor.getCurrentWeight();
 
 			if (bestWeight < weightIfParent) {
 				bestParent = neighbor;

@@ -4,41 +4,42 @@
  *     This file is part of PureEdgeSim Project.
  *
  *     PureEdgeSim is free software: you can redistribute it and/or modify
- *     it under the terms of the GNU General  License as published by
+ *     it under the terms of the GNU General Public License as published by
  *     the Free Software Foundation, either version 3 of the License, or
  *     (at your option) any later version.
  *
  *     PureEdgeSim is distributed in the hope that it will be useful,
  *     but WITHOUT ANY WARRANTY; without even the implied warranty of
  *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *     GNU General  License for more details.
+ *     GNU General Public License for more details.
  *
- *     You should have received a copy of the GNU General  License
+ *     You should have received a copy of the GNU General Public License
  *     along with PureEdgeSim. If not, see <http://www.gnu.org/licenses/>.
  *     
  *     @author Charafeddine Mechalikh
- *     @since PureEdgeSim 5.0
  **/
 package com.mechalikh.pureedgesim.taskgenerator;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
+import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationengine.QueueElement;
 
-/**
- * The Task interface represents a unit of work that can be executed in the
- * system. It defines the methods to get and set various properties of a task
- * such as its status, execution time, resource requirements, and failure
- * reasons. Task interface extends the QueueElement interface, which defines the
- * methods for enqueuing and dequeuing a task in a queue.
- * 
- * @author Charafeddine Mechalikh
- */
-public interface Task extends QueueElement {
+import java.util.Objects;
 
+/**
+ * 
+ * This class represents a default task in the PureEdgeSim simulation. It
+ * extends the TaskAbstract class and adds additional properties such as
+ * offloading time, device, container size, application ID, failure reason,
+ * status, file size, computing node, output size, type, and orchestrator. It
+ * also implements several methods for setting and getting the values of these
+ * properties.
+ */
+public class Task implements Comparable<Task>, QueueElement {
 	/**
 	 * Enumeration for failure reasons of a Task.
 	 */
-	enum FailureReason {
+	public enum FailureReason {
 		FAILED_DUE_TO_LATENCY, FAILED_BECAUSE_DEVICE_DEAD, FAILED_DUE_TO_DEVICE_MOBILITY,
 		NOT_GENERATED_BECAUSE_DEVICE_DEAD, NO_OFFLOADING_DESTINATIONS, INSUFFICIENT_RESOURCES, INSUFFICIENT_POWER
 	}
@@ -46,342 +47,627 @@ public interface Task extends QueueElement {
 	/**
 	 * Enumeration for status of a Task.
 	 */
-	enum Status {
+	public enum Status {
 		SUCCESS, FAILED
 	}
 
 	/**
-	 * Returns the maximum latency of the Task.
-	 * 
-	 * @return the maximum latency of the Task
+	 *
+	 * The maximum latency that this task can tolerate
 	 */
-	double getMaxLatency();
+	protected double maxLatency = 0;
+	/**
+	 *
+	 * The actual network time this task experiences
+	 */
+	protected double actualNetworkTime = 0;
+	/**
+	 *
+	 * The execution finish time of this task
+	 */
+	protected double execFinishTime = 0;
+	/**
+	 *
+	 * The execution start time of this task
+	 */
+	protected double execStartTime = 0;
+	/**
+	 *
+	 * The arrival time of this task
+	 */
+	protected double arrivalTime = 0;
+
+	protected double completedTime;
+	/**
+	 *
+	 * The length of this task
+	 */
+	protected double length = 0;
+	/**
+	 *
+	 * The unique identifier of this task
+	 */
+	protected int id;
+	/**
+	 *
+	 * The serial number of this task
+	 */
+	protected long serial;
 
 	/**
-	 * Sets the maximum latency of the Task.
-	 * 
-	 * @param maxLatency the maximum latency of the Task
-	 * @return the updated Task
+	 *
+	 * Gets the maximum allowed latency of the task.
+	 *
+	 * @return the maximum allowed latency
 	 */
-	Task setMaxLatency(double maxLatency);
+	public double getMaxLatency() {
+		return maxLatency;
+	}
 
 	/**
-	 * Returns the actual network time of the Task.
-	 * 
-	 * @return the actual network time of the Task
+	 *
+	 * Sets the maximum allowed latency of the task and returns the modified task.
+	 *
+	 * @param maxLatency the maximum allowed latency to set
+	 * @return the modified task
 	 */
-	double getActualNetworkTime();
+	public Task setMaxLatency(double maxLatency) {
+		this.maxLatency = maxLatency;
+		return this;
+	}
 
 	/**
-	 * Adds the actual network time of the Task.
-	 * 
-	 * @param actualNetworkTime the actual network time of the Task
+	 *
+	 * Gets the actual network time of the task.
+	 *
+	 * @return the actual network time
 	 */
-	void addActualNetworkTime(double actualNetworkTime);
+	public double getActualNetworkTime() {
+		return actualNetworkTime;
+	}
 
 	/**
-	 * Returns the actual CPU time of the Task.
-	 * 
-	 * @return the actual CPU time of the Task
+	 *
+	 * Adds the given actual network time to the existing actual network time of the
+	 * task.
+	 *
+	 * @param actualNetworkTime the actual network time to add
 	 */
-	double getActualCpuTime();
+	public void addActualNetworkTime(double actualNetworkTime) {
+		this.actualNetworkTime += actualNetworkTime;
+	}
+
+	public void setCompletedTime(double taskFinishTime) {
+		double taskStartTime = this.getTime();
+		this.completedTime = taskFinishTime - taskStartTime;
+	};
+
+	public double getCompletionTime() {
+		return this.completedTime;
+	}
+	/**
+	 *
+	 * Gets the actual CPU time of the task.
+	 *
+	 * @return the actual CPU time
+	 */
+	public double getActualCpuTime() {
+		return this.execFinishTime - this.getExecStartTime();
+	}
 
 	/**
-	 * Returns the execution start time of the Task.
-	 * 
-	 * @return the execution start time of the Task
+	 *
+	 * Gets the execution start time of the task.
+	 *
+	 * @return the execution start time
 	 */
-	double getExecStartTime();
+	public double getExecStartTime() {
+		return execStartTime;
+	}
 
 	/**
-	 * Returns the waiting time of the Task.
-	 * 
-	 * @return the waiting time of the Task
+	 *
+	 * Gets the waiting time of the task.
+	 *
+	 * @return the waiting time
 	 */
-	double getWatingTime();
+	public double getWatingTime() {
+		return this.execStartTime - this.arrivalTime;
+	}
 
 	/**
-	 * Sets the arrival time of the Task.
-	 * 
-	 * @param clock the arrival time of the Task
+	 *
+	 * Sets the arrival time of the task to the given clock value.
+	 *
+	 * @param clock the clock value to set
 	 */
-	void setArrivalTime(double clock);
+	public void setArrivalTime(double clock) {
+		this.arrivalTime = clock;
+		this.execStartTime = clock;
+	}
 
 	/**
-	 * Sets the execution start time of the Task.
-	 * 
-	 * @param clock the execution start time of the Task
+	 *
+	 * Returns the total delay of this task, which is the sum of the actual network
+	 * time, waiting time, and actual CPU time.
+	 *
+	 * @return the total delay of this task
 	 */
-	void setExecutionStartTime(double clock);
+	public double getTotalDelay() {
+		return this.getActualNetworkTime() + this.getWatingTime() + this.getActualCpuTime();
+	}
 
 	/**
-	 * Sets the execution finish time of the Task.
-	 * 
-	 * @param clock the execution finish time of the Task
+	 *
+	 * Sets the start time of the execution of this task to the specified clock
+	 * value.
+	 *
+	 * @param clock the clock value to set as the execution start time
 	 */
-	void setExecutionFinishTime(double clock);
+	public void setExecutionStartTime(double clock) {
+		this.execStartTime = clock;
+		this.execFinishTime = clock;
+	}
 
 	/**
-	 * Sets the ID of the Task.
-	 * 
-	 * @param id the ID of the Task
+	 *
+	 * Sets the finish time of the execution of this task to the specified clock
+	 * value.
+	 *
+	 * @param clock the clock value to set as the execution finish time
 	 */
-	void setId(int id);
+	public void setExecutionFinishTime(double clock) {
+		this.execFinishTime = clock;
+	}
 
 	/**
-	 * Returns the ID of the Task.
-	 * 
-	 * @return the ID of the Task
+	 *
+	 * Sets the ID of this task to the specified value.
+	 *
+	 * @param id the ID to set for this task
 	 */
-	int getId();
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	/**
+	 *
+	 * Returns the ID of this task.
+	 *
+	 * @return the ID of this task
+	 */
+	public int getId() {
+		return id;
+	}
+
+	/**
+	 *
+	 * Returns the length of this task.
+	 *
+	 * @return the length of this task
+	 */
+	public double getLength() {
+		return length;
+	}
+
+	/**
+	 *
+	 * Sets the length of this task to the specified value.
+	 *
+	 * @param length the length to set for this task
+	 * @return a reference to this task
+	 */
+	public Task setLength(double length) {
+		this.length = length;
+		return this;
+	}
+
+	/**
+	 *
+	 * Sets the serial number of this task to the specified value.
+	 *
+	 * @param l the serial number to set for this task
+	 */
+	public void setSerial(long l) {
+		this.serial = l;
+	}
+
+	/**
+	 *
+	 * Compares this task with the specified task for order. Returns a negative
+	 * integer, zero, or a positive integer as this task is less than, equal to, or
+	 * greater than the specified task.
+	 *
+	 * @param that the task to be compared
+	 *
+	 * @return a negative integer, zero, or a positive integer as this task is less
+	 *         than, equal to, or greater than the specified task
+	 */
+	public int compareTo(final Task that) {
+		if (that.equals(null)) {
+			return 1;
+		}
+
+		if (this.equals(that)) {
+			return 0;
+		}
+
+		int res = Double.compare(this.getTime(), that.getTime());
+		if (res != 0) {
+			return res;
+		}
+
+		return Long.compare(serial, that.getSerial());
+	}
+
+	/**
+	 *
+	 * Indicates whether some other object is "equal to" this one.
+	 *
+	 * @param obj the object to compare to
+	 * @return true if this object is the same as the obj argument; false otherwise
+	 */
+	public boolean equals(final Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null || getClass() != obj.getClass())
+			return false;
+		final Task that = (Task) obj;
+		return Double.compare(that.getTime(), getTime()) == 0 && getSerial() == that.getSerial();
+	}
+
+	/**
+	 *
+	 * Returns a hash code value for the object. The hash code is generated based on
+	 * the time and serial number of the task.
+	 *
+	 * @return the hash code value for the object.
+	 */
+	public int hashCode() {
+		return Objects.hash(getTime(), getSerial());
+	}
+
+	/**
+	 *
+	 * Returns the serial number of the task.
+	 *
+	 * @return the serial number of the task.
+	 */
+	public long getSerial() {
+		return this.serial;
+	}
+
+	/**
+	 * The time required for offloading the task in seconds.
+	 */
+	protected double offloadingTime;
+
+	/**
+	 * The edge device where the task will be offloaded.
+	 */
+	protected ComputingNode device = ComputingNode.NOT_THE_REAL_NULL;
+
+	/**
+	 * The size of the container where the task is encapsulated in bits.
+	 */
+	protected long containerSize;
+
+	/**
+	 * The registry node where the task will be registered.
+	 */
+	protected ComputingNode registry = ComputingNode.NOT_THE_REAL_NULL;
+
+	/**
+	 * The ID of the application that this task belongs to.
+	 */
+	protected int applicationID;
+
+	/**
+	 * The reason of failure for the task, if any.
+	 */
+	protected FailureReason failureReason;
+
+	/**
+	 * The status of the task.
+	 */
+	protected Status status = Status.SUCCESS;
+
+	/**
+	 * The size of the input file for the task in bits.
+	 */
+	protected long fileSize;
+
+	/**
+	 * The computing node where the task will be offloaded to.
+	 */
+	protected ComputingNode computingNode = ComputingNode.NOT_THE_REAL_NULL;
+
+	/**
+	 * The size of the output file for the task in bits.
+	 */
+	protected double outputSize;
+
+	/**
+	 * The type of the task.
+	 */
+	protected String type;
+
+	/**
+	 * The orchestrator node that will manage the execution of this task.
+	 */
+	protected ComputingNode orchestrator = ComputingNode.NOT_THE_REAL_NULL;
+
+	/**
+	 * Constructs a Task object with a specified task ID.
+	 *
+	 * @param id The ID of the task.
+	 */
+	public Task(int id) {
+		this.setId(id);
+	}
+
+	/**
+	 * Sets the offloading time for the task.
+	 *
+	 * @param time The offloading time in seconds.
+	 */
+	public void setTime(double time) {
+		this.offloadingTime = time;
+	}
+
+	/**
+	 * Returns the offloading time for the task.
+	 *
+	 * @return The offloading time in seconds.
+	 */
+	public double getTime() {
+		return offloadingTime;
+	}
+
+	/**
+	 * Returns the edge device assigned to the task.
+	 *
+	 * @return The edge device assigned to the task.
+	 */
+	public ComputingNode getEdgeDevice() {
+		return device;
+	}
+
+	/**
+	 * Assigns an edge device to the task.
+	 *
+	 * @param device The edge device to be assigned to the task.
+	 */
+	public Task setEdgeDevice(ComputingNode device) {
+		this.device = device;
+		return this;
+	}
+
+	/**
+	 * Sets the container size for the task in bits.
+	 *
+	 * @param containerSize The container size in bits.
+	 */
+	public Task setContainerSizeInBits(long containerSize) {
+		this.containerSize = containerSize;
+		return this;
+	}
+
+	/**
+	 * Returns the container size for the task in bits.
+	 *
+	 * @return The container size in bits.
+	 */
+	public long getContainerSizeInBits() {
+		return containerSize;
+	}
+
+	/**
+	 * Returns the container size for the task in megabytes.
+	 *
+	 * @return The container size in megabytes.
+	 */
+	public double getContainerSizeInMBytes() {
+		return containerSize / 8000000.0;
+	}
+
+	/**
+	 * Returns the orchestrator for the task. If no orchestrator has been set, the
+	 * edge device is set as the orchestrator.
+	 *
+	 * @return The orchestrator for the task.
+	 */
+	public ComputingNode getOrchestrator() {
+		if (this.orchestrator == ComputingNode.NOT_THE_REAL_NULL) {
+			this.getEdgeDevice().setAsOrchestrator(true);
+			return this.getEdgeDevice();
+		}
+		return this.orchestrator;
+	}
+
+	/**
+	 * Assigns an orchestrator to the task.
+	 *
+	 * @param orchestrator The orchestrator to be assigned to the task.
+	 */
+
+	public void setOrchestrator(ComputingNode orchestrator) {
+		this.orchestrator = orchestrator;
+	}
 
 	/**
 	 * 
-	 * Sets the time of the task.
+	 * Returns the computing node registry.
 	 * 
-	 * @param time the time to set
+	 * @return the computing node registry.
 	 */
-	void setTime(double time);
+	public ComputingNode getRegistry() {
+		return registry;
+	}
 
 	/**
 	 * 
-	 * Gets the time of the task.
+	 * Sets the computing node registry.
 	 * 
-	 * @return the time of the task
+	 * @param registry the computing node registry.
 	 */
-	double getTime();
+	public Task setRegistry(ComputingNode registry) {
+		this.registry = registry;
+		return this;
+	}
 
 	/**
 	 * 
-	 * Gets the edge device associated with the task.
+	 * Returns the ID of the application.
 	 * 
-	 * @return the edge device associated with the task
+	 * @return the ID of the application.
 	 */
-	ComputingNode getEdgeDevice();
+	public int getApplicationID() {
+		return applicationID;
+	}
+
+	public boolean getOrchestratorOnly() {
+		Application application = SimulationParameters.applicationList.get(this.getApplicationID());
+
+		return application.getOrchestratorOnly();
+	}
 
 	/**
 	 * 
-	 * Sets the edge device associated with the task.
+	 * Sets the ID of the application.
 	 * 
-	 * @param device the edge device to set
-	 * @return the updated Task object
+	 * @param applicationID the ID of the application.
 	 */
-	Task setEdgeDevice(ComputingNode device);
+	public Task setApplicationID(int applicationID) {
+		this.applicationID = applicationID;
+		return this;
+	}
 
 	/**
 	 * 
-	 * Sets the container size of the task in bits.
+	 * Returns the failure reason of the task.
 	 * 
-	 * @param containerSize the container size to set in bits
-	 * @return the updated Task object
+	 * @return the failure reason of the task.
 	 */
-	Task setContainerSizeInBits(long containerSize);
+	public FailureReason getFailureReason() {
+		return failureReason;
+	}
 
 	/**
 	 * 
-	 * Gets the container size of the task in bits.
+	 * Sets the failure reason of the task and updates its status to "FAILED".
 	 * 
-	 * @return the container size of the task in bits
+	 * @param reason the failure reason of the task.
 	 */
-	long getContainerSizeInBits();
+	public void setFailureReason(FailureReason reason) {
+		this.setStatus(Task.Status.FAILED);
+		this.failureReason = reason;
+	}
 
 	/**
 	 * 
-	 * Gets the container size of the task in megabytes.
+	 * Returns the offloading destination computing node.
 	 * 
-	 * @return the container size of the task in megabytes
+	 * @return the offloading destination computing node.
 	 */
-	double getContainerSizeInMBytes();
+	public ComputingNode getOffloadingDestination() {
+		return computingNode;
+	}
 
 	/**
 	 * 
-	 * Gets the orchestrator associated with the task.
+	 * Sets the offloading destination computing node.
 	 * 
-	 * @return the orchestrator associated with the task
+	 * @param applicationPlacementLocation the offloading destination computing
+	 *                                     node.
 	 */
-	ComputingNode getOrchestrator();
+	public void setOffloadingDestination(ComputingNode applicationPlacementLocation) {
+		this.computingNode = applicationPlacementLocation;
+	}
 
 	/**
 	 * 
-	 * Gets the registry associated with the task.
+	 * Sets the size of the file for the task and returns this task.
 	 * 
-	 * @return the registry associated with the task
+	 * @param requestSize the size of the file for the task.
+	 * @return this task.
 	 */
-	ComputingNode getRegistry();
+	public Task setFileSizeInBits(long requestSize) {
+		this.fileSize = requestSize;
+		return this;
+	}
 
 	/**
 	 * 
-	 * Sets the registry associated with the task.
+	 * Sets the output size of the task and returns this task.
 	 * 
-	 * @param registry the registry to set
-	 * @return the updated Task object
+	 * @param outputSize the output size of the task.
+	 * @return this task.
 	 */
-	Task setRegistry(ComputingNode registry);
+	public Task setOutputSizeInBits(long outputSize) {
+		this.outputSize = outputSize;
+		return this;
+	}
 
 	/**
 	 * 
-	 * Gets the ID of the application associated with the task.
+	 * Returns the size of the file for the task.
 	 * 
-	 * @return the ID of the application associated with the task
+	 * @return the size of the file for the task.
 	 */
-	int getApplicationID();
-
-	boolean getOrchestratorOnly();
-
-	/**
-	 * 
-	 * Sets the ID of the application associated with the task.
-	 * 
-	 * @param applicationID the ID of the application to set
-	 * @return the updated Task object
-	 */
-	Task setApplicationID(int applicationID);
+	public double getFileSizeInBits() {
+		return fileSize;
+	}
 
 	/**
 	 * 
-	 * Gets the reason for task failure.
+	 * Returns the output size of the task.
 	 * 
-	 * @return the reason for task failure
+	 * @return the output size of the task.
 	 */
-	FailureReason getFailureReason();
-
-	/**
-	 * 
-	 * Sets the reason for task failure.
-	 * 
-	 * @param reason the reason for task failure to set
-	 */
-	void setFailureReason(FailureReason reason);
-
-	/**
-	 * 
-	 * Gets the offloading destination associated with the task.
-	 * 
-	 * @return the offloading destination associated with the task
-	 */
-	ComputingNode getOffloadingDestination();
-
-	/**
-	 * 
-	 * Sets the offloading destination associated with the task.
-	 * 
-	 * @param applicationPlacementLocation the offloading destination to set
-	 */
-	void setOffloadingDestination(ComputingNode applicationPlacementLocation);
-
-	/**
-	 * 
-	 * Sets the file size of the task request in bits.
-	 * 
-	 * @param requestSize the file size of the task request to set in bits
-	 * @return the updated Task object
-	 */
-	Task setFileSizeInBits(long requestSize);
-
-	/**
-	 * 
-	 * Sets the output size of the task in bits.
-	 * 
-	 * @param outputSize the output size of the task to set in bits
-	 * @return the updated Task object
-	 */
-	Task setOutputSizeInBits(long outputSize);
-
-	/**
-	 * 
-	 * Gets the length of the task.
-	 * 
-	 * @return the length of the task
-	 */
-	double getLength();
-
-	/**
-	 * 
-	 * Gets the file size of the task request in bits.
-	 * 
-	 * @return the file size of the task request in bits
-	 */
-	double getFileSizeInBits();
-
-	/**
-	 * 
-	 * Gets the output size of the task in bits.
-	 * 
-	 * @return the output size of the task in bits
-	 */
-	double getOutputSizeInBits();
+	public double getOutputSizeInBits() {
+		return this.outputSize;
+	}
 
 	/**
 	 * 
 	 * Sets the status of the task.
 	 * 
-	 * @param status the status of the task
+	 * @param status the status of the task.
 	 */
-	void setStatus(Status status);
+	public void setStatus(Status status) {
+		this.status = status;
+	}
 
 	/**
 	 * 
-	 * Gets the status of the task.
+	 * Returns the status of the task.
 	 * 
-	 * @return the status of the task
+	 * @return the status of the task.
 	 */
-	Status getStatus();
+	public Status getStatus() {
+		return status;
+	}
 
 	/**
 	 * 
-	 * Gets the type of the task.
+	 * Returns the type of the task.
 	 * 
-	 * @return the type of the task
+	 * @return the type of the task.
 	 */
-	String getType();
+	public String getType() {
+		return type;
+	}
 
 	/**
 	 * 
 	 * Sets the type of the task.
 	 * 
-	 * @param type the type of the task
-	 * @return the task with the updated type
+	 * @param type the type of the task.
 	 */
-	Task setType(String type);
+	public Task setType(String type) {
+		this.type = type;
+		return this;
+	}
 
-	/**
-	 * 
-	 * Sets the length of the task.
-	 * 
-	 * @param length the length of the task
-	 * @return the task with the updated length
-	 */
-	Task setLength(double length);
-
-	/**
-	 * 
-	 * Sets the orchestrator node of the task.
-	 * 
-	 * @param orchestrator the orchestrator node of the task
-	 */
-	void setOrchestrator(ComputingNode orchestrator);
-
-	/**
-	 * 
-	 * Gets the total delay of the task.
-	 * 
-	 * @return the total delay of the task
-	 */
-	double getTotalDelay();
-
-	/**
-	 * 
-	 * Sets the serial number of the task.
-	 * 
-	 * @param l the serial number of the task
-	 */
-	void setSerial(long l);
-
-	/**
-	 * 
-	 * Gets the serial number of the task.
-	 * 
-	 * @return the serial number of the task
-	 */
-	long getSerial();
 }

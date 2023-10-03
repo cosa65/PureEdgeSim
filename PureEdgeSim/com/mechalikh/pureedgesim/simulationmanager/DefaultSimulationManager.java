@@ -21,6 +21,7 @@
 package com.mechalikh.pureedgesim.simulationmanager;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.scenariomanager.Scenario;
@@ -58,6 +59,8 @@ public class DefaultSimulationManager extends SimulationManager {
 	 **/
 	protected int lastWrittenNumber = 0;
 	protected long oldProgress = -1;
+
+	protected ArrayList tasksFinishTime = new ArrayList<Double>();
 
 	/**
 	 * The number of failed tasks.
@@ -202,7 +205,14 @@ public class DefaultSimulationManager extends SimulationManager {
 			if (taskFailed(task, 3))
 				return;
 
+
 			edgeOrchestrator.resultsReturned(task);
+
+			task.setCompletedTime(simulation.clock());
+//			DEBIUGNBIURNSIKN
+			double taskStartTime = task.getTime();
+			double taskFinishTime = simulation.clock();
+			tasksFinishTime.add(taskFinishTime - taskStartTime);
 			tasksCount++;
 			break;
 
@@ -273,7 +283,7 @@ public class DefaultSimulationManager extends SimulationManager {
 				}
 			}
 			// Show results and stop the simulation.
-			simLog.showIterationResults(finishedTasks);
+			simLog.showSimulationResults(finishedTasks);
 
 			// Terminate the simulation.
 			simulation.terminate();
@@ -487,6 +497,20 @@ public class DefaultSimulationManager extends SimulationManager {
 		// Do something when the simulation finishes.
 		SimLog.println("executedLocallyTotalDebug");
 		SimLog.println(Integer.toString(this.executedLocallyTotal));
+
+		double sum = (double) tasksFinishTime.stream().reduce(0.0, (element1, element2) -> (double) element1 + (double) element2);
+
+		double avg = sum / tasksFinishTime.size();
+
+		double totalDelay = this.taskList.stream()
+			.filter(task -> !task.getOrchestratorOnly())
+			.reduce(0.0, (acum, task) -> task.getTotalDelay() + acum, Double::sum);
+
+		SimLog.println("avgDebug");
+		SimLog.println(avg);
+
+		SimLog.println("totalDelayDebug");
+		SimLog.println(totalDelay);
 
 		SimLog.println("thisSentTasksDebug");
 		SimLog.println(Integer.toString(this.sentTasks));
