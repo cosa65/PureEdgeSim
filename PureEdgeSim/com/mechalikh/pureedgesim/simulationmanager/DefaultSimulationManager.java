@@ -437,11 +437,9 @@ public class DefaultSimulationManager extends SimulationManager {
 		}
 		// The task is failed due to long delay
 		if (phase == 3 && task.getTotalDelay() >= task.getMaxLatency()) {
-//			TMP disable timeout
-			return false;
-//			task.setFailureReason(Task.FailureReason.FAILED_DUE_TO_LATENCY);
-//			simLog.incrementTasksFailedLatency(task);
-//			return setFailed(task, phase);
+			task.setFailureReason(Task.FailureReason.FAILED_DUE_TO_LATENCY);
+			simLog.incrementTasksFailedLatency(task);
+			return setFailed(task, phase);
 		}
 		return false;
 	}

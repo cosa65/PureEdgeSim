@@ -72,7 +72,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>11000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>100</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>100</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -83,7 +83,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>12000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>100</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>100</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -94,7 +94,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>13000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>100</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>150</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -105,7 +105,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>14000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>100</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>150</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -116,7 +116,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>15000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>100</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>150</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -127,7 +127,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>16000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>100</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>200</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -138,7 +138,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>18000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>200</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>200</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -149,7 +149,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>19000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>200</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>200</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -160,7 +160,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>20000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>200</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>200</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -171,7 +171,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>21000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>200</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>250</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -182,7 +182,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>22000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>200</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>250</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -193,7 +193,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>23000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>200</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>250</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -204,7 +204,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>24000</container_size> <!--application/container size in kilobytes -->
-		<request_size>500</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>200</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>300</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -215,7 +215,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>25000</container_size> <!--application/container size in kilobytes -->
-		<request_size>800</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>300</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>300</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -226,7 +226,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>26000</container_size> <!--application/container size in kilobytes -->
-		<request_size>800</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>300</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>300</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -237,7 +237,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>27000</container_size> <!--application/container size in kilobytes -->
-		<request_size>800</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>300</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>300</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -248,7 +248,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>28000</container_size> <!--application/container size in kilobytes -->
-		<request_size>800</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>300</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>350</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -259,7 +259,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>29000</container_size> <!--application/container size in kilobytes -->
-		<request_size>800</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>300</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>350</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -270,7 +270,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>30000</container_size> <!--application/container size in kilobytes -->
-		<request_size>800</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>300</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>350</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -281,7 +281,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>31000</container_size> <!--application/container size in kilobytes -->
-		<request_size>800</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>300</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>350</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -292,7 +292,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>32000</container_size> <!--application/container size in kilobytes -->
-		<request_size>800</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>300</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>350</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -303,7 +303,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>33000</container_size> <!--application/container size in kilobytes -->
-		<request_size>1000</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>400</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>400</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -314,7 +314,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>34000</container_size> <!--application/container size in kilobytes -->
-		<request_size>1000</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>400</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>400</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -325,7 +325,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>35000</container_size> <!--application/container size in kilobytes -->
-		<request_size>1000</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>400</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>450</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -336,7 +336,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>36000</container_size> <!--application/container size in kilobytes -->
-		<request_size>1000</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>400</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>450</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -347,7 +347,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>37000</container_size> <!--application/container size in kilobytes -->
-		<request_size>1000</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>400</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>450</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
@@ -358,7 +358,7 @@
 		<usage_percentage>100</usage_percentage> <!-- percentage of devices using this type of applications -->
 		<latency>1</latency> <!-- after this amount of seconds the task will have timed out and be considered to have failed -->
 		<container_size>40000</container_size> <!--application/container size in kilobytes -->
-		<request_size>1000</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
+		<request_size>400</request_size> <!-- the offloading request that will be sent to the orchestrator and then to the device where the task will be offloaded in kilobytes -->
 		<results_size>10</results_size> <!-- the results of the offloaded task in kilobytes -->
 		<task_length>500</task_length> <!--MI: million instructions -->
 		<orchestrator_only>false</orchestrator_only>
