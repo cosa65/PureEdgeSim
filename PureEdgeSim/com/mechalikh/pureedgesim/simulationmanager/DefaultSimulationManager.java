@@ -158,9 +158,6 @@ public class DefaultSimulationManager extends SimulationManager {
 	 */
 	@Override
 	public void processEvent(Event ev) {
-//		SimLog.println("evnameDebug");
-//		SimLog.println(ev.getType().name());
-
 		Task task = (Task) ev.getData();
 		switch (ev.getType()) {
 		case NEXT_BATCH:
@@ -340,11 +337,11 @@ public class DefaultSimulationManager extends SimulationManager {
 				tasksCount++;
 				return;
 			}
-
-		} else
+		} else {
 			// The application has already been placed, so send the task directly to that
 			// computing node.
 			task.setOffloadingDestination(task.getEdgeDevice().getApplicationPlacementLocation());
+		}
 
 		simLog.taskSentFromOrchToDest(task);
 

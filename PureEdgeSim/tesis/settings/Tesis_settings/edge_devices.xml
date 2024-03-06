@@ -1,0 +1,104 @@
+<?xml version="1.0"?>
+<edge_devices>
+	<!-- Type 1 -->
+	<device arch="x86" os="linux" vmm="xen">
+		<deviceTypeName>Type 1</deviceTypeName>
+		<percentage>30</percentage>
+		<connectivity>wifi</connectivity>
+
+		<mobility>false</mobility>
+		<speed>1.4</speed>
+		<minPauseDuration>10</minPauseDuration>
+		<maxPauseDuration>300</maxPauseDuration>
+		<minMobilityDuration>99</minMobilityDuration>
+		<maxMobilityDuration>100</maxMobilityDuration>
+
+		<battery>true</battery>
+		<batteryCapacity>15.75</batteryCapacity>
+		<initialBatteryLevel>100</initialBatteryLevel>
+		<idleConsumption>0.00055</idleConsumption>
+		<maxConsumption>0.055</maxConsumption>
+
+		<isOrchestrator>false</isOrchestrator>
+		<generateTasks>true</generateTasks>
+		<cores>1</cores>
+		<mips>400</mips>
+		<ram>800</ram>
+		<storage>128</storage> <!--MB of caching memory-->
+	</device>
+	<device arch="x86" os="linux" vmm="xen">
+		<deviceTypeName>Type 2</deviceTypeName>
+		<percentage>20</percentage>
+		<connectivity>wifi</connectivity>
+
+		<mobility>true</mobility>
+		<speed>1.4</speed>
+		<minPauseDuration>10</minPauseDuration>
+		<maxPauseDuration>300</maxPauseDuration>
+		<minMobilityDuration>99</minMobilityDuration>
+		<maxMobilityDuration>100</maxMobilityDuration>
+
+		<battery>true</battery>
+		<batteryCapacity>20.0</batteryCapacity>
+		<initialBatteryLevel>100</initialBatteryLevel>
+		<idleConsumption>0.00055</idleConsumption>
+		<maxConsumption>0.055</maxConsumption>
+
+		<isOrchestrator>false</isOrchestrator>
+		<generateTasks>true</generateTasks>
+		<cores>1</cores>
+		<mips>400</mips>
+		<ram>500</ram>
+		<storage>128</storage> <!--MB of caching memory-->
+	</device>
+	<device arch="x86" os="linux" vmm="xen">
+		<deviceTypeName>Type 3</deviceTypeName>
+		<percentage>20</percentage>
+		<connectivity>wifi</connectivity>
+
+		<mobility>false</mobility>
+		<speed>1.4</speed>
+		<minPauseDuration>10</minPauseDuration>
+		<maxPauseDuration>300</maxPauseDuration>
+		<minMobilityDuration>99</minMobilityDuration>
+		<maxMobilityDuration>100</maxMobilityDuration>
+
+		<battery>false</battery>
+		<batteryCapacity>20.0</batteryCapacity>
+		<initialBatteryLevel>100</initialBatteryLevel>
+		<idleConsumption>0.00055</idleConsumption>
+		<maxConsumption>0.055</maxConsumption>
+
+		<isOrchestrator>false</isOrchestrator>
+		<generateTasks>true</generateTasks>
+		<cores>1</cores>
+		<mips>800</mips>
+		<ram>1500</ram>
+		<storage>64</storage> <!--MB of caching memory-->
+	</device>
+	<device arch="x86" os="linux" vmm="xen">
+		<deviceTypeName>Type 4</deviceTypeName>
+		<percentage>30</percentage>
+		<connectivity>wifi</connectivity>
+
+		<mobility>false</mobility>
+		<speed>1.4</speed>
+		<minPauseDuration>10</minPauseDuration>
+		<maxPauseDuration>300</maxPauseDuration>
+		<minMobilityDuration>99</minMobilityDuration>
+		<maxMobilityDuration>100</maxMobilityDuration>
+
+		<battery>false</battery>
+		<batteryCapacity>20.0</batteryCapacity>
+		<initialBatteryLevel>100</initialBatteryLevel>
+		<idleConsumption>0.00055</idleConsumption>
+		<maxConsumption>0.055</maxConsumption>
+
+		<isOrchestrator>false</isOrchestrator>
+		<generateTasks>true</generateTasks>
+		<cores>1</cores>
+		<mips>400</mips>
+		<ram>500</ram>
+		<storage>64</storage> <!--MB of caching memory-->
+	</device>
+</edge_devices>

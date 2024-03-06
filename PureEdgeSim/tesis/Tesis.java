@@ -63,7 +63,8 @@ public class Tesis {
 	 */
 
 	// Below is the path for the settings folder of this example
-	private static String settingsPath = "PureEdgeSim/tesis/Tesis_settings/";
+	private static String settingsPath = "PureEdgeSim/tesis/settings/Tesis_settings/";
+//	private static String settingsPath = "PureEdgeSim/tesis/settings/10_nodes_settings/";
 
 	// The custom output folder is
 	private static String outputPath = "PureEdgeSim/tesis/Tesis_output/";

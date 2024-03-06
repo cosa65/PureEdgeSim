@@ -175,9 +175,8 @@ public class DefaultNetworkModel extends NetworkModel {
 			send(task.getEdgeDevice(), task.getOrchestrator(), task, task.getFileSizeInBits(),
 					TransferProgress.Type.REQUEST);
 
-		} else // The device orchestrates its tasks by itself, so, send the request directly to
-				// destination
-		{
+		} else {
+			// The device orchestrates its tasks by itself, so, send the request directly to destination
 			scheduleNow(simulationManager, SEND_TASK_FROM_ORCH_TO_DESTINATION, task);
 		}
 	}
