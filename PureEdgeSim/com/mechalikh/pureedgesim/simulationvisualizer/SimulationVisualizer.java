@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
+import com.mechalikh.pureedgesim.simulationvisualizer.JFreeChart.AccurateChart;
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.BitmapEncoder.BitmapFormat;
 import org.knowm.xchart.SwingWrapper;
@@ -50,6 +51,8 @@ public class SimulationVisualizer {
 
     // List of charts to display
     protected List<Chart> charts = new ArrayList<Chart>(8);
+
+    protected List<AccurateChart> accurateCharts = new ArrayList<>(1);
 
     // List of charts to display
     protected List<Chart> realTimeCharts = new ArrayList<Chart>(4);
@@ -92,6 +95,8 @@ public class SimulationVisualizer {
         Chart clustersMapChart = new ClustersMapChart("Cluster map", "Width (meters)", "Length (meters)", simulationManager);
         Chart deviceIdsMapChart = new DeviceIdsMapChart("Device ids map", "Width (meters)", "Length (meters)", simulationManager);
         charts.addAll(List.of(mapChart, orchestratorsChart, deviceTypesChart, cpuUtilizationChart, tasksSuccessChart, clustersMapChart, deviceIdsMapChart));
+
+//        accurateCharts.add()
 
         realTimeCharts.addAll(List.of(orchestratorsChart, deviceTypesChart, clustersMapChart, deviceIdsMapChart));
 

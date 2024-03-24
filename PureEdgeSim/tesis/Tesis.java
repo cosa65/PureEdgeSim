@@ -20,7 +20,6 @@
  **/
 package tesis;
 
-import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
 import com.mechalikh.pureedgesim.simulationmanager.Simulation;
 
 public class Tesis {
