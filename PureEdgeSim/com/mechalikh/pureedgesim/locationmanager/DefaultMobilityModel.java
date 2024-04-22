@@ -106,7 +106,7 @@ public class DefaultMobilityModel extends MobilityModel {
 		// Reorientate the device to a new direction
 		orientationAngle = random.nextInt(359);
 		// The mobility will be resumed for the following period of time
-		mobilityDuration = random.nextInt((int) (getMaxMobilityDuration() - getMinMobilityDuration()))
+		mobilityDuration = random.nextInt((int) (getMaxMobilityDuration() + 1 - getMinMobilityDuration()))
 				+ getMinMobilityDuration();
 	}
 
