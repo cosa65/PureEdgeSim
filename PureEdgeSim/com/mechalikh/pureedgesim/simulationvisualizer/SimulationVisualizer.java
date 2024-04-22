@@ -20,6 +20,7 @@
  **/
 package com.mechalikh.pureedgesim.simulationvisualizer;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 public class SimulationVisualizer {
 
 	 // JFrame that displays the charts
-    protected JFrame simulationResultsFrame;
+    protected List<JFrame> simulationResultsFrames = new ArrayList<>();
 
     // SimulationManager instance that manages the simulation
     protected SimulationManager simulationManager;
@@ -115,20 +116,29 @@ public class SimulationVisualizer {
      */
     public void updateCharts() {
         if (firstTime) {
-            SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(
-                realTimeCharts.stream().map(Chart::getChart).collect(Collectors.toList()));
-            simulationResultsFrame = swingWrapper.displayChartMatrix(); // Display charts
-            simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+            for (Chart chart : realTimeCharts) {
+                SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(chart.getChart());
+                JFrame simulationResultsFrame = swingWrapper.displayChart();
+
+                simulationResultsFrame.getContentPane().setPreferredSize(new Dimension(600, 600));
+                // Pack the frame, which causes it to be resized to its preferred size
+                simulationResultsFrame.pack();
+
+                simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+
+                simulationResultsFrames.add(simulationResultsFrame);
+            }
         }
+
         firstTime = false;
         repaint();
 
         // Display simulation time and other scenario parameters
         double time = simulationManager.getSimulation().clock();
-        simulationResultsFrame.setTitle("Simulation time = " + ((int) time / 60) + " min : " + ((int) time % 60)
-                + " seconds  -  number of edge devices = " + simulationManager.getScenario().getDevicesCount()
-                + " -  Architecture = " + simulationManager.getScenario().getStringOrchArchitecture()
-                + " -  Algorithm = " + simulationManager.getScenario().getStringOrchAlgorithm());
+//        simulationResultsFrames.setTitle("Simulation time = " + ((int) time / 60) + " min : " + ((int) time % 60)
+//                + " seconds  -  number of edge devices = " + simulationManager.getScenario().getDevicesCount()
+//                + " -  Architecture = " + simulationManager.getScenario().getStringOrchArchitecture()
+//                + " -  Algorithm = " + simulationManager.getScenario().getStringOrchAlgorithm());
     }
 
     /**
@@ -137,14 +147,20 @@ public class SimulationVisualizer {
     protected void repaint() {
         realTimeCharts.forEach(Chart::update);
         charts.forEach(Chart::update);
-        simulationResultsFrame.repaint();
+
+        for (JFrame frame: simulationResultsFrames) {
+            frame.repaint();
+        }
+
     }
 
     /**
      * Closes the simulation results window.
      */
     public void close() {
-        simulationResultsFrame.dispose();
+        for (JFrame frame: simulationResultsFrames) {
+            frame.dispose();
+        }
     }
 
     /**
