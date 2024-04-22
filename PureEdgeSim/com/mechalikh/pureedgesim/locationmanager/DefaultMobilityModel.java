@@ -99,7 +99,7 @@ public class DefaultMobilityModel extends MobilityModel {
 	protected void pause() {
 		// Pickup random duration from 50 to 200 seconds
 		pauseDuration = getMinPauseDuration()
-				+ random.nextInt((int) (getMaxPauseDuration() - getMinPauseDuration()));
+				+ random.nextInt((int) ((getMaxPauseDuration() + 1) - getMinPauseDuration()));
 		// Pause mobility (the device will stay in its location for the randomly
 		// generated duration
 		pause = true;
