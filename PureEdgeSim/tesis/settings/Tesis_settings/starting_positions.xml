@@ -1,53 +1,53 @@
 <?xml version="1.0"?>
 <starting_positions>
-    <position>
+    <devicePosition>
         <deviceTypeName>Light Computer</deviceTypeName>
         <x>5</x>
         <y>100</y>
-    </position>
-    <position>
+    </devicePosition>
+    <devicePosition>
         <deviceTypeName>Light Computer</deviceTypeName>
         <x>160</x>
         <y>80</y>
-    </position>
-    <position>
+    </devicePosition>
+    <devicePosition>
         <deviceTypeName>Light Cellphone</deviceTypeName>
         <x>8</x>
         <y>100</y>
-    </position>
-    <position>
+    </devicePosition>
+    <devicePosition>
         <deviceTypeName>Light Cellphone</deviceTypeName>
         <x>8</x>
         <y>95</y>
-    </position>
-    <position>
+    </devicePosition>
+    <devicePosition>
         <deviceTypeName>Light Cellphone</deviceTypeName>
         <x>8</x>
         <y>105</y>
-    </position>
-    <position>
+    </devicePosition>
+    <devicePosition>
         <deviceTypeName>Light Cellphone</deviceTypeName>
         <x>10</x>
         <y>100</y>
-    </position>
-    <position>
+    </devicePosition>
+    <devicePosition>
         <deviceTypeName>Light Cellphone</deviceTypeName>
         <x>12</x>
         <y>102</y>
-    </position>
-    <position>
+    </devicePosition>
+    <devicePosition>
         <deviceTypeName>Light Cellphone</deviceTypeName>
         <x>14</x>
         <y>102</y>
-    </position>
-    <position>
+    </devicePosition>
+    <devicePosition>
         <deviceTypeName>Light Cellphone</deviceTypeName>
         <x>15</x>
         <y>102</y>
-    </position>
-    <position>
+    </devicePosition>
+    <devicePosition>
         <deviceTypeName>Light Cellphone</deviceTypeName>
         <x>18</x>
         <y>102</y>
-    </position>
+    </devicePosition>
 </starting_positions>

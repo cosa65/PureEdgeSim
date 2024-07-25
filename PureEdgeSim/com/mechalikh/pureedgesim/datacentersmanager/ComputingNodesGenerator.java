@@ -240,7 +240,7 @@ public class ComputingNodesGenerator {
 				dbFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
 				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 				Document doc = dBuilder.parse(startingPositionsFile);
-				NodeList nodeList = doc.getElementsByTagName("position");
+				NodeList nodeList = doc.getElementsByTagName("devicePosition");
 
 				for (int i = 0; i < nodeList.getLength(); i++) {
 					Element position = (Element) nodeList.item(i);
