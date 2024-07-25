@@ -223,7 +223,6 @@ public abstract class SimulationAbstract {
 		case STARTING_POSITIONS_FILE:
 			SimulationParameters.startingPositionsFile = path;
 			break;
-
 		case CUSTOM_MOVEMENT_FILE:
 			SimulationParameters.customMovementFile = path;
 		default:
