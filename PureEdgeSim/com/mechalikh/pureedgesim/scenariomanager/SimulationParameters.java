@@ -62,6 +62,8 @@ public class SimulationParameters {
 
 	public static String startingPositionsFile = "PureEdgeSim/settings/starting_positions.xml";
 
+	public static String customMovementFile = "PureEdgeSim/settings/custom_movement.xml";
+
 	/**
 	 * The path to the cloud characteristics file.
 	 * 

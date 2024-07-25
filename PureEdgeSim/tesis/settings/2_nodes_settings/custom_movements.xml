@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<starting_positions>
+<custom_movements>
     <position>
         <deviceTypeName>Light Computer</deviceTypeName>
         <x>50</x>
@@ -10,4 +10,4 @@
         <x>10</x>
         <y>55</y>
     </position>
-</starting_positions>
+</custom_movements>

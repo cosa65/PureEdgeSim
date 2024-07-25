@@ -53,8 +53,6 @@ public class SimulationVisualizer {
     // List of charts to display
     protected List<Chart> charts = new ArrayList<Chart>(8);
 
-    protected List<AccurateChart> accurateCharts = new ArrayList<>(1);
-
     // List of charts to display
     protected List<Chart> realTimeCharts = new ArrayList<Chart>(4);
 
@@ -148,10 +146,7 @@ public class SimulationVisualizer {
         realTimeCharts.forEach(Chart::update);
         charts.forEach(Chart::update);
 
-        for (JFrame frame: simulationResultsFrames) {
-            frame.repaint();
-        }
-
+        simulationResultsFrames.forEach(JFrame::repaint);
     }
 
     /**

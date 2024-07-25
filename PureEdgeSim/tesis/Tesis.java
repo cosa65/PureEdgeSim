@@ -62,8 +62,8 @@ public class Tesis {
 	 */
 
 	// Below is the path for the settings folder of this example
-//	private static String settingsPath = "PureEdgeSim/tesis/settings/Tesis_settings/";
-//	private static String settingsPath = "PureEdgeSim/tesis/settings/10_nodes_settings/";
+	// private static String settingsPath = "PureEdgeSim/tesis/settings/Tesis_settings/";
+	// private static String settingsPath = "PureEdgeSim/tesis/settings/10_nodes_settings/";
 	private static String settingsPath = "PureEdgeSim/tesis/settings/2_nodes_settings/";
 
 	// The custom output folder is
@@ -89,7 +89,7 @@ public class Tesis {
 		 * used using the following line. However, in this example instead of extending
 		 * the NetworkModel, we extended the DefaultNetworkModel, because we only want
 		 * to add the cooperative caching algorithm and the DefaultNetworkModel is
-		 * realistic enough, so need to change it with another one.
+		 * realistic enough, so need to change it with another on e.
 		 **/
 
 		sim.setCustomNetworkModel(examples.TesisCustomNetworkModel.class);

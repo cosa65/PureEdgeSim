@@ -43,7 +43,13 @@ import com.mechalikh.pureedgesim.taskorchestrator.Orchestrator;
 public abstract class SimulationAbstract {
 
 	public enum Files {
-		SIMULATION_PARAMETERS, APPLICATIONS_FILE, EDGE_DATACENTERS_FILE, EDGE_DEVICES_FILE, CLOUD_FILE, STARTING_POSITIONS_FILE
+		SIMULATION_PARAMETERS,
+		APPLICATIONS_FILE,
+		EDGE_DATACENTERS_FILE,
+		EDGE_DEVICES_FILE,
+		CLOUD_FILE,
+		STARTING_POSITIONS_FILE,
+		CUSTOM_MOVEMENT_FILE
 	}
 
 	/**
@@ -188,6 +194,7 @@ public abstract class SimulationAbstract {
 		setCustomFilePath(settingsFolder + "edge_devices.xml", Files.EDGE_DEVICES_FILE);
 		setCustomFilePath(settingsFolder + "cloud.xml", Files.CLOUD_FILE);
 		setCustomFilePath(settingsFolder + "starting_positions.xml", Files.STARTING_POSITIONS_FILE);
+		setCustomFilePath(settingsFolder + "custom_movements.xml", Files.CUSTOM_MOVEMENT_FILE);
 	}
 
 	/**
@@ -216,6 +223,9 @@ public abstract class SimulationAbstract {
 		case STARTING_POSITIONS_FILE:
 			SimulationParameters.startingPositionsFile = path;
 			break;
+
+		case CUSTOM_MOVEMENT_FILE:
+			SimulationParameters.customMovementFile = path;
 		default:
 			throw new IllegalArgumentException(getClass().getSimpleName() + " - Unknown file type");
 		}
