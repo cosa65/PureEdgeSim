@@ -9,10 +9,11 @@
         <deviceTypeName>Light Cellphone</deviceTypeName>
         <x>10</x>
         <y>55</y>
-        <custom_movement>
+        <customMovement>
             <position>
-
+                <x>100</x>
+                <y>55</y>
             </position>
-        </custom_movement>
+        </customMovement>
     </devicePosition>
 </starting_positions>

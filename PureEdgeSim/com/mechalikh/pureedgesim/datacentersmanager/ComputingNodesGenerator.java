@@ -34,6 +34,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import com.mechalikh.pureedgesim.simulationmanager.SimLog;
+import org.jgrapht.alg.util.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -202,10 +203,47 @@ public class ComputingNodesGenerator {
 
 	}
 
+	public class Movement {
+		ArrayList<Integer> xs = new ArrayList<>();
+		ArrayList<Integer> ys = new ArrayList<>();
+
+		Movement() {}
+
+		Movement(ArrayList<Integer> xs, ArrayList<Integer> ys) {
+			this.xs = xs;
+			this.ys = ys;
+		}
+
+		Location getNextLocation(Location currentLocation) {
+			Location nextLocation = new Location(this.xs.get(0), this.ys.get(0));
+
+			// If not yet in nextLocation, then return
+			if (currentLocation != nextLocation) {
+				return nextLocation;
+			}
+
+			// If already reached nextLocation and still have more locations available, then pop and return the next one
+			if (this.xs.size() > 1) {
+				this.xs.remove(0);
+				this.ys.remove(0);
+
+				return new Location(
+					this.xs.get(0),
+					this.ys.get(0)
+				);
+			}
+
+//			TODO Return random if no stored location
+			return
+		}
+	}
+
 	private class LocationsChecker {
 		private class LocationsStore {
 			ArrayList<Integer> xs = new ArrayList<>();
 			ArrayList<Integer> ys = new ArrayList<>();
+
+			ArrayList<Movement> customMovements = new ArrayList<>();
 
 			LocationsStore() {}
 
@@ -214,20 +252,41 @@ public class ComputingNodesGenerator {
 				this.ys.add(y);
 			}
 
-			public Location popLocation() {
+			public void addCustomMovement(Movement movement, ArrayList<Integer> x, ArrayList<Integer> y) {
+				this.customMovements.add(movement);
+			}
+
+			public Pair<Location, Movement> popLocation() {
+				Movement movementToReturn;
+				if (this.customMovements.size() > 0) {
+					movementToReturn = this.customMovements.remove(0);
+				} else {
+					movementToReturn = new Movement();
+				}
+
 				if (this.xs.size() == 0) {
 					//		Random random = SecureRandom.getInstanceStrong();
 					Random random = simulationManager.getRandom();
 
-					return new Location(
-						random.nextInt(SimulationParameters.simulationMapLength),
-						random.nextInt(SimulationParameters.simulationMapLength)
+					return new Pair<>(
+						new Location(
+							random.nextInt(SimulationParameters.simulationMapLength),
+							random.nextInt(SimulationParameters.simulationMapLength)
+						),
+						movementToReturn
 					);
 				}
 
-				return new Location(
+
+
+				Location locationToReturn = new Location(
 					this.xs.remove(0),
 					this.ys.remove(0)
+				);
+
+				return new Pair<>(
+					locationToReturn,
+					movementToReturn
 				);
 			}
 		}
@@ -254,13 +313,23 @@ public class ComputingNodesGenerator {
 					store.addCustomPosition(x, y);
 
 					this.locationsByDeviceType.put(deviceTypeName, store);
+
+					Node customMovement;
+					try {
+						customMovement = position.getElementsByTagName("customMovement").item(0);
+					} catch (Exception e) {
+//						If no customMovement was found, return. Default mobility is random
+						return;
+					}
+
+
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 
-		public Location getLocation(String deviceTypeName) {
+		public Pair<Location, Movement> getLocation(String deviceTypeName) {
 			LocationsStore store = this.locationsByDeviceType.getOrDefault(deviceTypeName, new LocationsStore());
 
 			return store.popLocation();
@@ -444,7 +513,8 @@ public class ComputingNodesGenerator {
 				.parseDouble(datacenterElement.getElementsByTagName("idleConsumption").item(0).getTextContent());
 		double maxConsumption = Double
 				.parseDouble(datacenterElement.getElementsByTagName("maxConsumption").item(0).getTextContent());
-		Location datacenterLocation = new Location(xPosition, yPosition);
+
+		Pair<Location, Movement> datacenterLocationSetup = new Pair<>(new Location(xPosition, yPosition), new Movement());
 		int numOfCores = Integer.parseInt(datacenterElement.getElementsByTagName("cores").item(0).getTextContent());
 		double mips = Double.parseDouble(datacenterElement.getElementsByTagName("mips").item(0).getTextContent());
 		double storage = Double.parseDouble(datacenterElement.getElementsByTagName("storage").item(0).getTextContent());
@@ -471,10 +541,10 @@ public class ComputingNodesGenerator {
 			Element location = (Element) datacenterElement.getElementsByTagName("location").item(0);
 			xPosition = Integer.parseInt(location.getElementsByTagName("x_pos").item(0).getTextContent());
 			yPosition = Integer.parseInt(location.getElementsByTagName("y_pos").item(0).getTextContent());
-			datacenterLocation = new Location(xPosition, yPosition);
+			datacenterLocationSetup = new Pair<>(new Location(xPosition, yPosition), new Movement());
 
 			for (int i = 0; i < edgeOnlyList.size(); i++)
-				if (datacenterLocation.equals(edgeOnlyList.get(i).getMobilityModel().getCurrentLocation()))
+				if (datacenterLocationSetup.equals(edgeOnlyList.get(i).getMobilityModel().getCurrentLocation()))
 					throw new IllegalArgumentException(
 							" Each Edge Data Center must have a different location, check the \"edge_datacenters.xml\" file!");
 
@@ -503,18 +573,20 @@ public class ComputingNodesGenerator {
 			computingNode.enableTaskGeneration(Boolean
 					.parseBoolean(datacenterElement.getElementsByTagName("generateTasks").item(0).getTextContent()));
 			// Generate random location for edge devices
-			datacenterLocation = locationsChecker.getLocation(deviceTypeName);
+			datacenterLocationSetup = locationsChecker.getLocation(deviceTypeName);
+
+			Location location = datacenterLocationSetup.getFirst();
 
 			getSimulationManager().getSimulationLogger()
 					.deepLog("ComputingNodesGenerator- Edge device:" + mistOnlyList.size() + "    location: ( "
-							+ datacenterLocation.getXPos() + "," + datacenterLocation.getYPos() + " )");
+							+ location.getXPos() + "," + location.getYPos() + " )");
 			SimLog.println("ComputingNodesGenerator- Edge deviceDebug:" + mistOnlyList.size() + "    location: ( "
-				+ datacenterLocation.getXPos() + "," + datacenterLocation.getYPos() + " )");
+				+ location.getXPos() + "," + location.getYPos() + " )");
 		}
 		computingNode.setType(type);
 		Constructor<?> mobilityConstructor = mobilityModelClass.getConstructor(SimulationManager.class, Location.class);
 		MobilityModel mobilityModel = ((MobilityModel) mobilityConstructor.newInstance(simulationManager,
-				datacenterLocation)).setMobile(mobile).setSpeed(speed).setMinPauseDuration(minPauseDuration)
+				datacenterLocationSetup)).setMobile(mobile).setSpeed(speed).setMinPauseDuration(minPauseDuration)
 				.setMaxPauseDuration(maxPauseDuration).setMinMobilityDuration(minMobilityDuration)
 				.setMaxMobilityDuration(maxMobilityDuration);
 

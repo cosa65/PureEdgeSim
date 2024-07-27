@@ -25,8 +25,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
+import com.mechalikh.pureedgesim.datacentersmanager.ComputingNodesGenerator.Movement;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
+import org.jgrapht.alg.util.Pair;
 
 /**
  * The main class of the Mobility Manager module, that generates the mobility
@@ -41,6 +43,7 @@ import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 public abstract class MobilityModel {
 
 	protected Location currentLocation;
+	protected Movement movement;
 	protected boolean isMobile = false;
 	protected double minPauseDuration;
 	protected double maxPauseDuration;
@@ -61,8 +64,9 @@ public abstract class MobilityModel {
 	 */
 	public static final MobilityModel NULL = new MobilityModelNull();
 
-	protected MobilityModel(SimulationManager simulationManager, Location location) {
-		currentLocation = location;
+	protected MobilityModel(SimulationManager simulationManager, Pair<Location, Movement> locationSetup) {
+		currentLocation = locationSetup.getFirst();
+		movement = locationSetup.getSecond();
 		setSimulationManager(simulationManager);
 	}
 
@@ -165,11 +169,11 @@ public abstract class MobilityModel {
 	}
 
 	public void generatePath() {
-
 		closestEdgeDataCenter = getDataCenter();
 
 		if (!isMobile())
 			return;
+
 		Location newLocation = getCurrentLocation();
 
 		// Working around the double imprecision

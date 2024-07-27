@@ -20,12 +20,12 @@
  **/
 package com.mechalikh.pureedgesim.locationmanager;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Random;
 
+import com.mechalikh.pureedgesim.datacentersmanager.ComputingNodesGenerator.Movement;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
-import com.mechalikh.pureedgesim.simulationmanager.SimulationManager; 
+import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
+import org.jgrapht.alg.util.Pair;
 
 public class DefaultMobilityModel extends MobilityModel {
 	/**
@@ -40,8 +40,8 @@ public class DefaultMobilityModel extends MobilityModel {
 	protected double mobilityDuration;
 	protected int orientationAngle;
 
-	public DefaultMobilityModel(SimulationManager simulationManager, Location currentLocation) {
-		super(simulationManager, currentLocation);
+	public DefaultMobilityModel(SimulationManager simulationManager, Pair<Location, Movement> startingLocation) {
+		super(simulationManager, startingLocation);
 //		try {
 //			random = SecureRandom.getInstanceStrong();
 			random = simulationManager.getRandom();
@@ -75,7 +75,6 @@ public class DefaultMobilityModel extends MobilityModel {
 
 		// Update the currentLocation of this device
 		return updateLocation(xPosition, yPosition);
-
 	}
 
 	protected Location updateLocation(double xPosition, double yPosition) {
