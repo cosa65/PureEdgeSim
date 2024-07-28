@@ -214,6 +214,45 @@ public class ComputingNodesGenerator {
 			this.ys = ys;
 		}
 
+		public int getAngleToReachNextLocation(Location currentLocation, Random random) {
+			Location nextLocation = this.getNextLocation(currentLocation);
+
+//			If there is no next location
+			if (nextLocation == null) {
+				return this.getRandomAngle(currentLocation, random);
+			}
+
+			// Calculate the angle in radians
+			double angleRadians = Math.atan2(nextLocation.getYPos() - currentLocation.getYPos(), nextLocation.getXPos() - currentLocation.getXPos());
+
+			// Convert radians to degrees
+			int angleDegrees = (int) Math.toDegrees(angleRadians);
+
+			// Normalize the angle to [0, 360) range
+			if (angleDegrees < 0) {
+				angleDegrees += 360;
+			}
+
+			return angleDegrees;
+		}
+
+		int getRandomAngle(Location currentLocation, Random random) {
+			int randomDegree = random.nextInt(180);
+
+			int angle = 0;
+
+			if (currentLocation.getXPos() >= SimulationParameters.simulationMapLength)
+				angle = -90 - randomDegree;
+			else if (currentLocation.getXPos() <= 0)
+				angle = -90 + randomDegree;
+			if (currentLocation.getYPos() >= SimulationParameters.simulationMapWidth)
+				angle = - randomDegree;
+			else if (currentLocation.getYPos() <= 0)
+				angle = randomDegree;
+
+			return angle;
+		}
+
 		Location getNextLocation(Location currentLocation) {
 			Location nextLocation = new Location(this.xs.get(0), this.ys.get(0));
 
@@ -233,8 +272,8 @@ public class ComputingNodesGenerator {
 				);
 			}
 
-//			TODO Return random if no stored location
-			return
+//			If no more locations
+			return null;
 		}
 	}
 

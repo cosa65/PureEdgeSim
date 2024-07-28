@@ -65,8 +65,8 @@ public abstract class MobilityModel {
 	public static final MobilityModel NULL = new MobilityModelNull();
 
 	protected MobilityModel(SimulationManager simulationManager, Pair<Location, Movement> locationSetup) {
-		currentLocation = locationSetup.getFirst();
-		movement = locationSetup.getSecond();
+		this.currentLocation = locationSetup.getFirst();
+		this.movement = locationSetup.getSecond();
 		setSimulationManager(simulationManager);
 	}
 
