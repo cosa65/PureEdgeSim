@@ -110,6 +110,8 @@ public class DefaultMobilityModel extends MobilityModel {
 	}
 
 	protected void reoriontate(double xPosition, double yPosition) {
+//		TODO HERE GOES THE UPDATE TO LOCATION
+
 		if (xPosition >= SimulationParameters.simulationMapLength)
 			orientationAngle = -90 - random.nextInt(180);
 		else if (xPosition <= 0)

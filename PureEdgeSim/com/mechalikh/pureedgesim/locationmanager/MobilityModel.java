@@ -174,15 +174,15 @@ public abstract class MobilityModel {
 		if (!isMobile())
 			return;
 
-		Location newLocation = getCurrentLocation();
-
 		// Working around the double imprecision
 		int interval = (int) (SimulationParameters.updateInterval * 1000);
 		int simulationTime = (int) (SimulationParameters.simulationDuration * 1000);
 
+		Location locationIt = getCurrentLocation();
+
 		for (int i = 0; i <= simulationTime; i = i + interval) {
-			path.put(i, newLocation);
-			newLocation = getNextLocation(newLocation);
+			path.put(i, locationIt);
+			locationIt = getNextLocation(locationIt);
 			datacentersMap.put(i, getDataCenter());
 		}
 
