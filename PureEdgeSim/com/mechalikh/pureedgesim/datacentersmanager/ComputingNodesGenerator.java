@@ -256,6 +256,10 @@ public class ComputingNodesGenerator {
 		}
 
 		Location getNextLocation(Location currentLocation) {
+			if (this.xs.size() == 0) {
+				return null;
+			}
+
 			Location nextLocation = new Location(this.xs.get(0), this.ys.get(0));
 
 			// If not yet in nextLocation, then return
@@ -274,7 +278,7 @@ public class ComputingNodesGenerator {
 				);
 			}
 
-//			If no more locations
+			exit(1);
 			return null;
 		}
 	}
