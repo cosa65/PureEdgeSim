@@ -63,7 +63,7 @@ public class ComputingNodesGenerator {
 	 * The list that contains all orchestrators. It is used by the computing node.
 	 * In this case, the tasks are sent over the network to one of the orchestrators
 	 * to make decisions.
-	 * 
+	 *
 	 * @see #generateDataCenters(String, TYPES)
 	 * @see com.mechalikh.pureedgesim.simulationmanager.DefaultSimulationManager#sendTaskToOrchestrator(Task)
 	 */
@@ -76,14 +76,14 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * The Mobility Model to be used in this scenario
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.simulationmanager.SimulationThread#loadModels(DefaultSimulationManager)
 	 */
 	protected Class<? extends MobilityModel> mobilityModelClass;
 
 	/**
 	 * The Computing Node Class to be used in this scenario
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.simulationmanager.SimulationThread#loadModels(DefaultSimulationManager)
 	 */
 	protected Class<? extends ComputingNode> computingNodeClass;
@@ -91,7 +91,7 @@ public class ComputingNodesGenerator {
 	/**
 	 * A list that contains all edge devices including sensors (i.e., devices
 	 * without computing capacities).
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.taskorchestrator.Orchestrator#mistOnly(Task
 	 *      task)
 	 */
@@ -100,7 +100,7 @@ public class ComputingNodesGenerator {
 	/**
 	 * A list that contains all edge devices except sensors (i.e., devices without
 	 * computing capacities).
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.taskorchestrator.Orchestrator#mistOnly(Task
 	 *      task)
 	 */
@@ -108,7 +108,7 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * A list that contains only edge data centers and servers.
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.taskorchestrator.Orchestrator#edgeOnly(Task
 	 *      task)
 	 */
@@ -116,7 +116,7 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * A list that contains only cloud data centers.
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.taskorchestrator.Orchestrator#cloudOnly(Task
 	 *      task)
 	 */
@@ -124,7 +124,7 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * A list that contains cloud data centers and edge devices (except sensors).
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.taskorchestrator.Orchestrator#mistAndCloud(Task
 	 *      task)
 	 */
@@ -132,16 +132,16 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * A list that contains cloud and edge data centers.
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.taskorchestrator.Orchestrator#edgeAndCloud(Task
 	 *      task)
 	 */
 	protected List<ComputingNode> edgeAndCloudList = new ArrayList<>(
-			SimulationParameters.numberOfCloudDataCenters + SimulationParameters.numberOfEdgeDataCenters);
+		SimulationParameters.numberOfCloudDataCenters + SimulationParameters.numberOfEdgeDataCenters);
 
 	/**
 	 * A list that contains edge data centers and edge devices (except sensors).
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.taskorchestrator.Orchestrator#mistAndEdge(Task
 	 *      task)
 	 */
@@ -149,27 +149,27 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * A list that contains all generated nodes including sensors
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.taskorchestrator.Orchestrator#all(Task task)
 	 */
 	protected List<ComputingNode> allNodesList;
 
 	/**
 	 * A list that contains all generated nodes (sensors excluded)
-	 * 
+	 *
 	 * @see com.mechalikh.pureedgesim.taskorchestrator.Orchestrator#all(Task task)
 	 */
 	protected List<ComputingNode> allNodesListSensorsExcluded;
 
 	/**
 	 * Constructs a new instance of the computing nodes generator.
-	 * 
+	 *
 	 * @param simulationManager  The simulation manager to use.
 	 * @param mobilityModelClass The mobility model to use.
 	 * @param computingNodeClass The computing node class to use.
 	 */
 	public ComputingNodesGenerator(SimulationManager simulationManager,
-			Class<? extends MobilityModel> mobilityModelClass, Class<? extends ComputingNode> computingNodeClass) {
+								   Class<? extends MobilityModel> mobilityModelClass, Class<? extends ComputingNode> computingNodeClass) {
 		this.simulationManager = simulationManager;
 		this.mobilityModelClass = mobilityModelClass;
 		this.computingNodeClass = computingNodeClass;
@@ -177,13 +177,13 @@ public class ComputingNodesGenerator {
 		this.mistOnlyList = new ArrayList<>(simulationManager.getScenario().getDevicesCount());
 		this.mistOnlyListSensorsExcluded = new ArrayList<>(simulationManager.getScenario().getDevicesCount());
 		this.mistAndCloudListSensorsExcluded = new ArrayList<>(
-				simulationManager.getScenario().getDevicesCount() + SimulationParameters.numberOfCloudDataCenters);
+			simulationManager.getScenario().getDevicesCount() + SimulationParameters.numberOfCloudDataCenters);
 		this.mistAndEdgeListSensorsExcluded = new ArrayList<>(
-				simulationManager.getScenario().getDevicesCount() + SimulationParameters.numberOfEdgeDataCenters);
+			simulationManager.getScenario().getDevicesCount() + SimulationParameters.numberOfEdgeDataCenters);
 		this.allNodesList = new ArrayList<>(simulationManager.getScenario().getDevicesCount()
-				+ SimulationParameters.numberOfEdgeDataCenters + SimulationParameters.numberOfCloudDataCenters);
+			+ SimulationParameters.numberOfEdgeDataCenters + SimulationParameters.numberOfCloudDataCenters);
 		this.allNodesListSensorsExcluded = new ArrayList<>(simulationManager.getScenario().getDevicesCount()
-				+ SimulationParameters.numberOfEdgeDataCenters + SimulationParameters.numberOfCloudDataCenters);
+			+ SimulationParameters.numberOfEdgeDataCenters + SimulationParameters.numberOfCloudDataCenters);
 	}
 
 	/**
@@ -201,7 +201,7 @@ public class ComputingNodesGenerator {
 		generateEdgeDevices();
 
 		getSimulationManager().getSimulationLogger().print("%s - Datacenters and devices were generated",
-				getClass().getSimpleName());
+			getClass().getSimpleName());
 
 	}
 
@@ -297,7 +297,7 @@ public class ComputingNodesGenerator {
 				this.ys.add(y);
 			}
 
-			public void addCustomMovement(Movement movement, ArrayList<Integer> x, ArrayList<Integer> y) {
+			public void addCustomMovement(Movement movement) {
 				this.customMovements.add(movement);
 			}
 
@@ -323,7 +323,6 @@ public class ComputingNodesGenerator {
 				}
 
 
-
 				Location locationToReturn = new Location(
 					this.xs.remove(0),
 					this.ys.remove(0)
@@ -347,27 +346,36 @@ public class ComputingNodesGenerator {
 				NodeList nodeList = doc.getElementsByTagName("devicePosition");
 
 				for (int i = 0; i < nodeList.getLength(); i++) {
-					Element position = (Element) nodeList.item(i);
 
-					String deviceTypeName = position.getElementsByTagName("deviceTypeName").item(0).getTextContent();
-					int x = Integer.parseInt(position.getElementsByTagName("x").item(0).getTextContent());
-					int y = Integer.parseInt(position.getElementsByTagName("y").item(0).getTextContent());
+					Element startingPosition = (Element) nodeList.item(i);
+
+					String deviceTypeName = startingPosition.getElementsByTagName("deviceTypeName").item(0).getTextContent();
+					int startingX = Integer.parseInt(startingPosition.getElementsByTagName("x").item(0).getTextContent());
+					int startingY = Integer.parseInt(startingPosition.getElementsByTagName("y").item(0).getTextContent());
 
 					LocationsStore store = this.locationsByDeviceType.getOrDefault(deviceTypeName, new LocationsStore());
 
-					store.addCustomPosition(x, y);
+					store.addCustomPosition(startingX, startingY);
 
 					this.locationsByDeviceType.put(deviceTypeName, store);
 
-					Node customMovement;
-					try {
-						customMovement = position.getElementsByTagName("customMovement").item(0);
-					} catch (Exception e) {
-//						If no customMovement was found, return. Default mobility is random
-						return;
+					Element customMovementNode = (Element) startingPosition.getElementsByTagName("customMovement").item(0);
+
+					if (customMovementNode == null) continue;
+
+					ArrayList<Integer> xs = new ArrayList<>();
+					ArrayList<Integer> ys = new ArrayList<>();
+					NodeList positions = customMovementNode.getElementsByTagName("position");
+					for (int j = 0; j < positions.getLength(); j++) {
+						Element position = (Element) positions.item(j);
+						Integer x = Integer.parseInt(position.getElementsByTagName("x").item(0).getTextContent());
+						Integer y = Integer.parseInt(position.getElementsByTagName("y").item(0).getTextContent());
+
+						xs.add(x);
+						ys.add(y);
 					}
 
-
+					store.addCustomMovement(new Movement(xs, ys));
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -412,8 +420,8 @@ public class ComputingNodesGenerator {
 			// if percentage of generated devices is < 100%.
 			if (mistOnlyList.size() < getSimulationManager().getScenario().getDevicesCount())
 				getSimulationManager().getSimulationLogger().print(
-						"%s - Wrong percentages values (the sum is inferior than 100%), check edge_devices.xml file !",
-						getClass().getSimpleName());
+					"%s - Wrong percentages values (the sum is inferior than 100%), check edge_devices.xml file !",
+					getClass().getSimpleName());
 			// Add more devices.
 			if (edgeElement != null) {
 				int missingInstances = getSimulationManager().getScenario().getDevicesCount() - mistOnlyList.size();
@@ -444,7 +452,7 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Generates the required number of instances for each type of edge devices.
-	 * 
+	 *
 	 * @param type The type of edge devices.
 	 */
 	protected void generateDevicesInstances(Element type) {
@@ -461,8 +469,8 @@ public class ComputingNodesGenerator {
 		for (int j = 0; j < devicesInstances; j++) {
 			if (mistOnlyList.size() > getSimulationManager().getScenario().getDevicesCount()) {
 				getSimulationManager().getSimulationLogger().print(
-						"%s - Wrong percentages values (the sum is superior than 100%%), check edge_devices.xml file !",
-						getClass().getSimpleName());
+					"%s - Wrong percentages values (the sum is superior than 100%%), check edge_devices.xml file !",
+					getClass().getSimpleName());
 				break;
 			}
 
@@ -477,7 +485,7 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Generates the Cloud and Edge data centers.
-	 * 
+	 *
 	 * @param file The configuration file.
 	 * @param type The type, whether a CLOUD data center or an EDGE one.
 	 */
@@ -500,14 +508,14 @@ public class ComputingNodesGenerator {
 					cloudOnlyList.add(computingNode);
 					mistAndCloudListSensorsExcluded.add(computingNode);
 					if (SimulationParameters.enableOrchestrators
-							&& SimulationParameters.deployOrchestrators == "CLOUD") {
+						&& SimulationParameters.deployOrchestrators == "CLOUD") {
 						orchestratorsList.add(computingNode);
 					}
 				} else {
 					edgeOnlyList.add(computingNode);
 					mistAndEdgeListSensorsExcluded.add(computingNode);
 					if (SimulationParameters.enableOrchestrators
-							&& SimulationParameters.deployOrchestrators == "EDGE") {
+						&& SimulationParameters.deployOrchestrators == "EDGE") {
 						orchestratorsList.add(computingNode);
 					}
 				}
@@ -523,10 +531,10 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Creates the computing nodes.
-	 * 
+	 *
 	 * @see #generateDataCenters(String, TYPES)
 	 * @see #generateDevicesInstances(Element)
-	 * 
+	 *
 	 * @param datacenterElement The configuration file.
 	 * @param type              The type, whether an MIST (edge) device, an EDGE
 	 *                          data center, or a CLOUD one.
@@ -543,8 +551,8 @@ public class ComputingNodesGenerator {
 	}
 
 	protected ComputingNode createComputingNode(Element datacenterElement, SimulationParameters.TYPES type, LocationsChecker locationsChecker)
-			throws NoSuchAlgorithmException, NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		throws NoSuchAlgorithmException, NoSuchMethodException, SecurityException, InstantiationException,
+		IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		// SecureRandom is preferred to generate random values.
 
 		Boolean mobile = false;
@@ -556,9 +564,9 @@ public class ComputingNodesGenerator {
 		int xPosition = -1;
 		int yPosition = -1;
 		double idleConsumption = Double
-				.parseDouble(datacenterElement.getElementsByTagName("idleConsumption").item(0).getTextContent());
+			.parseDouble(datacenterElement.getElementsByTagName("idleConsumption").item(0).getTextContent());
 		double maxConsumption = Double
-				.parseDouble(datacenterElement.getElementsByTagName("maxConsumption").item(0).getTextContent());
+			.parseDouble(datacenterElement.getElementsByTagName("maxConsumption").item(0).getTextContent());
 
 		Pair<Location, Movement> datacenterLocationSetup = new Pair<>(new Location(xPosition, yPosition), new Movement());
 		int numOfCores = Integer.parseInt(datacenterElement.getElementsByTagName("cores").item(0).getTextContent());
@@ -569,9 +577,9 @@ public class ComputingNodesGenerator {
 		String deviceTypeName = datacenterElement.getElementsByTagName("deviceTypeName").item(0).getTextContent();
 
 		Constructor<?> datacenterConstructor = computingNodeClass.getConstructor(SimulationManager.class, double.class,
-				int.class, double.class, double.class, String.class);
+			int.class, double.class, double.class, String.class);
 		ComputingNode computingNode = (ComputingNode) datacenterConstructor.newInstance(getSimulationManager(), mips,
-				numOfCores, storage, ram, deviceTypeName);
+			numOfCores, storage, ram, deviceTypeName);
 
 //		computingNode.setAsOrchestrator(Boolean
 //				.parseBoolean(datacenterElement.getElementsByTagName("isOrchestrator").item(0).getTextContent()));
@@ -592,49 +600,49 @@ public class ComputingNodesGenerator {
 			for (int i = 0; i < edgeOnlyList.size(); i++)
 				if (datacenterLocationSetup.equals(edgeOnlyList.get(i).getMobilityModel().getCurrentLocation()))
 					throw new IllegalArgumentException(
-							" Each Edge Data Center must have a different location, check the \"edge_datacenters.xml\" file!");
+						" Each Edge Data Center must have a different location, check the \"edge_datacenters.xml\" file!");
 
 			computingNode.setPeriphery(
-					Boolean.parseBoolean(datacenterElement.getElementsByTagName("periphery").item(0).getTextContent()));
+				Boolean.parseBoolean(datacenterElement.getElementsByTagName("periphery").item(0).getTextContent()));
 
 		} else if (type == SimulationParameters.TYPES.EDGE_DEVICE) {
 			mobile = Boolean.parseBoolean(datacenterElement.getElementsByTagName("mobility").item(0).getTextContent());
 			speed = Double.parseDouble(datacenterElement.getElementsByTagName("speed").item(0).getTextContent());
 			minPauseDuration = Double
-					.parseDouble(datacenterElement.getElementsByTagName("minPauseDuration").item(0).getTextContent());
+				.parseDouble(datacenterElement.getElementsByTagName("minPauseDuration").item(0).getTextContent());
 			maxPauseDuration = Double
-					.parseDouble(datacenterElement.getElementsByTagName("maxPauseDuration").item(0).getTextContent());
+				.parseDouble(datacenterElement.getElementsByTagName("maxPauseDuration").item(0).getTextContent());
 			minMobilityDuration = Double.parseDouble(
-					datacenterElement.getElementsByTagName("minMobilityDuration").item(0).getTextContent());
+				datacenterElement.getElementsByTagName("minMobilityDuration").item(0).getTextContent());
 			maxMobilityDuration = Double.parseDouble(
-					datacenterElement.getElementsByTagName("maxMobilityDuration").item(0).getTextContent());
+				datacenterElement.getElementsByTagName("maxMobilityDuration").item(0).getTextContent());
 			computingNode.getEnergyModel().setBattery(
-					Boolean.parseBoolean(datacenterElement.getElementsByTagName("battery").item(0).getTextContent()));
+				Boolean.parseBoolean(datacenterElement.getElementsByTagName("battery").item(0).getTextContent()));
 			computingNode.getEnergyModel().setBatteryCapacity(Double
-					.parseDouble(datacenterElement.getElementsByTagName("batteryCapacity").item(0).getTextContent()));
+				.parseDouble(datacenterElement.getElementsByTagName("batteryCapacity").item(0).getTextContent()));
 			computingNode.getEnergyModel().setIntialBatteryPercentage(Double.parseDouble(
-					datacenterElement.getElementsByTagName("initialBatteryLevel").item(0).getTextContent()));
+				datacenterElement.getElementsByTagName("initialBatteryLevel").item(0).getTextContent()));
 			computingNode.getEnergyModel().setConnectivityType(
-					datacenterElement.getElementsByTagName("connectivity").item(0).getTextContent());
+				datacenterElement.getElementsByTagName("connectivity").item(0).getTextContent());
 			computingNode.enableTaskGeneration(Boolean
-					.parseBoolean(datacenterElement.getElementsByTagName("generateTasks").item(0).getTextContent()));
+				.parseBoolean(datacenterElement.getElementsByTagName("generateTasks").item(0).getTextContent()));
 			// Generate random location for edge devices
 			datacenterLocationSetup = locationsChecker.getLocation(deviceTypeName);
 
 			Location location = datacenterLocationSetup.getFirst();
 
 			getSimulationManager().getSimulationLogger()
-					.deepLog("ComputingNodesGenerator- Edge device:" + mistOnlyList.size() + "    location: ( "
-							+ location.getXPos() + "," + location.getYPos() + " )");
+				.deepLog("ComputingNodesGenerator- Edge device:" + mistOnlyList.size() + "    location: ( "
+					+ location.getXPos() + "," + location.getYPos() + " )");
 			SimLog.println("ComputingNodesGenerator- Edge deviceDebug:" + mistOnlyList.size() + "    location: ( "
 				+ location.getXPos() + "," + location.getYPos() + " )");
 		}
 		computingNode.setType(type);
 		Constructor<?> mobilityConstructor = mobilityModelClass.getConstructor(SimulationManager.class, Pair.class);
 		MobilityModel mobilityModel = ((MobilityModel) mobilityConstructor.newInstance(simulationManager,
-				datacenterLocationSetup)).setMobile(mobile).setSpeed(speed).setMinPauseDuration(minPauseDuration)
-				.setMaxPauseDuration(maxPauseDuration).setMinMobilityDuration(minMobilityDuration)
-				.setMaxMobilityDuration(maxMobilityDuration);
+			datacenterLocationSetup)).setMobile(mobile).setSpeed(speed).setMinPauseDuration(minPauseDuration)
+			.setMaxPauseDuration(maxPauseDuration).setMinMobilityDuration(minMobilityDuration)
+			.setMaxMobilityDuration(maxMobilityDuration);
 
 		computingNode.setMobilityModel(mobilityModel);
 
@@ -644,7 +652,7 @@ public class ComputingNodesGenerator {
 	/**
 	 * Returns the list containing computing nodes that have been selected as
 	 * orchestrators (i.e. to make offloading decisions).
-	 * 
+	 *
 	 * @return The list of orchestrators
 	 */
 	public List<ComputingNode> getOrchestratorsList() {
@@ -653,7 +661,7 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Returns the simulation Manager.
-	 * 
+	 *
 	 * @return The simulation manager
 	 */
 	public SimulationManager getSimulationManager() {
@@ -662,9 +670,9 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Gets the list containing all generated computing nodes.
-	 * 
+	 *
 	 * @see #generateDatacentersAndDevices()
-	 * 
+	 *
 	 * @return the list containing all generated computing nodes.
 	 */
 	public List<ComputingNode> getAllNodesList() {
@@ -674,9 +682,9 @@ public class ComputingNodesGenerator {
 	/**
 	 * Gets the list containing all generated edge devices including sensors (i.e.,
 	 * devices with no computing resources).
-	 * 
+	 *
 	 * @see #generateDevicesInstances(Element)
-	 * 
+	 *
 	 * @return the list containing all edge devices including sensors.
 	 */
 	public List<ComputingNode> getMistOnlyList() {
@@ -685,9 +693,9 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Gets the list containing all generated edge data centers / servers.
-	 * 
+	 *
 	 * @see #generateDataCenters(String, TYPES)
-	 * 
+	 *
 	 * @return the list containing all edge data centers and servers.
 	 */
 	public List<ComputingNode> getEdgeOnlyList() {
@@ -696,9 +704,9 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Gets the list containing only cloud data centers.
-	 * 
+	 *
 	 * @see #generateDataCenters(String, TYPES)
-	 * 
+	 *
 	 * @return the list containing all generated cloud data centers.
 	 */
 	public List<ComputingNode> getCloudOnlyList() {
@@ -708,10 +716,10 @@ public class ComputingNodesGenerator {
 	/**
 	 * Gets the list containing cloud data centers and edge devices (except
 	 * sensors).
-	 * 
+	 *
 	 * @see #generateDataCenters(String, TYPES)
 	 * @see #generateDevicesInstances(Element)
-	 * 
+	 *
 	 * @return the list containing cloud data centers and edge devices.
 	 */
 	public List<ComputingNode> getMistAndCloudListSensorsExcluded() {
@@ -720,9 +728,9 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Gets the list containing cloud and edge data centers.
-	 * 
+	 *
 	 * @see #generateDataCenters(String, TYPES)
-	 * 
+	 *
 	 * @return the list containing cloud and edge data centers.
 	 */
 	public List<ComputingNode> getEdgeAndCloudList() {
@@ -731,10 +739,10 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Gets the list containing edge data centers and edge devices (except sensors).
-	 * 
+	 *
 	 * @see #generateDataCenters(String, TYPES)
 	 * @see #generateDevicesInstances(Element)
-	 * 
+	 *
 	 * @return the list containing edge data centers and edge devices.
 	 */
 	public List<ComputingNode> getMistAndEdgeListSensorsExcluded() {
@@ -744,9 +752,9 @@ public class ComputingNodesGenerator {
 	/**
 	 * Gets the list containing all generated edge devices except sensors (i.e.,
 	 * devices with no computing resources).
-	 * 
+	 *
 	 * @see #generateDevicesInstances(Element)
-	 * 
+	 *
 	 * @return the list containing all edge devices except sensors.
 	 */
 	public List<ComputingNode> getMistOnlyListSensorsExcluded() {
@@ -755,10 +763,10 @@ public class ComputingNodesGenerator {
 
 	/**
 	 * Gets the list containing all computing nodes (except sensors).
-	 * 
+	 *
 	 * @see #generateDataCenters(String, TYPES)
 	 * @see #generateDevicesInstances(Element)
-	 * 
+	 *
 	 * @return the list containing all data centers and devices except sensors.
 	 */
 	public List<ComputingNode> getAllNodesListSensorsExcluded() {
