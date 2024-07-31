@@ -201,8 +201,12 @@ public class SimulationThread {
 
 		// Generate all data centers, servers, an devices
 		SimLog.println(this.getClass().getSimpleName() + " - Initializing the Datacenters Manager Module...");
-		new DataCentersManager(simulationManager, simulation.mobilityModel, simulation.computingNode,
-				simulation.topologyCreator);
+		new DataCentersManager(
+			simulationManager,
+			simulation.mobilityModel,
+			simulation.computingNode,
+			simulation.topologyCreator
+		);
 		long endTime = System.currentTimeMillis();
 		System.out.println("Time taken: " + (endTime - startTime) + " milliseconds");
 		
