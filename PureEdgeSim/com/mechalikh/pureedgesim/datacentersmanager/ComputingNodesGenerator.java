@@ -47,6 +47,8 @@ import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters.TYPES;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 
+import static java.lang.System.exit;
+
 /**
  * This class is responsible for generating the computing resources from the
  * input files ( @see
@@ -511,6 +513,7 @@ public class ComputingNodesGenerator {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			exit(1);
 		}
 	}
 
@@ -623,7 +626,7 @@ public class ComputingNodesGenerator {
 				+ location.getXPos() + "," + location.getYPos() + " )");
 		}
 		computingNode.setType(type);
-		Constructor<?> mobilityConstructor = mobilityModelClass.getConstructor(SimulationManager.class, Location.class);
+		Constructor<?> mobilityConstructor = mobilityModelClass.getConstructor(SimulationManager.class, Pair.class);
 		MobilityModel mobilityModel = ((MobilityModel) mobilityConstructor.newInstance(simulationManager,
 				datacenterLocationSetup)).setMobile(mobile).setSpeed(speed).setMinPauseDuration(minPauseDuration)
 				.setMaxPauseDuration(maxPauseDuration).setMinMobilityDuration(minMobilityDuration)
