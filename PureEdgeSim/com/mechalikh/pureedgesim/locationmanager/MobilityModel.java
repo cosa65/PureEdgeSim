@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mechalikh.pureedgesim.datacentersmanager.ComputingNode;
-import com.mechalikh.pureedgesim.datacentersmanager.ComputingNodesGenerator.Movement;
+import com.mechalikh.pureedgesim.datacentersmanager.Movement;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import org.jgrapht.alg.util.Pair;

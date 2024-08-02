@@ -22,7 +22,7 @@ package com.mechalikh.pureedgesim.locationmanager;
 
 import java.util.Random;
 
-import com.mechalikh.pureedgesim.datacentersmanager.ComputingNodesGenerator.Movement;
+import com.mechalikh.pureedgesim.datacentersmanager.Movement;
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
 import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 import org.jgrapht.alg.util.Pair;

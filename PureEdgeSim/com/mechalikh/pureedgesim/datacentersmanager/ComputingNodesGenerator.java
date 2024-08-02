@@ -205,189 +205,6 @@ public class ComputingNodesGenerator {
 
 	}
 
-	public class Movement {
-		ArrayList<Integer> xs = new ArrayList<>();
-		ArrayList<Integer> ys = new ArrayList<>();
-
-		Movement() {}
-
-		Movement(ArrayList<Integer> xs, ArrayList<Integer> ys) {
-			this.xs = xs;
-			this.ys = ys;
-		}
-
-		public int getAngleToReachNextLocation(Location currentLocation, Random random) {
-			Location nextLocation = this.getNextLocation(currentLocation);
-
-//			If there is no next location
-			if (nextLocation == null) {
-				return this.getRandomAngle(currentLocation, random);
-			}
-
-			// Calculate the angle in radians
-			double angleRadians = Math.atan2(nextLocation.getYPos() - currentLocation.getYPos(), nextLocation.getXPos() - currentLocation.getXPos());
-
-			// Convert radians to degrees
-			int angleDegrees = (int) Math.toDegrees(angleRadians);
-
-			// Normalize the angle to [0, 360) range
-			if (angleDegrees < 0) {
-				angleDegrees += 360;
-			}
-
-			return angleDegrees;
-		}
-
-		int getRandomAngle(Location currentLocation, Random random) {
-			int randomDegree = random.nextInt(180);
-
-			int angle = 0;
-
-			if (currentLocation.getXPos() >= SimulationParameters.simulationMapLength)
-				angle = -90 - randomDegree;
-			else if (currentLocation.getXPos() <= 0)
-				angle = -90 + randomDegree;
-			if (currentLocation.getYPos() >= SimulationParameters.simulationMapWidth)
-				angle = - randomDegree;
-			else if (currentLocation.getYPos() <= 0)
-				angle = randomDegree;
-
-			return angle;
-		}
-
-		Location getNextLocation(Location currentLocation) {
-			if (this.xs.size() == 0) {
-				return null;
-			}
-
-			Location nextLocation = new Location(this.xs.get(0), this.ys.get(0));
-
-			// If not yet in nextLocation, then return
-			if (currentLocation != nextLocation) {
-				return nextLocation;
-			}
-
-			// If already reached nextLocation and still have more locations available, then pop and return the next one
-			if (this.xs.size() > 1) {
-				this.xs.remove(0);
-				this.ys.remove(0);
-
-				return new Location(
-					this.xs.get(0),
-					this.ys.get(0)
-				);
-			}
-
-			exit(1);
-			return null;
-		}
-	}
-
-	private class LocationsChecker {
-		private class LocationsStore {
-			ArrayList<Integer> xs = new ArrayList<>();
-			ArrayList<Integer> ys = new ArrayList<>();
-
-			ArrayList<Movement> customMovements = new ArrayList<>();
-
-			LocationsStore() {}
-
-			public void addCustomPosition(int x, int y) {
-				this.xs.add(x);
-				this.ys.add(y);
-			}
-
-			public void addCustomMovement(Movement movement) {
-				this.customMovements.add(movement);
-			}
-
-			public Pair<Location, Movement> popLocation() {
-				Movement movementToReturn;
-				if (this.customMovements.size() > 0) {
-					movementToReturn = this.customMovements.remove(0);
-				} else {
-					movementToReturn = new Movement();
-				}
-
-				if (this.xs.size() == 0) {
-					//		Random random = SecureRandom.getInstanceStrong();
-					Random random = simulationManager.getRandom();
-
-					return new Pair<>(
-						new Location(
-							random.nextInt(SimulationParameters.simulationMapLength),
-							random.nextInt(SimulationParameters.simulationMapLength)
-						),
-						movementToReturn
-					);
-				}
-
-
-				Location locationToReturn = new Location(
-					this.xs.remove(0),
-					this.ys.remove(0)
-				);
-
-				return new Pair<>(
-					locationToReturn,
-					movementToReturn
-				);
-			}
-		}
-
-		HashMap<String, LocationsStore> locationsByDeviceType = new HashMap<>();
-
-		LocationsChecker() {
-			try (InputStream startingPositionsFile = new FileInputStream(SimulationParameters.startingPositionsFile)) {
-				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-				dbFactory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-				Document doc = dBuilder.parse(startingPositionsFile);
-				NodeList nodeList = doc.getElementsByTagName("devicePosition");
-
-				for (int i = 0; i < nodeList.getLength(); i++) {
-
-					Element startingPosition = (Element) nodeList.item(i);
-
-					String deviceTypeName = startingPosition.getElementsByTagName("deviceTypeName").item(0).getTextContent();
-					int startingX = Integer.parseInt(startingPosition.getElementsByTagName("x").item(0).getTextContent());
-					int startingY = Integer.parseInt(startingPosition.getElementsByTagName("y").item(0).getTextContent());
-
-					LocationsStore store = this.locationsByDeviceType.getOrDefault(deviceTypeName, new LocationsStore());
-
-					store.addCustomPosition(startingX, startingY);
-
-					this.locationsByDeviceType.put(deviceTypeName, store);
-
-					Element customMovementNode = (Element) startingPosition.getElementsByTagName("customMovement").item(0);
-
-					if (customMovementNode == null) continue;
-
-					ArrayList<Integer> xs = new ArrayList<>();
-					ArrayList<Integer> ys = new ArrayList<>();
-					NodeList positions = customMovementNode.getElementsByTagName("position");
-					for (int j = 0; j < positions.getLength(); j++) {
-						Element position = (Element) positions.item(j);
-						Integer x = Integer.parseInt(position.getElementsByTagName("x").item(0).getTextContent());
-						Integer y = Integer.parseInt(position.getElementsByTagName("y").item(0).getTextContent());
-
-						xs.add(x);
-						ys.add(y);
-					}
-
-					store.addCustomMovement(new Movement(xs, ys));
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-
-		public Pair<Location, Movement> getLocation(String deviceTypeName) {
-			LocationsStore store = this.locationsByDeviceType.getOrDefault(deviceTypeName, new LocationsStore());
-
-			return store.popLocation();
-		}
-	}
 
 	/**
 	 * Generates edge devices
@@ -407,7 +224,7 @@ public class ComputingNodesGenerator {
 			NodeList nodeList = doc.getElementsByTagName("device");
 			Element edgeElement = null;
 
-			LocationsChecker locationsChecker = new LocationsChecker();
+			LocationsChecker locationsChecker = LocationsChecker.getInstance();
 
 			// Load all devices types in edge_devices.xml file.
 			for (int i = 0; i < nodeList.getLength(); i++) {
@@ -456,7 +273,7 @@ public class ComputingNodesGenerator {
 	 * @param type The type of edge devices.
 	 */
 	protected void generateDevicesInstances(Element type) {
-		generateDevicesInstances(type, new LocationsChecker());
+		generateDevicesInstances(type, LocationsChecker.getInstance());
 	}
 
 	protected void generateDevicesInstances(Element type, LocationsChecker locationsChecker) {
@@ -547,7 +364,7 @@ public class ComputingNodesGenerator {
 	 * @throws InstantiationException
 	 */
 	protected ComputingNode createComputingNode(Element datacenterElement, SimulationParameters.TYPES type) throws Exception {
-		return this.createComputingNode(datacenterElement, type, new LocationsChecker());
+		return this.createComputingNode(datacenterElement, type, LocationsChecker.getInstance());
 	}
 
 	protected ComputingNode createComputingNode(Element datacenterElement, SimulationParameters.TYPES type, LocationsChecker locationsChecker)
