@@ -115,7 +115,10 @@ public class LocationsChecker {
 
                 Element customMovementNode = (Element) startingPosition.getElementsByTagName("customMovement").item(0);
 
-                if (customMovementNode == null) continue;
+                if (customMovementNode == null) {
+                    this.locationsByDeviceType.put(deviceTypeName, store);
+                    continue;
+                }
 
                 ArrayList<Integer> xs = new ArrayList<>();
                 ArrayList<Integer> ys = new ArrayList<>();
@@ -135,6 +138,7 @@ public class LocationsChecker {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            exit(1);
         }
     }
 

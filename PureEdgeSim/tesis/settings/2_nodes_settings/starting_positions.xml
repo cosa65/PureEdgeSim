@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <starting_positions>
     <devicePosition>
-        <deviceTypeName>Light Computer</deviceTypeName>
+        <deviceTypeName>Computer</deviceTypeName>
         <x>50</x>
         <y>50</y>
     </devicePosition>
     <devicePosition>
-        <deviceTypeName>Light Cellphone</deviceTypeName>
+        <deviceTypeName>Cellphone</deviceTypeName>
         <x>10</x>
         <y>55</y>
         <customMovement>

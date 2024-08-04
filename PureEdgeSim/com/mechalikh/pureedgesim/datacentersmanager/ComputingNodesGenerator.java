@@ -443,7 +443,7 @@ public class ComputingNodesGenerator {
 				datacenterElement.getElementsByTagName("connectivity").item(0).getTextContent());
 			computingNode.enableTaskGeneration(Boolean
 				.parseBoolean(datacenterElement.getElementsByTagName("generateTasks").item(0).getTextContent()));
-			// Generate random location for edge devices
+
 			datacenterLocationSetup = locationsChecker.getLocation(deviceTypeName);
 
 			Location location = datacenterLocationSetup.getFirst();
