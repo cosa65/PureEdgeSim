@@ -2,16 +2,16 @@
 <starting_positions>
     <devicePosition>
         <deviceTypeName>Computer</deviceTypeName>
-        <x>50</x>
-        <y>50</y>
+        <x>100</x>
+        <y>100</y>
     </devicePosition>
     <devicePosition>
         <deviceTypeName>Cellphone</deviceTypeName>
         <x>10</x>
-        <y>55</y>
+        <y>100</y>
         <customMovement>
             <position>
-                <x>100</x>
+                <x>190</x>
                 <y>55</y>
             </position>
         </customMovement>
