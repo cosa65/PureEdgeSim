@@ -1,5 +1,5 @@
 /**
- *     PureEdgeSim:  A Simulation Framework for Performance Evaluation of Cloud, Edge and Mist Computing Environments 
+ *     PureEdgeSim:  A Simulation Framework for Performance Evaluation of Cloud, Edge and Mist Computing Environments
  *
  *     This file is part of PureEdgeSim Project.
  *
@@ -15,7 +15,7 @@
  *
  *     You should have received a copy of the GNU General Public License
  *     along with PureEdgeSim. If not, see <http://www.gnu.org/licenses/>.
- *     
+ *
  *     @author Charafeddine Mechalikh
  **/
 package com.mechalikh.pureedgesim.simulationvisualizer;
@@ -30,23 +30,21 @@ import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import com.mechalikh.pureedgesim.simulationvisualizer.JFreeChart.AccurateChart;
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.BitmapEncoder.BitmapFormat;
 import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
-import com.mechalikh.pureedgesim.simulationmanager.SimulationManager; 
+import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
 /**
- * The {@code SimulationVisualizer} class provides a GUI to visualize the
+ * The {@code SplitSimulationVisualizer} class provides a GUI to visualize the
  * simulation results in the form of charts.
  */
-public class SimulationVisualizer {
+public class SplitSimulationVisualizer {
 
-	 // JFrame that displays the charts
-//    protected List<JFrame> simulationResultsFrames = new ArrayList<>();
-    protected JFrame simulationResultsFrame;
+    // JFrame that displays the charts
+    protected List<JFrame> simulationResultsFrames = new ArrayList<>();
 
     // SimulationManager instance that manages the simulation
     protected SimulationManager simulationManager;
@@ -61,19 +59,19 @@ public class SimulationVisualizer {
     protected boolean firstTime = true;
 
     // // Display simulation time
-	// 	double time = simulationManager.getSimulation().clock();
-	// 	simulationResultsFrame.setTitle("Simulation time = " + ((int) time / 60) + " min : " + ((int) time % 60)
-	// 			+ " seconds  -  number of edge devices = " + simulationManager.getScenario().getDevicesCount()
-	// 			+ " -  Architecture = " + simulationManager.getScenario().getStringOrchArchitecture()
-	// 			+ " -  Algorithm = " + simulationManager.getScenario().getStringOrchAlgorithm());
+    // 	double time = simulationManager.getSimulation().clock();
+    // 	simulationResultsFrame.setTitle("Simulation time = " + ((int) time / 60) + " min : " + ((int) time % 60)
+    // 			+ " seconds  -  number of edge devices = " + simulationManager.getScenario().getDevicesCount()
+    // 			+ " -  Architecture = " + simulationManager.getScenario().getStringOrchArchitecture()
+    // 			+ " -  Algorithm = " + simulationManager.getScenario().getStringOrchAlgorithm());
 
-	// 	// try {
-	// 	// 	if (simulationManager.getSimulation().clock() % 2000 == 0) {
-	// 	// 		this.saveCharts();
-	// 	// 	}
-	// 	// } catch (IOException e) {
-	// 	// 	e.printStackTrace();
-	// 	// }
+    // 	// try {
+    // 	// 	if (simulationManager.getSimulation().clock() % 2000 == 0) {
+    // 	// 		this.saveCharts();
+    // 	// 	}
+    // 	// } catch (IOException e) {
+    // 	// 	e.printStackTrace();
+    // 	// }
 
     /**
      * Constructs a new simulation visualizer with the given simulation manager.
@@ -82,7 +80,7 @@ public class SimulationVisualizer {
      *
      * @param simulationManager the simulation manager
      */
-    public SimulationVisualizer(SimulationManager simulationManager) {
+    public SplitSimulationVisualizer(SimulationManager simulationManager) {
         this.simulationManager = simulationManager;
 
         // Create charts
@@ -91,7 +89,7 @@ public class SimulationVisualizer {
         Chart deviceTypesChart = new DeviceTypesMapChart("Device types map", "Width (meters)", "Length (meters)", simulationManager);
         Chart cpuUtilizationChart = new CPUChart("CPU utilization", "Time (s)", "Utilization (%)", simulationManager);
         Chart tasksSuccessChart = new TasksChart("Tasks success rate", "Time (minutes)", "Success rate (%)",
-                simulationManager);
+            simulationManager);
         Chart clustersMapChart = new ClustersMapChart("Cluster map", "Width (meters)", "Length (meters)", simulationManager);
         Chart deviceIdsMapChart = new DeviceIdsMapChart("Device ids map", "Width (meters)", "Length (meters)", simulationManager);
         charts.addAll(List.of(mapChart, orchestratorsChart, deviceTypesChart, cpuUtilizationChart, tasksSuccessChart, clustersMapChart, deviceIdsMapChart));
@@ -103,7 +101,7 @@ public class SimulationVisualizer {
         // Add network utilization chart if the useOneSharedWanLink parameter is true
         if (SimulationParameters.useOneSharedWanLink) {
             Chart networkUtilizationChart = new WanChart("Network utilization", "Time (s)", "Utilization (Mbps)",
-                    simulationManager);
+                simulationManager);
             charts.add(networkUtilizationChart);
         }
     }
@@ -115,22 +113,18 @@ public class SimulationVisualizer {
      */
     public void updateCharts() {
         if (firstTime) {
-            SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(
-            charts.stream().map(Chart::getChart).collect(Collectors.toList()));
-            simulationResultsFrame = swingWrapper.displayChartMatrix(); // Display charts
-            simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-//            for (Chart chart : realTimeCharts) {
-//                SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(chart.getChart());
-//                JFrame simulationResultsFrame = swingWrapper.displayChart();
-//
-//                simulationResultsFrame.getContentPane().setPreferredSize(new Dimension(600, 600));
-//                // Pack the frame, which causes it to be resized to its preferred size
-//                simulationResultsFrame.pack();
-//
-//                simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-//
-//                simulationResultsFrames.add(simulationResultsFrame);
-//            }
+            for (Chart chart : realTimeCharts) {
+                SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(chart.getChart());
+                JFrame simulationResultsFrame = swingWrapper.displayChart();
+
+                simulationResultsFrame.getContentPane().setPreferredSize(new Dimension(600, 600));
+                // Pack the frame, which causes it to be resized to its preferred size
+                simulationResultsFrame.pack();
+
+                simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+
+                simulationResultsFrames.add(simulationResultsFrame);
+            }
         }
 
         firstTime = false;
@@ -138,54 +132,48 @@ public class SimulationVisualizer {
 
         // Display simulation time and other scenario parameters
         double time = simulationManager.getSimulation().clock();
-        simulationResultsFrame.setTitle("Simulation time = " + ((int) time / 60) + " min : " + ((int) time % 60)
-                + " seconds  -  number of edge devices = " + simulationManager.getScenario().getDevicesCount()
-                + " -  Architecture = " + simulationManager.getScenario().getStringOrchArchitecture()
-                + " -  Algorithm = " + simulationManager.getScenario().getStringOrchAlgorithm());
     }
 
     /**
      * Repaints the charts with the latest simulation results.
      */
     protected void repaint() {
-//        realTimeCharts.forEach(Chart::update);
+        realTimeCharts.forEach(Chart::update);
         charts.forEach(Chart::update);
-        simulationResultsFrame.repaint();
 
-//        simulationResultsFrames.forEach(JFrame::repaint);
+        simulationResultsFrames.forEach(JFrame::repaint);
     }
 
     /**
      * Closes the simulation results window.
      */
     public void close() {
-        simulationResultsFrame.dispose();
-//        for (JFrame frame: simulationResultsFrames) {
-//            frame.dispose();
-//        }
+        for (JFrame frame: simulationResultsFrames) {
+            frame.dispose();
+        }
     }
 
     /**
      * Saves the charts to disk as PNG images with a resolution of 300 DPI.
-     * 
+     *
      * @throws IOException if an error occurs while saving the images
      */
     /**
      * Saves the generated charts as PNG images in a specified directory.
      * The directory structure will be as follows:
      * outputFolder/simStartTime/simulation_simulationId/iteration_iterationNumber__scenarioString/
-     * 
+     *
      * @throws IOException if there is an error creating the directory or saving the images
      */
     public void saveCharts() throws IOException {
         // Create the directory path for saving the images
         String folderName = SimulationParameters.outputFolder + "/"
-                + simulationManager.getSimulationLogger().getSimStartTime() + "/simulation_"
-                + simulationManager.getSimulationId() + "/iteration_" + simulationManager.getIteration() + "__"
-                + simulationManager.getScenario().toString();
+            + simulationManager.getSimulationLogger().getSimStartTime() + "/simulation_"
+            + simulationManager.getSimulationId() + "/iteration_" + simulationManager.getIteration() + "__"
+            + simulationManager.getScenario().toString();
         // Create the directory if it does not exist
         new File(folderName).mkdirs();
-        
+
         // Save the charts as PNG images
         BitmapEncoder.saveBitmapWithDPI(charts.get(0).getChart(), folderName + "/map_chart", BitmapFormat.PNG, 300);
         BitmapEncoder.saveBitmapWithDPI(charts.get(1).getChart(), folderName + "/orchestrators_chart", BitmapFormat.PNG, 300);
