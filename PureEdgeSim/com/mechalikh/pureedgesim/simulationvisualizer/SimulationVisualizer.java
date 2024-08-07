@@ -148,7 +148,7 @@ public class SimulationVisualizer {
      * Repaints the charts with the latest simulation results.
      */
     protected void repaint() {
-//        realTimeCharts.forEach(Chart::update);
+        realTimeCharts.forEach(Chart::update);
         charts.forEach(Chart::update);
         simulationResultsFrame.repaint();
 
