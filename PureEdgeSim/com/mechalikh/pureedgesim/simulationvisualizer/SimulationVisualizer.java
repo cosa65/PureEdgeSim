@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 
-import com.mechalikh.pureedgesim.simulationvisualizer.JFreeChart.AccurateChart;
+
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.BitmapEncoder.BitmapFormat;
 import org.knowm.xchart.SwingWrapper;
