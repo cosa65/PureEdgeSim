@@ -183,7 +183,7 @@ public class SimulationParameters {
 	 * 
 	 * @see com.mechalikh.pureedgesim.simulationmanager.Simulation#loadScenarios()
 	 */
-	public static int edgeDevicesIncrementationStepSize;
+	public static int edgeDevicesDeviceCounterSize;
 
 	/**
 	 * The types of computing nodes.

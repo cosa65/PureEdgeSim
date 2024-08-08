@@ -86,7 +86,7 @@ public class ParametersParser extends FileParserAbstract {
 						+ " - Error,  the entered min number of edge devices is superior to the max number, check the 'simulation.properties' file.");
 			}
 
-			SimulationParameters.edgeDevicesIncrementationStepSize = (int) assertDouble(prop, "edge_device_counter_size",
+			SimulationParameters.edgeDevicesDeviceCounterSize = (int) assertDouble(prop, "edge_device_counter_size",
 					value -> (value > 0), "> 0");
 
 			SimulationParameters.realisticNetworkModel = Boolean

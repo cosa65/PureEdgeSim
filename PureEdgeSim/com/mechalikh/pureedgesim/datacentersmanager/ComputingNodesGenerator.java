@@ -237,8 +237,9 @@ public class ComputingNodesGenerator {
 			// if percentage of generated devices is < 100%.
 			if (mistOnlyList.size() < getSimulationManager().getScenario().getDevicesCount())
 				getSimulationManager().getSimulationLogger().print(
-					"%s - Wrong percentages values (the sum is inferior than 100%), check edge_devices.xml file !",
-					getClass().getSimpleName());
+					"%s - Wrong percentages values (the sum is inferior than 100 percent), check edge_devices.xml file !",
+					getClass().getSimpleName()
+				);
 			// Add more devices.
 			if (edgeElement != null) {
 				int missingInstances = getSimulationManager().getScenario().getDevicesCount() - mistOnlyList.size();
