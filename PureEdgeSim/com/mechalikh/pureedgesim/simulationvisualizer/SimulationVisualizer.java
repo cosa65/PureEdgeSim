@@ -60,21 +60,6 @@ public class SimulationVisualizer {
     // Flag that indicates if it is the first time charts are updated
     protected boolean firstTime = true;
 
-    // // Display simulation time
-	// 	double time = simulationManager.getSimulation().clock();
-	// 	simulationResultsFrame.setTitle("Simulation time = " + ((int) time / 60) + " min : " + ((int) time % 60)
-	// 			+ " seconds  -  number of edge devices = " + simulationManager.getScenario().getDevicesCount()
-	// 			+ " -  Architecture = " + simulationManager.getScenario().getStringOrchArchitecture()
-	// 			+ " -  Algorithm = " + simulationManager.getScenario().getStringOrchAlgorithm());
-
-	// 	// try {
-	// 	// 	if (simulationManager.getSimulation().clock() % 2000 == 0) {
-	// 	// 		this.saveCharts();
-	// 	// 	}
-	// 	// } catch (IOException e) {
-	// 	// 	e.printStackTrace();
-	// 	// }
-
     /**
      * Constructs a new simulation visualizer with the given simulation manager.
      * The visualizer contains a list of charts that display the simulation
@@ -95,8 +80,6 @@ public class SimulationVisualizer {
         Chart clustersMapChart = new ClustersMapChart("Cluster map", "Width (meters)", "Length (meters)", simulationManager);
         Chart deviceIdsMapChart = new DeviceIdsMapChart("Device ids map", "Width (meters)", "Length (meters)", simulationManager);
         charts.addAll(List.of(mapChart, orchestratorsChart, deviceTypesChart, cpuUtilizationChart, tasksSuccessChart, clustersMapChart, deviceIdsMapChart));
-
-//        accurateCharts.add()
 
         realTimeCharts.addAll(List.of(orchestratorsChart, deviceTypesChart, clustersMapChart, deviceIdsMapChart));
 

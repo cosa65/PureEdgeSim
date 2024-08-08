@@ -25,6 +25,8 @@ import java.util.List;
 
 import com.mechalikh.pureedgesim.simulationmanager.DefaultSimulationManager;
 
+import static java.lang.System.exit;
+
 /**
  * The {@code PureEdgeSim} class represents the discrete event simulation (DES)
  * engine. It manages all the events and the simulation entities.
@@ -171,7 +173,12 @@ public class PureEdgeSim {
 	protected void processEvent(final Event event) {
 		if (event.getTime() < time) {
 			final String msg = "Past event detected. Event time: %.2f Simulation clock: %.2f";
+			exit(1);
 			throw new IllegalArgumentException(String.format(msg, event.getTime(), time));
+		}
+
+		if (event.getTime() != time) {
+			double timetime = time;
 		}
 
 		time = event.getTime();
