@@ -13,7 +13,7 @@
 		<minMobilityDuration>99</minMobilityDuration>
 		<maxMobilityDuration>100</maxMobilityDuration>
 
-		<battery>true</battery>
+		<battery>false</battery>
 		<batteryCapacity>15.75</batteryCapacity>
 		<initialBatteryLevel>100</initialBatteryLevel>
 		<idleConsumption>0.00055</idleConsumption>
