@@ -27,9 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
-
+import javax.swing.*;
 
 import org.knowm.xchart.BitmapEncoder;
 import org.knowm.xchart.BitmapEncoder.BitmapFormat;
@@ -37,15 +35,16 @@ import org.knowm.xchart.SwingWrapper;
 import org.knowm.xchart.XYChart;
 
 import com.mechalikh.pureedgesim.scenariomanager.SimulationParameters;
-import com.mechalikh.pureedgesim.simulationmanager.SimulationManager; 
+import com.mechalikh.pureedgesim.simulationmanager.SimulationManager;
+
 /**
  * The {@code SimulationVisualizer} class provides a GUI to visualize the
  * simulation results in the form of charts.
  */
 public class SimulationVisualizer {
 
-	 // JFrame that displays the charts
-//    protected List<JFrame> simulationResultsFrames = new ArrayList<>();
+    // JFrame that displays the charts
+    // protected List<JFrame> simulationResultsFrames = new ArrayList<>();
     protected JFrame simulationResultsFrame;
 
     // SimulationManager instance that manages the simulation
@@ -72,14 +71,19 @@ public class SimulationVisualizer {
 
         // Create charts
         Chart mapChart = new MapChart("Simulation map", "Width (meters)", "Length (meters)", simulationManager);
-        Chart orchestratorsChart = new OrchestratorsMapChart("Orchestrators map", "Width (meters)", "Length (meters)", simulationManager);
-        Chart deviceTypesChart = new DeviceTypesMapChart("Device types map", "Width (meters)", "Length (meters)", simulationManager);
+        Chart orchestratorsChart = new OrchestratorsMapChart("Orchestrators map", "Width (meters)", "Length (meters)",
+                simulationManager);
+        Chart deviceTypesChart = new DeviceTypesMapChart("Device types map", "Width (meters)", "Length (meters)",
+                simulationManager);
         Chart cpuUtilizationChart = new CPUChart("CPU utilization", "Time (s)", "Utilization (%)", simulationManager);
         Chart tasksSuccessChart = new TasksChart("Tasks success rate", "Time (minutes)", "Success rate (%)",
                 simulationManager);
-        Chart clustersMapChart = new ClustersMapChart("Cluster map", "Width (meters)", "Length (meters)", simulationManager);
-        Chart deviceIdsMapChart = new DeviceIdsMapChart("Device ids map", "Width (meters)", "Length (meters)", simulationManager);
-        charts.addAll(List.of(mapChart, orchestratorsChart, deviceTypesChart, cpuUtilizationChart, tasksSuccessChart, clustersMapChart, deviceIdsMapChart));
+        Chart clustersMapChart = new ClustersMapChart("Cluster map", "Width (meters)", "Length (meters)",
+                simulationManager);
+        Chart deviceIdsMapChart = new DeviceIdsMapChart("Device ids map", "Width (meters)", "Length (meters)",
+                simulationManager);
+        charts.addAll(List.of(mapChart, orchestratorsChart, deviceTypesChart, cpuUtilizationChart, tasksSuccessChart,
+                clustersMapChart, deviceIdsMapChart));
 
         realTimeCharts.addAll(List.of(orchestratorsChart, deviceTypesChart, clustersMapChart, deviceIdsMapChart));
 
@@ -97,45 +101,52 @@ public class SimulationVisualizer {
      * frame title.
      */
     public void updateCharts() {
-        if (firstTime) {
-            SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(
-            charts.stream().map(Chart::getChart).collect(Collectors.toList()));
-            simulationResultsFrame = swingWrapper.displayChartMatrix(); // Display charts
-            simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-//            for (Chart chart : realTimeCharts) {
-//                SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(chart.getChart());
-//                JFrame simulationResultsFrame = swingWrapper.displayChart();
-//
-//                simulationResultsFrame.getContentPane().setPreferredSize(new Dimension(600, 600));
-//                // Pack the frame, which causes it to be resized to its preferred size
-//                simulationResultsFrame.pack();
-//
-//                simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-//
-//                simulationResultsFrames.add(simulationResultsFrame);
-//            }
-        }
+//        SwingUtilities.invokeLater(() -> {
+            if (firstTime) {
+                SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(
+                        realTimeCharts.stream().map(Chart::getChart).collect(Collectors.toList()));
+                simulationResultsFrame = swingWrapper.displayChartMatrix(); // Display charts
+                simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+                
+                simulationResultsFrame.setVisible(true);
+                // for (Chart chart : realTimeCharts) {
+                // SwingWrapper<XYChart> swingWrapper = new SwingWrapper<>(chart.getChart());
+                // JFrame simulationResultsFrame = swingWrapper.displayChart();
+                //
+                // simulationResultsFrame.getContentPane().setPreferredSize(new Dimension(600,
+                // 600));
+                // // Pack the frame, which causes it to be resized to its preferred size
+                // simulationResultsFrame.pack();
+                //
+                // simulationResultsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+                //
+                // simulationResultsFrames.add(simulationResultsFrame);
+                // }
+            }
 
-        firstTime = false;
-        repaint();
+            firstTime = false;
+            repaint();
 
-        // Display simulation time and other scenario parameters
-        double time = simulationManager.getSimulation().clock();
-        simulationResultsFrame.setTitle("Simulation time = " + ((int) time / 60) + " min : " + ((int) time % 60)
-                + " seconds  -  number of edge devices = " + simulationManager.getScenario().getDevicesCount()
-                + " -  Architecture = " + simulationManager.getScenario().getStringOrchArchitecture()
-                + " -  Algorithm = " + simulationManager.getScenario().getStringOrchAlgorithm());
+            // Display simulation time and other scenario parameters
+            double time = simulationManager.getSimulation().clock();
+            simulationResultsFrame.setTitle("Simulation time = " + ((int) time / 60) + " min : " + ((int) time % 60)
+                    + " seconds  -  number of edge devices = " + simulationManager.getScenario().getDevicesCount()
+                    + " -  Architecture = " + simulationManager.getScenario().getStringOrchArchitecture()
+                    + " -  Algorithm = " + simulationManager.getScenario().getStringOrchAlgorithm());
+//        });
     }
 
     /**
      * Repaints the charts with the latest simulation results.
      */
     protected void repaint() {
+        
         realTimeCharts.forEach(Chart::update);
         charts.forEach(Chart::update);
+        int a = 1;
         simulationResultsFrame.repaint();
-
-//        simulationResultsFrames.forEach(JFrame::repaint);
+        simulationResultsFrame.revalidate();
+        // simulationResultsFrames.forEach(JFrame::repaint);
     }
 
     /**
@@ -143,9 +154,9 @@ public class SimulationVisualizer {
      */
     public void close() {
         simulationResultsFrame.dispose();
-//        for (JFrame frame: simulationResultsFrames) {
-//            frame.dispose();
-//        }
+        // for (JFrame frame: simulationResultsFrames) {
+        // frame.dispose();
+        // }
     }
 
     /**
@@ -158,7 +169,8 @@ public class SimulationVisualizer {
      * The directory structure will be as follows:
      * outputFolder/simStartTime/simulation_simulationId/iteration_iterationNumber__scenarioString/
      * 
-     * @throws IOException if there is an error creating the directory or saving the images
+     * @throws IOException if there is an error creating the directory or saving the
+     *                     images
      */
     public void saveCharts() throws IOException {
         // Create the directory path for saving the images
@@ -168,19 +180,26 @@ public class SimulationVisualizer {
                 + simulationManager.getScenario().toString();
         // Create the directory if it does not exist
         new File(folderName).mkdirs();
-        
+
         // Save the charts as PNG images
         BitmapEncoder.saveBitmapWithDPI(charts.get(0).getChart(), folderName + "/map_chart", BitmapFormat.PNG, 300);
-        BitmapEncoder.saveBitmapWithDPI(charts.get(1).getChart(), folderName + "/orchestrators_chart", BitmapFormat.PNG, 300);
-        BitmapEncoder.saveBitmapWithDPI(charts.get(2).getChart(), folderName + "/device_types_chart", BitmapFormat.PNG, 300);
-//        BitmapEncoder.saveBitmapWithDPI(charts.get(3).getChart(), folderName + "/cpu_usage", BitmapFormat.PNG, 300);
-//        BitmapEncoder.saveBitmapWithDPI(charts.get(4).getChart(), folderName + "/tasks_success_rate", BitmapFormat.PNG, 300);
-//        BitmapEncoder.saveBitmapWithDPI(charts.get(5).getChart(), folderName + "/clusters_chart", BitmapFormat.PNG, 300);
-//        BitmapEncoder.saveBitmapWithDPI(charts.get(6).getChart(), folderName + "/ids_map_chart", BitmapFormat.PNG, 300);
+        BitmapEncoder.saveBitmapWithDPI(charts.get(1).getChart(), folderName + "/orchestrators_chart", BitmapFormat.PNG,
+                300);
+        BitmapEncoder.saveBitmapWithDPI(charts.get(2).getChart(), folderName + "/device_types_chart", BitmapFormat.PNG,
+                300);
+        // BitmapEncoder.saveBitmapWithDPI(charts.get(3).getChart(), folderName +
+        // "/cpu_usage", BitmapFormat.PNG, 300);
+        // BitmapEncoder.saveBitmapWithDPI(charts.get(4).getChart(), folderName +
+        // "/tasks_success_rate", BitmapFormat.PNG, 300);
+        // BitmapEncoder.saveBitmapWithDPI(charts.get(5).getChart(), folderName +
+        // "/clusters_chart", BitmapFormat.PNG, 300);
+        // BitmapEncoder.saveBitmapWithDPI(charts.get(6).getChart(), folderName +
+        // "/ids_map_chart", BitmapFormat.PNG, 300);
 
-//        if (SimulationParameters.useOneSharedWanLink) {
-//            BitmapEncoder.saveBitmapWithDPI(charts.get(7).getChart(), folderName + "/network_usage", BitmapFormat.PNG, 300);
-//        }
+        // if (SimulationParameters.useOneSharedWanLink) {
+        // BitmapEncoder.saveBitmapWithDPI(charts.get(7).getChart(), folderName +
+        // "/network_usage", BitmapFormat.PNG, 300);
+        // }
     }
 
 }
