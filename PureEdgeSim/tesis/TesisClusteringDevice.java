@@ -172,6 +172,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	}
 
 	public double getOriginalWeight() {
+//		segundos 32 a 34
 		ArrayList<TesisClusteringDevice> currentNeighbors = getNeighbors();
 		int currentNeighborsCount = currentNeighbors.size();
 

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<starting_positions>
+    <devicePosition>
+        <deviceTypeName>Cellphone</deviceTypeName>
+        <x>10</x>
+        <y>105</y>
+        <customMovement>
+            <position>
+                <x>190</x>
+                <y>105</y>
+            </position>
+        </customMovement>
+    </devicePosition>
+    <devicePosition>
+        <deviceTypeName>Cellphone</deviceTypeName>
+        <x>10</x>
+        <y>100</y>
+        <customMovement>
+            <position>
+                <x>190</x>
+                <y>100</y>
+            </position>
+        </customMovement>
+    </devicePosition>
+</starting_positions>
