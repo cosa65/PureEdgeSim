@@ -235,6 +235,7 @@ public class ComputingNodesGenerator {
 			}
 
 			// if percentage of generated devices is < 100%.
+//			BREAKHERE
 			if (mistOnlyList.size() < getSimulationManager().getScenario().getDevicesCount())
 				getSimulationManager().getSimulationLogger().print(
 					"%s - Wrong percentages values (the sum is inferior than 100 percent), check edge_devices.xml file !",
@@ -274,15 +275,14 @@ public class ComputingNodesGenerator {
 	 * @param type The type of edge devices.
 	 */
 	protected void generateDevicesInstances(Element type) {
-		generateDevicesInstances(type, LocationsChecker.getInstance());
-	}
-
-	protected void generateDevicesInstances(Element type, LocationsChecker locationsChecker) {
-
+		LocationsChecker locationsChecker = LocationsChecker.getInstance();
 		int instancesPercentage = Integer.parseInt(type.getElementsByTagName("percentage").item(0).getTextContent());
 
 		// Find the number of instances of this type of devices
-		int devicesInstances = getSimulationManager().getScenario().getDevicesCount() * instancesPercentage / 100;
+		double devicesInstancesDouble = ((double) (getSimulationManager().getScenario().getDevicesCount() * instancesPercentage) / 100.0);
+
+		// Round up if over 0.5
+		int devicesInstances = (int) Math.ceil(devicesInstancesDouble - 0.5);
 
 		for (int j = 0; j < devicesInstances; j++) {
 			if (mistOnlyList.size() > getSimulationManager().getScenario().getDevicesCount()) {

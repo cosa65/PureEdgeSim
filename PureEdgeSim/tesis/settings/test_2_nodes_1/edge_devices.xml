@@ -46,8 +46,8 @@
 		<isOrchestrator>false</isOrchestrator>
 		<generateTasks>true</generateTasks>
 		<cores>1</cores>
-		<mips>400</mips>
+		<mips>800</mips>
 		<ram>500</ram>
-		<storage>256</storage> <!--MB of caching memory-->
+		<storage>128</storage> <!--MB of caching memory-->
 	</device>
 </edge_devices>
