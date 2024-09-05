@@ -392,7 +392,8 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 		for (TesisClusteringDevice neighbor : this.getNeighbors()) {
 			double weightIfParent = neighbor.getCurrentWeight();
 
-			if (bestWeight < weightIfParent) {
+//			Use < but also = because we want to favor connected clusters over separate ones
+			if (bestWeight <= weightIfParent) {
 				bestParent = neighbor;
 				bestWeight = weightIfParent;
 			}

@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<starting_positions>
+    <devicePosition>
+        <deviceTypeName>Computer</deviceTypeName>
+        <x>100</x>
+        <y>100</y>
+    </devicePosition>
+    <devicePosition>
+        <deviceTypeName>Computer</deviceTypeName>
+        <x>102</x>
+        <y>102</y>
+    </devicePosition>
+</starting_positions>
