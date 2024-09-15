@@ -44,13 +44,13 @@ public class Movement {
     int getRandomAngle(Location currentLocation, Random random) {
         int randomDegree = random.nextInt(180);
 
-        int angle = 0;
+        int angle = randomDegree;
 
         if (currentLocation.getXPos() >= SimulationParameters.simulationMapLength)
             angle = -90 - randomDegree;
         else if (currentLocation.getXPos() <= 0)
             angle = -90 + randomDegree;
-        if (currentLocation.getYPos() >= SimulationParameters.simulationMapWidth)
+        else if (currentLocation.getYPos() >= SimulationParameters.simulationMapWidth)
             angle = - randomDegree;
         else if (currentLocation.getYPos() <= 0)
             angle = randomDegree;

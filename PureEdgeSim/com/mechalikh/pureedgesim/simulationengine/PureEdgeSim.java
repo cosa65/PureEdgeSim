@@ -177,7 +177,7 @@ public class PureEdgeSim {
 			throw new IllegalArgumentException(String.format(msg, event.getTime(), time));
 		}
 
-		if (event.getTime() != time) {
+		if (event.getTime() != time && time == Math.floor(time)) {
 			double timetime = time;
 		}
 

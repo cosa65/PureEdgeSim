@@ -452,8 +452,6 @@ public class ComputingNodesGenerator {
 			getSimulationManager().getSimulationLogger()
 				.deepLog("ComputingNodesGenerator- Edge device:" + mistOnlyList.size() + "    location: ( "
 					+ location.getXPos() + "," + location.getYPos() + " )");
-			SimLog.println("ComputingNodesGenerator- Edge deviceDebug:" + mistOnlyList.size() + "    location: ( "
-				+ location.getXPos() + "," + location.getYPos() + " )");
 		}
 		computingNode.setType(type);
 		Constructor<?> mobilityConstructor = mobilityModelClass.getConstructor(SimulationManager.class, Pair.class);

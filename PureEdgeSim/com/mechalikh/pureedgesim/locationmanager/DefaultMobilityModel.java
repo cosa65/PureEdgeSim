@@ -110,7 +110,9 @@ public class DefaultMobilityModel extends MobilityModel {
 	}
 
 	protected void reoriontate(double xPosition, double yPosition) {
-		this.orientationAngle = this.movement.getAngleToReachNextLocation(new Location(xPosition, yPosition), this.random);
+		int newAngle = this.movement.getAngleToReachNextLocation(new Location(xPosition, yPosition), this.random);
+
+		this.orientationAngle = newAngle;
 	}
 
 }

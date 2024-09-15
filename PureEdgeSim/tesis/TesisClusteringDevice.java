@@ -77,7 +77,7 @@ public class TesisClusteringDevice extends DefaultComputingNode {
 	private TesisClusteringDevice parent = this;
 
 	private HashSet<TesisClusteringDevice> cluster;
-	private static final double weightDrop = 0.5;
+	private static final double weightDrop = 0.1;
 	private static final int updateClusterPollingSlot = 1;
 
 	private int time = -30;

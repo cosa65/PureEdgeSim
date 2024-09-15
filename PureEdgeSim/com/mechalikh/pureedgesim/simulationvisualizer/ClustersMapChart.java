@@ -140,6 +140,10 @@ public class ClustersMapChart extends MapChart {
             }
         }
 
+        if (clustersById.getOrDefault(7, null) != null) {
+            double a = 1;
+        }
+
         for (ComputingNode node : computingNodesGenerator.getMistOnlyList()) {
             examples.TesisClusteringDevice device = (examples.TesisClusteringDevice) node;
             double xPos = device.getMobilityModel().getCurrentLocation().getXPos();
